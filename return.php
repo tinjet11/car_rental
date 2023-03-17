@@ -50,13 +50,13 @@
 
 <body>
 
-   
+
     <form method="post">
-    <h1>Return Form</h1>
+        <h1>Return Form</h1>
         <label for="reservation-id">Reservation ID:</label>
         <input type="text" id="reservation-id" name="reservation-id">
 
-        <button name="submit">Submit</button>
+        <button name="submit">Return</button>
     </form>
 
     <script type="text/javascript">
@@ -65,27 +65,32 @@
             window.history.replaceState(null, null, window.location.href);
         }
 
+        function redirect() {
+            window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
+        }
+
+
         <?php
+        $r_id = $_GET["r_id"];
+
+        echo "document.getElementById('reservation-id').value = '$r_id';";
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $currentDateTime = date('Y-m-d H:i:s');
 
 
         if (isset($_POST["submit"])) {
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
             $r_id = $_POST["reservation-id"];
-            $sql  = "SELECT * FROM reservation WHERE reservation_id = '$r_id' ";
+            $sql  = "UPDATE reservation SET exact_return_datetime = '$currentDateTime' WHERE reservation_id = '$r_id';";
 
             if ($conn->query($sql) === TRUE) {
-                $NumRowsDeleted = $conn->affected_rows;
-                if ($NumRowsDeleted == 1) {
-                    echo 'alert("Dlt Successful")';
-                } else {
-                    echo "alert('Reservation not found')";
-                }
+                echo 'alert("Return Successful");';
             } else {
-                echo "alert('error')";
+                echo 'alert("Error");';
             }
-
             $conn->close();
+            echo 'redirect();';
         }
         ?>
     </script>

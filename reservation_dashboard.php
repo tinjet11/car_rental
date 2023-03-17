@@ -111,7 +111,7 @@
                     <td><?php echo $status;?></td>
                     <td><a href="change_reservation.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">edit</a>
                     <a href="cancel_reservation.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">delete</td>
-                    <td><button>pickup</button><button>return</button></td>
+                    <td><button>pickup</button><a href="return.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">return</td>
                     <td><button>Payment</button></td>
 
                 </tr>
