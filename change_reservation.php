@@ -116,18 +116,20 @@
             <select id="vehicle" name="vehicle">
                 <option value="">Select a vehicle Model</option>
                 <?php
-                require_once("include/db.php");
-                global $ConnectingDB;
-                $sql = "SELECT vehicle_id, model,color FROM Vehicle";
-                $stmt = $ConnectingDB->query($sql);
-                while ($DataRows = $stmt->fetch()) {
-                    $vehicle_id = $DataRows["vehicle_id"];
-                    $model = $DataRows["model"];
-                    $color = $DataRows["color"];
-                ?>
-                    <option value="<?php echo $vehicle_id ?>"><?php echo $model ?> (<?php echo $color ?>)</option>
+                $conn = new mysqli("localhost", "root", "", "car_rental");
 
-                <?php } ?>
+            $sql = "SELECT vehicle_id, model,color FROM Vehicle";
+            $result = $conn->query($sql);
+
+            while ($DataRows = $result->fetch_assoc()) {
+                $vehicle_id = $DataRows["vehicle_id"];
+                $model = $DataRows["model"];
+                $color = $DataRows["color"];
+            ?>
+                <option value="<?php echo $vehicle_id ?>"><?php echo $model ?> (<?php echo $color ?>)</option>
+
+            <?php }
+            $conn->close(); ?>
             </select>
 
             <label for="pickuptime">Original Pickup time:</label>
