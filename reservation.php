@@ -1,6 +1,5 @@
 <?php
         //This part of code is to insert information into `reservation` table and `customer` table when the customer is new customer
-        require_once("include/db.php");
         if (isset($_POST["reserve"])) {
 
 

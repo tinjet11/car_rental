@@ -71,10 +71,6 @@
         h1 {
             text-align: center;
         }
-
-        #found_div {
-            display: none;
-        }
     </style>
 </head>
 
@@ -83,13 +79,6 @@
 
     <form method="post" enctype="multipart/form-data">
         <h1>Update Customer Information </h1>
-        <div id="search_div">
-            <label for="c-id">Customer ID:</label>
-            <input type="text" id="c-id" name="c-id">
-
-            <button name="search" id="search">Search</button>
-
-        </div>
 
         <div id="found_div">
             <label for="customerid">Customer id:</label>
@@ -135,37 +124,20 @@
             window.history.replaceState(null, null, window.location.href);
         }
 
-
-
-        // Get the div element
-        const found_div = document.getElementById("found_div");
-
-        // Get all the input elements in the div
-        const inputs = found_div.getElementsByTagName("input");
-
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].removeAttribute("required");
-        }
-
-        document.getElementById('gender').removeAttribute("required");
-        document.getElementById('address').removeAttribute("required");
-
-    
+        function redirect(){
+       window.location.replace("http://localhost/car_rental/customer_dashboard.php");
+        }    
         <?php
 
         //This part of code is fetch customer information from database
+        $c_id = $_GET["c_id"];
         
-        $exist = false;
-
-        if (isset($_POST["search"])) {
             $conn = new mysqli("localhost", "root", "", "car_rental");
-
-            $c_id = $_POST["c-id"];
             $sql = "SELECT * FROM customer where customer_id = '$c_id' ";
             
             $result = $conn->query($sql);
         
-            while ($DataRows =$result->fetch_assoc()) {
+            $DataRows =$result->fetch_assoc();
                 $f_name = $DataRows["First_name"];
                 $l_name = $DataRows["Last_name"];
                 $ic = $DataRows["IC_NO"];
@@ -174,10 +146,7 @@
                 $phone = $DataRows["Phone_Number"];
                 $email = $DataRows["Email"];
                 $address = $DataRows["Address"];
-                $exist = true;
-            }
 
-            if ($exist) {
                 echo "document.getElementById('customerid').value = '$c_id';";
                 echo "document.getElementById('first-name').value =' $f_name';";
                 echo "document.getElementById('last-name').value = '$l_name' ;";
@@ -188,17 +157,8 @@
                 echo "document.getElementById('email').value = '$email';";
                 echo "document.getElementById('address').value ='$address';";
 
-                echo "document.getElementById('found_div').style.display = 'block';";
-                // Loop through each input element and remove the "required" attribute if it's not readonly
-                echo " for (let i = 0; i < inputs.length; i++) {
-                              inputs[i].setAttribute('required', ''); }
-                              document.getElementById('gender').setAttribute('required', '');
-                              document.getElementById('address').setAttribute('required', '');";
-            } else {
-                echo 'alert("Customer id not found");';
-            }
             $conn ->close();
-        }
+        
    
         ?>
          <?php
@@ -225,13 +185,12 @@
              WHERE customer_id = '$customerid'";
 
             if ($conn->query($sql) === TRUE) {
-                echo 'alert("Change Successful")';
+                echo 'alert("Change Successful");';
             } else {
-                echo 'alert("Error")';
+                echo 'alert("Error");';
             }
             $conn ->close();
-
-            
+            echo 'redirect();';
         }
         ?>
         
