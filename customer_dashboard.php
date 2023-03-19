@@ -81,7 +81,7 @@
                     <td><?php echo $email ;?></td>
                     <td><?php echo $address ;?></td>
                     <td><a href="change_customer.php?c_id=<?php echo $c_id ?>" role="button" aria-disabled="true">edit</a>
-                    <a href="cancel_reservation.php?c_id=<?php echo $r_id ?>" role="button" aria-disabled="true">delete</td>
+                    <a href="delete_customer.php?c_id=<?php echo $c_id ?>" role="button" aria-disabled="true">delete</td>
                 </tr>
             <?php  } ?>
 

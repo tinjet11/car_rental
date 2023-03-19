@@ -1,79 +1,3 @@
-<?php
-        //This part of code is to insert information into `reservation` table and `customer` table when the customer is new customer
-        if (isset($_POST["reserve"])) {
-
-
-            $conn = new mysqli("localhost", "root", "", "car_rental");
-
-            $reservationid = $_POST["r_id"];
-            $vehicleid = $_POST["vehicle"];
-            $customerid = $_POST["c_id"];
-            //$staff_id = $_POST[""];
-            $staffid = "S0001";
-            $bookingdatetime = $_POST["pickup"];
-            $duration = $_POST["duration"];
-            $returndatetime = $_POST["return"];
-
-            $sql2 = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
-    VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
-
-            //Customer information
-            $First_name = $_POST["first-name"];
-            $Last_name = $_POST["last-name"];
-            $IC_No = $_POST["ic-no"];
-            $Gender = $_POST["gender"];
-            $Birthdate = $_POST["birthdate"];
-            $Phone_Number = $_POST["phone_number"];
-            $Email = $_POST["email"];
-            $Address = $_POST["address"];
-            $sql4  = "INSERT INTO customer(customer_id, First_name, Last_name, IC_NO, Gender, Birthdate, Phone_Number, Email, Address)
-    VALUES('$customerid', '$First_name', '$Last_name', '$IC_No', '$Gender', '$Birthdate', '$Phone_Number', '$Email', '$Address')";
-
-            if ($conn->query($sql2) === TRUE && $conn->query($sql4) === TRUE) {
-                echo 'alert("Successful Add reservation and customer")';
-            } else {
-                echo'alert("Error")';
-            }
-
-            $conn->close();
-        }
-        ?>
-
-        <?php
-        //This part of code is to insert information into `reservation` table only when the customer is existing customer
-
-        if (isset($_POST["reserve_exist"])) {
-            $conn = new mysqli("localhost", "root", "", "car_rental");
-
-            $IC = $_POST["ic"];
-            $sql6 = "SELECT customer_id FROM customer where IC_NO = '$IC' ";
-
-            $result = $conn->query($sql6);
-            while ($DataRows6 = $result->fetch_assoc()) {
-                $reservationid = $_POST["r_id"];
-                $vehicleid = $_POST["vehicle"];
-                $customerid = $DataRows6["customer_id"];
-                //$staff_id = $_POST[""];
-                $staffid = "S0001";
-                $bookingdatetime = $_POST["pickup"];
-                $duration = $_POST["duration"];
-                $returndatetime = $_POST["return"];
-
-                $sql5 = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
-        VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
-                if ($conn->query($sql5) == TRUE) {
-                    echo 'alert("Successful Add reservation for existing customer")';
-                    exit();
-                } else {
-                    echo 'alert("Error  ")';
-                    exit();
-                }
-                $conn->close();
-            }
-            echo 'alert("Customer not exist")';
-        }
-
-        ?>
 <!DOCTYPE html>
 <html>
 
@@ -240,9 +164,9 @@
                 <label for="gender">Gender:</label>
                 <select id="gender" name="gender" required>
                     <option value="">Select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
                 </select>
 
                 <label for="birthdate">Birthdate:</label>
@@ -265,11 +189,84 @@
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
-       
         //prevent form resubmission
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+        <?php
+        //This part of code is to insert information into `reservation` table and `customer` table when the customer is new customer
+        if (isset($_POST["reserve"])) {
+            $conn = new mysqli("localhost", "root", "", "car_rental");
+
+            $reservationid = $_POST["r_id"];
+            $vehicleid = $_POST["vehicle"];
+            $customerid = $_POST["c_id"];
+            //$staff_id = $_POST[""];
+            $staffid = "S0001";
+            $bookingdatetime = $_POST["pickup"];
+            $duration = $_POST["duration"];
+            $returndatetime = $_POST["return"];
+
+            $sql2 = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
+    VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
+
+            //Customer information
+            $First_name = $_POST["first-name"];
+            $Last_name = $_POST["last-name"];
+            $IC_No = $_POST["ic-no"];
+            $Gender = $_POST["gender"];
+            $Birthdate = $_POST["birthdate"];
+            $Phone_Number = $_POST["phone_number"];
+            $Email = $_POST["email"];
+            $Address = $_POST["address"];
+            $sql4  = "INSERT INTO customer(customer_id, First_name, Last_name, IC_NO, Gender, Birthdate, Phone_Number, Email, Address)
+    VALUES('$customerid', '$First_name', '$Last_name', '$IC_No', '$Gender', '$Birthdate', '$Phone_Number', '$Email', '$Address')";
+
+            if ($conn->query($sql2) === TRUE && $conn->query($sql4) === TRUE) {
+                echo "alert('Successful Add reservation and customer');";
+            } else {
+                echo "alert('Error');";
+            }
+
+            $conn->close();
+        }
+        ?>
+
+        <?php
+        //This part of code is to insert information into `reservation` table only when the customer is existing customer
+
+        if (isset($_POST["reserve_exist"])) {
+            $conn = new mysqli("localhost", "root", "", "car_rental");
+
+            $IC = $_POST["ic"];
+            $sql6 = "SELECT customer_id FROM customer where IC_NO = '$IC' ";
+            $result = $conn->query($sql6);
+            if ($DataRows6 = $result->fetch_assoc()) {
+                $reservationid = $_POST["r_id"];
+                $vehicleid = $_POST["vehicle"];
+                $customerid = $DataRows6["customer_id"];
+                //$staff_id = $_POST[""];
+                $staffid = "S0001";
+                $bookingdatetime = $_POST["pickup"];
+                $duration = $_POST["duration"];
+                $returndatetime = $_POST["return"];
+
+                $sql5 = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
+                VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
+                if ($conn->query($sql5) == TRUE) {
+                    echo "alert('Successful Add reservation for existing customer');";
+                   
+                } else {
+                    echo "alert('Error');";
+                }
+                $conn->close();
+            }else{
+                echo "alert('Customer not exist');";
+            }
+           
+        }
+
+        ?>
         $(function() {
             $('#submit').on('click', function(event) {
                 event.preventDefault();
@@ -299,7 +296,7 @@
 
                 // Define the URL to send the request to
                 var url = "available.php";
-                
+
                 //default rid as it is new reservation
                 var rid = 'R0000';
 
@@ -500,8 +497,6 @@
             // Set the onsubmit property of the form to return true
             myForm.onsubmit = allowSubmit;
         });
-
-       
     </script>
 </body>
 
