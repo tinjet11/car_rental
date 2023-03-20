@@ -169,9 +169,6 @@
                     <option value="Other">Other</option>
                 </select>
 
-                <label for="birthdate">Birthdate:</label>
-                <input type="date" id="birthdate" name="birthdate" required>
-
                 <label for="contact">Contact:</label>
                 <input type="tel" id="contact" name="phone_number" placeholder="012-345-6789" required>
 
@@ -194,6 +191,27 @@
             window.history.replaceState(null, null, window.location.href);
         }
         <?php
+        //function to obtain birthdate given an ic number
+        function getBirthdate($icNumber)
+        {
+            // Extract birthdate from IC number
+            $birthdateStr = substr($icNumber, 0, 6);
+
+            // Convert birthdate string to DateTime object
+            $day = substr($birthdateStr, 4, 6);
+            $month = substr($birthdateStr, 2, 2);
+            if (substr($birthdateStr, 0, 2) < 10) {
+                $year = '20' . substr($birthdateStr, 0, 2);
+            } else {
+                $year = '19' . substr($birthdateStr, 0, 2);
+            }
+
+            $birthdate = new DateTime("$year-$month-$day");
+
+            // Return birthdate as a string in "YYYY-MM-DD" format
+            return $birthdate->format('Y-m-d');
+        }
+
         //This part of code is to insert information into `reservation` table and `customer` table when the customer is new customer
         if (isset($_POST["reserve"])) {
             $conn = new mysqli("localhost", "root", "", "car_rental");
@@ -215,7 +233,7 @@
             $Last_name = $_POST["last-name"];
             $IC_No = $_POST["ic-no"];
             $Gender = $_POST["gender"];
-            $Birthdate = $_POST["birthdate"];
+            $Birthdate = getBirthdate($IC_No);
             $Phone_Number = $_POST["phone_number"];
             $Email = $_POST["email"];
             $Address = $_POST["address"];
@@ -255,15 +273,13 @@
                 VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
                 if ($conn->query($sql5) == TRUE) {
                     echo "alert('Successful Add reservation for existing customer');";
-                   
                 } else {
                     echo "alert('Error');";
                 }
                 $conn->close();
-            }else{
+            } else {
                 echo "alert('Customer not exist');";
             }
-           
         }
 
         ?>

@@ -101,9 +101,6 @@
                 <option value="Other">Other</option>
             </select>
 
-            <label for="birthdate">Birthdate:</label>
-            <input type="date" id="birthdate" name="birthdate" required>
-
             <label for="contact">Contact:</label>
             <input type="tel" id="contact" name="contact" required>
 
@@ -128,6 +125,7 @@
        window.location.replace("http://localhost/car_rental/customer_dashboard.php");
         }    
         <?php
+       
 
         //This part of code is fetch customer information from database
         $c_id = $_GET["c_id"];
@@ -142,7 +140,6 @@
                 $l_name = $DataRows["Last_name"];
                 $ic = $DataRows["IC_NO"];
                 $gender = $DataRows["Gender"];
-                $birthdate = $DataRows["Birthdate"];
                 $phone = $DataRows["Phone_Number"];
                 $email = $DataRows["Email"];
                 $address = $DataRows["Address"];
@@ -152,7 +149,6 @@
                 echo "document.getElementById('last-name').value = '$l_name' ;";
                 echo "document.getElementById('ic-no').value = '$ic';";
                 echo "document.getElementById('gender').value = '$gender';";
-                echo "document.getElementById('birthdate').value = '$birthdate';";
                 echo "document.getElementById('contact').value = '$phone';";
                 echo "document.getElementById('email').value = '$email';";
                 echo "document.getElementById('address').value ='$address';";
@@ -162,6 +158,27 @@
    
         ?>
          <?php
+             //function to obtain birthdate given an ic number
+             function getBirthdate($icNumber)
+             {
+                 // Extract birthdate from IC number
+                 $birthdateStr = substr($icNumber, 0, 6);
+     
+                 // Convert birthdate string to DateTime object
+                 $day = substr($birthdateStr, 4, 6);
+                 $month = substr($birthdateStr, 2, 2);
+                 if (substr($birthdateStr, 0, 2) < 10) {
+                     $year = '20' . substr($birthdateStr, 0, 2);
+                 } else {
+                     $year = '19' . substr($birthdateStr, 0, 2);
+                 }
+     
+                 $birthdate = new DateTime("$year-$month-$day");
+     
+                 // Return birthdate as a string in "YYYY-MM-DD" format
+                 return $birthdate->format('Y-m-d');
+             }
+     
         
         //This part of code is edit customer information
         if (isset($_POST["change"])) {
@@ -174,7 +191,7 @@
             $Last_name = $_POST["last-name"];
             $IC_No = $_POST["ic-no"];
             $Gender = $_POST["gender"];
-            $Birthdate = $_POST["birthdate"];
+            $Birthdate = getBirthdate($IC_No);
             $Phone_Number = $_POST["contact"];
             $Email = $_POST["email"];
             $Address = $_POST["address"];
