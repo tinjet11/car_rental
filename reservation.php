@@ -88,6 +88,10 @@
         #exist-c {
             display: none;
         }
+
+        #exist-ic {
+            display: none;
+        }
     </style>
 </head>
 
@@ -144,6 +148,12 @@
                 <label for="ic">IC No:</label>
                 <input type="text" id="ic" name="ic" placeholder="010831-13-5673" required>
 
+                <button id="search" name="search" style="float:right;">Search</button>
+            </div>
+
+            <div id="exist-ic">
+                <label for="c_id">Customer id:</label>
+                <input type="text" id="customerid" name="customerid" readonly>
                 <button id="reserve_exist" name="reserve_exist" style="float:right;">Reserve</button>
             </div>
 
@@ -256,13 +266,9 @@
         if (isset($_POST["reserve_exist"])) {
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
-            $IC = $_POST["ic"];
-            $sql6 = "SELECT customer_id FROM customer where IC_NO = '$IC' ";
-            $result = $conn->query($sql6);
-            if ($DataRows6 = $result->fetch_assoc()) {
                 $reservationid = $_POST["r_id"];
                 $vehicleid = $_POST["vehicle"];
-                $customerid = $DataRows6["customer_id"];
+                $customerid = $_POST["customerid"];
                 //$staff_id = $_POST[""];
                 $staffid = "S0001";
                 $bookingdatetime = $_POST["pickup"];
@@ -278,11 +284,58 @@
                 }
                 $conn->close();
             } else {
-                echo "alert('Customer not exist');";
+                echo "alert('Failed');";
             }
-        }
+        
 
         ?>
+        $(function() {
+            $('#search').on('click', function(event) {
+                event.preventDefault();
+                const ic = document.getElementById('ic').value;
+                // Create a new XMLHttpRequest object
+                var xhr = new XMLHttpRequest();
+
+                // Define the URL to send the request to
+                var url = "ic.php";
+
+                // Define the data to send in the request body
+                var data = {
+                    icno: ic,
+                };
+
+                // Define the callback function to handle the response
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        //var response = xhr.responseText;
+                        // alert(response);
+
+                        var response = JSON.parse(xhr.responseText);
+                        var msg = response.msg;
+
+                        if (msg != "C0000") {
+                            alert("customer exist");
+                            document.getElementById("exist-ic").style.display = "block";
+                            document.getElementById("customerid").value = msg;
+
+                        } else {
+                            alert("customer not exist");
+                            document.getElementById("exist-ic").style.display = "none";
+                        }
+                    }
+                };
+
+                // Open the request and set the HTTP method and headers
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                // Send the request with the data in the request body
+                xhr.send(JSON.stringify(data));
+
+
+            });
+        });
+
         $(function() {
             $('#submit').on('click', function(event) {
                 event.preventDefault();
