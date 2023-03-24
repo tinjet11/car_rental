@@ -1,3 +1,4 @@
+<?php include 'session.php'; ?>
 <!DOCTYPE html>
 <html>
 
@@ -90,12 +91,35 @@
             display: none;
         }
     </style>
+    <link rel="stylesheet" href="mainpage.css">
 </head>
 
 <body>
-    <form method="post" id="reservation_form" enctype="multipart/form-data">
-        <h1>Change Reservation</h1>
-        <!--
+    <div class="wrapper">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
+                <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
+                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+            </ul>
+        </div>
+        <div class="main_content">
+            <div class="header">Premier Car Rental Agency
+                <div class="text">
+                    <a href="logout.php">
+                        Logout
+                    </a>
+                </div>
+                <div class="info">
+                </div>
+            </div>
+            <form method="post" id="reservation_form" enctype="multipart/form-data">
+                <h1>Change Reservation</h1>
+                <!--
         <div id="search_div">
             <label for="reservation-id">Reservation ID:</label>
             <input type="text" id="reservation-id" name="reservation-id">
@@ -105,74 +129,76 @@
         </div>
     -->
 
-        <div id="found_div">
-            <label for="r_id">Reservation id:</label>
-            <input type="text" id="r_id" name="r_id" readonly>
+                <div id="found_div">
+                    <label for="r_id">Reservation id:</label>
+                    <input type="text" id="r_id" name="r_id" readonly>
 
-            <label for="c_id">Customer id:</label>
-            <input type="text" id="c_id" name="c_id" readonly>
+                    <label for="c_id">Customer id:</label>
+                    <input type="text" id="c_id" name="c_id" readonly>
 
-            <label for="vehicle">Vehicle Type:</label>
-            <select id="vehicle" name="vehicle">
-                <option value="">Select a vehicle Model</option>
-                <?php
-                $conn = new mysqli("localhost", "root", "", "car_rental");
+                    <label for="vehicle">Vehicle Type:</label>
+                    <select id="vehicle" name="vehicle">
+                        <option value="">Select a vehicle Model</option>
+                        <?php
+                        $conn = new mysqli("localhost", "root", "", "car_rental");
 
-            $sql = "SELECT vehicle_id, model,color FROM Vehicle";
-            $result = $conn->query($sql);
+                        $sql = "SELECT vehicle_id, model,color FROM Vehicle";
+                        $result = $conn->query($sql);
 
-            while ($DataRows = $result->fetch_assoc()) {
-                $vehicle_id = $DataRows["vehicle_id"];
-                $model = $DataRows["model"];
-                $color = $DataRows["color"];
-            ?>
-                <option value="<?php echo $vehicle_id ?>"><?php echo $model ?> (<?php echo $color ?>)</option>
+                        while ($DataRows = $result->fetch_assoc()) {
+                            $vehicle_id = $DataRows["vehicle_id"];
+                            $model = $DataRows["model"];
+                            $color = $DataRows["color"];
+                        ?>
+                            <option value="<?php echo $vehicle_id ?>"><?php echo $model ?> (<?php echo $color ?>)</option>
 
-            <?php }
-            $conn->close(); ?>
-            </select>
+                        <?php }
+                        $conn->close(); ?>
+                    </select>
 
-            <label for="pickuptime">Original Pickup time:</label>
-            <input type="text" id="pickuptime" name="pickuptime" readonly>
+                    <label for="pickuptime">Original Pickup time:</label>
+                    <input type="text" id="pickuptime" name="pickuptime" readonly>
 
-            <label for="return">Original Return Time:</label>
-            <input type="text" id="returntime" name="returntime" readonly>
+                    <label for="return">Original Return Time:</label>
+                    <input type="text" id="returntime" name="returntime" readonly>
 
-            <label for="duration">Original Duration (in days):</label>
-            <input type="number" min="1" id="oriduration" name="oriduration" readonly>
+                    <label for="duration">Original Duration (in days):</label>
+                    <input type="number" min="1" id="oriduration" name="oriduration" readonly>
+                </div>
+
+                <div id="check_div">
+
+                    <label for="pickup">New Pickup Time:</label>
+                    <input type="datetime-local" id="pickup" name="pickup">
+
+                    <label for="duration">New Duration (in days):</label>
+                    <input type="number" min="1" id="duration" name="duration">
+
+                    <label for="return">New Return Time:</label>
+                    <input type="text" id="return" name="return" readonly>
+
+
+                    <button type="submit" name="submit" id="submit">Check availability</button>
+                </div>
+
+                <div id="reserve_div">
+                    <hr>
+                    <p1>Click the reserve button to make changes to reservation</p1>
+                    <button type="submit" name="reserve" id="reserve">Reserve</button>
+                </div>
+
+            </form>
         </div>
-
-        <div id="check_div">
-
-            <label for="pickup">New Pickup Time:</label>
-            <input type="datetime-local" id="pickup" name="pickup">
-
-            <label for="duration">New Duration (in days):</label>
-            <input type="number" min="1" id="duration" name="duration">
-
-            <label for="return">New Return Time:</label>
-            <input type="text" id="return" name="return" readonly>
-
-
-            <button type="submit" name="submit" id="submit">Check availability</button>
-        </div>
-
-        <div id="reserve_div">
-            <hr>
-            <p1>Click the reserve button to make changes to reservation</p1>
-            <button type="submit" name="reserve" id="reserve">Reserve</button>
-        </div>
-
-    </form>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         //prevent form resubmission
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
-        
-        function redirect(){
-       window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
+
+        function redirect() {
+            window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
         }
 
         <?php
@@ -229,7 +255,6 @@
 
             if ($conn->query($sql) === TRUE) {
                 echo 'alert("Change Successful");';
-                
             } else {
                 echo 'alert("Error");';
             }
@@ -270,7 +295,7 @@
                 // Define the URL to send the request to
                 var url = "available.php";
 
-                var rid = '<?php echo $r_id;?>';
+                var rid = '<?php echo $r_id; ?>';
 
                 // Define the data to send in the request body
                 var data = {
@@ -335,7 +360,7 @@
 
                 document.getElementById('return').value = formatted.toString();
                 document.getElementById("reserve_div").style.display = "block";
-               
+
 
 
             } else {

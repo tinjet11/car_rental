@@ -1,3 +1,4 @@
+<?php include 'session.php'; ?>
 <!DOCTYPE html>
 <html>
 
@@ -46,25 +47,50 @@
             text-align: center;
         }
     </style>
+    <link rel="stylesheet" href="mainpage.css">
 </head>
 
 <body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
+                <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
+                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+            </ul>
+        </div>
+        <div class="main_content">
+            <div class="header">Premier Car Rental Agency
+                <div class="text">
+                    <a href="logout.php">
+                        Logout
+                    </a>
+                </div>
+                <div class="info">
+                </div>
+            </div>
 
 
-    <form method="post">
-        <h1>Pickup Form</h1>
-        <label for="reservation-id">Reservation ID:</label>
-        <input type="text" id="reservation-id" name="reservation-id">
+            <form method="post">
+                <h1>Pickup Form</h1>
+                <label for="reservation-id">Reservation ID:</label>
+                <input type="text" id="reservation-id" name="reservation-id">
 
-        <button name="submit">Pickup</button>
-    </form>
+                <button name="submit">Pickup</button>
+            </form>
+        </div>
+    </div>
 
     <script type="text/javascript">
         //prevent form resubmission
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
-        
+
         function redirect() {
             window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
         }

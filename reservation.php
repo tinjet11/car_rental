@@ -1,3 +1,4 @@
+<?php include 'session.php'; ?>
 <!DOCTYPE html>
 <html>
 
@@ -98,129 +99,129 @@
 </head>
 
 <body>
-<div class="wrapper">
+    <div class="wrapper">
         <div class="sidebar">
             <h2>Menu</h2>
             <ul>
-                <li><a href="main.html"><i class="fa-solid fa-house"></i>   Home</a></li>
-                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>reservation_dashboard</a></li>
+                <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
                 <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
-                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>customer_dashboard</a></li>
-                <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>   Cars Available</a></li>
-                <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>   Check Car Database</a></li>
-            </ul> 
+                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+            </ul>
         </div>
         <div class="main_content">
-        <div class="header">Premier Car Rental Agency 
-        <div class="text">
-          <a href="logout.php">
-          Logout
-          </a>
-        </div>
-        <div class="info">
-        </div>
-      </div>
-    <form method="post" id="reservation_form" enctype="multipart/form-data">
-        <h1>New Reservation</h1>
-        <label for="vehicle">Vehicle Type:</label>
-        <select id="vehicle" name="vehicle" required>
-            <option value="">Select a vehicle Model</option>
-            <?php
-            $conn = new mysqli("localhost", "root", "", "car_rental");
-
-            $sql = "SELECT vehicle_id, model,color FROM Vehicle";
-            $result = $conn->query($sql);
-
-            while ($DataRows = $result->fetch_assoc()) {
-                $vehicle_id = $DataRows["vehicle_id"];
-                $model = $DataRows["model"];
-                $color = $DataRows["color"];
-            ?>
-                <option value="<?php echo $vehicle_id ?>"><?php echo $model ?> (<?php echo $color ?>)</option>
-
-            <?php }
-            $conn->close(); ?>
-        </select>
-        <label for="pickup">Pickup Time:</label>
-        <input type="datetime-local" id="pickup" name="pickup" required>
-
-        <label for="duration">Duration (in days):</label>
-        <input type="number" min="1" id="duration" name="duration" required>
-
-        <button type="submit" name="submit" id="submit">Check availability</button>
-
-        <label for="return">Return Time:</label>
-        <input type="text" id="return" name="return" readonly>
-
-        <label for="r_id">Reservation id:</label>
-        <input type="text" id="r_id" name="r_id" readonly>
-
-        <!--Customer Information field -->
-        <div id="customer_info">
-
-            <div id="customer-type">
-                <h1>Customer/Existing Customer</h2>
-                    <label for="c-type">Customer-type:</label>
-                    <select id="c-type">
-                        <option value="">Select a customer type</option>
-                        <option value="new-c">New Customer</option>
-                        <option value="exist-c">Existing Customer</option>
-                    </select>
+            <div class="header">Premier Car Rental Agency
+                <div class="text">
+                    <a href="logout.php">
+                        Logout
+                    </a>
+                </div>
+                <div class="info">
+                </div>
             </div>
+            <form method="post" id="reservation_form" enctype="multipart/form-data">
+                <h1>New Reservation</h1>
+                <label for="vehicle">Vehicle Type:</label>
+                <select id="vehicle" name="vehicle" required>
+                    <option value="">Select a vehicle Model</option>
+                    <?php
+                    $conn = new mysqli("localhost", "root", "", "car_rental");
 
-            <div id="exist-c">
-                <label for="ic">IC No:</label>
-                <input type="text" id="ic" name="ic" placeholder="010831-13-5673" required>
+                    $sql = "SELECT vehicle_id, model,color FROM Vehicle";
+                    $result = $conn->query($sql);
 
-                <button id="search" name="search" style="float:right;">Search</button>
-            </div>
+                    while ($DataRows = $result->fetch_assoc()) {
+                        $vehicle_id = $DataRows["vehicle_id"];
+                        $model = $DataRows["model"];
+                        $color = $DataRows["color"];
+                    ?>
+                        <option value="<?php echo $vehicle_id ?>"><?php echo $model ?> (<?php echo $color ?>)</option>
 
-            <div id="exist-ic">
-                <label for="c_id">Customer id:</label>
-                <input type="text" id="customerid" name="customerid" readonly>
-                <button id="reserve_exist" name="reserve_exist" style="float:right;">Reserve</button>
-            </div>
-
-            <div id="new-c">
-                <h1>Customer Information</h1>
-                <label for="c_id">Customer id:</label>
-                <input type="text" id="c_id" name="c_id" readonly>
-
-                <label for="first-name">First Name:</label>
-                <input type="text" id="first-name" name="first-name" required>
-
-                <label for="last-name">Last Name:</label>
-                <input type="text" id="last-name" name="last-name" required>
-
-                <label for="ic-no">IC No:</label>
-                <input type="text" id="ic-no" name="ic-no" placeholder="010831-13-5673" required>
-
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="">Select gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
+                    <?php }
+                    $conn->close(); ?>
                 </select>
+                <label for="pickup">Pickup Time:</label>
+                <input type="datetime-local" id="pickup" name="pickup" required>
 
-                <label for="contact">Contact:</label>
-                <input type="tel" id="contact" name="phone_number" placeholder="012-345-6789" required>
+                <label for="duration">Duration (in days):</label>
+                <input type="number" min="1" id="duration" name="duration" required>
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <button type="submit" name="submit" id="submit">Check availability</button>
 
-                <label for="address">Address:</label>
-                <textarea id="address" name="address" required></textarea>
+                <label for="return">Return Time:</label>
+                <input type="text" id="return" name="return" readonly>
 
-                <button id="reserve" name="reserve" style="float:right;">Reserve</button>
+                <label for="r_id">Reservation id:</label>
+                <input type="text" id="r_id" name="r_id" readonly>
 
-            </div>
+                <!--Customer Information field -->
+                <div id="customer_info">
+
+                    <div id="customer-type">
+                        <h1>Customer/Existing Customer</h2>
+                            <label for="c-type">Customer-type:</label>
+                            <select id="c-type">
+                                <option value="">Select a customer type</option>
+                                <option value="new-c">New Customer</option>
+                                <option value="exist-c">Existing Customer</option>
+                            </select>
+                    </div>
+
+                    <div id="exist-c">
+                        <label for="ic">IC No:</label>
+                        <input type="text" id="ic" name="ic" placeholder="010831-13-5673" required>
+
+                        <button id="search" name="search" style="float:right;">Search</button>
+                    </div>
+
+                    <div id="exist-ic">
+                        <label for="c_id">Customer id:</label>
+                        <input type="text" id="customerid" name="customerid" readonly>
+                        <button id="reserve_exist" name="reserve_exist" style="float:right;">Reserve</button>
+                    </div>
+
+                    <div id="new-c">
+                        <h1>Customer Information</h1>
+                        <label for="c_id">Customer id:</label>
+                        <input type="text" id="c_id" name="c_id" readonly>
+
+                        <label for="first-name">First Name:</label>
+                        <input type="text" id="first-name" name="first-name" required>
+
+                        <label for="last-name">Last Name:</label>
+                        <input type="text" id="last-name" name="last-name" required>
+
+                        <label for="ic-no">IC No:</label>
+                        <input type="text" id="ic-no" name="ic-no" placeholder="010831-13-5673" required>
+
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <label for="contact">Contact:</label>
+                        <input type="tel" id="contact" name="phone_number" placeholder="012-345-6789" required>
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="address">Address:</label>
+                        <textarea id="address" name="address" required></textarea>
+
+                        <button id="reserve" name="reserve" style="float:right;">Reserve</button>
+
+                    </div>
+                </div>
+
+            </form>
+
         </div>
-
-    </form>
-
-        </div>
-</div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         //prevent form resubmission
@@ -297,7 +298,7 @@
             $vehicleid = $_POST["vehicle"];
             $customerid = $_POST["customerid"];
             //$staff_id = $_POST[""];
-            $staffid = "S0001";
+            //$staffid = "S0001";
             $bookingdatetime = $_POST["pickup"];
             $duration = $_POST["duration"];
             $returndatetime = $_POST["return"];

@@ -44,6 +44,10 @@
     display: block;
   }
 
+  i {
+    padding-right: 10px;
+ }
+
   .wrapper .sidebar ul li a .fas{
     width: 25px;
   }

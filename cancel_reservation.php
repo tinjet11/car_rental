@@ -1,3 +1,4 @@
+<?php include 'session.php'; ?>
 <!DOCTYPE html>
 <html>
 
@@ -46,31 +47,58 @@
             text-align: center;
         }
     </style>
+    <link rel="stylesheet" href="mainpage.css">
 </head>
 
 <body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
+                <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
+                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+            </ul>
+        </div>
+        <div class="main_content">
+            <div class="header">Premier Car Rental Agency
+                <div class="text">
+                    <a href="logout.php">
+                        Logout
+                    </a>
+                </div>
+                <div class="info">
+                </div>
+            </div>
+            <h1>Cancel Reservation</h1>
+            <form method="post">
+                <label for="reservation-id">Reservation ID:</label>
+                <input type="text" id="reservation-id" name="reservation-id" readonly>
 
-    <h1>Cancel Reservation</h1>
-    <form method="post">
-        <label for="reservation-id">Reservation ID:</label>
-        <input type="text" id="reservation-id" name="reservation-id" readonly>
+                <button name="cancel">Cancel</button>
+            </form>
 
-        <button name="cancel">Cancel</button>
-    </form>
+        </div>
+    </div>
+
 
     <script type="text/javascript">
         //prevent form resubmission
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
-        function redirect(){
-        window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
+
+        function redirect() {
+            window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
         }
 
         <?php
-         $r_id = $_GET["r_id"];
+        $r_id = $_GET["r_id"];
 
-         echo "document.getElementById('reservation-id').value = '$r_id';";
+        echo "document.getElementById('reservation-id').value = '$r_id';";
 
         if (isset($_POST["cancel"])) {
             $conn = new mysqli("localhost", "root", "", "car_rental");
