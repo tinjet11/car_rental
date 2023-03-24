@@ -1,18 +1,10 @@
 <?php
-  session_start();
-  if((time() - $_SESSION['timelimit']) > 1000)
-  {
-    header("location:logout.php");
-  }
-  else
-  {
-    $_SESSION['timelimit'] = time();
-    echo "<p align='left'>Welcome ".$_SESSION['staffid']. "</h1>";
-  }
+  include 'session.php';
 ?>
 
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" href="mainpage.css">
 </head>

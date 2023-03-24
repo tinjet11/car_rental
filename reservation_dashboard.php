@@ -3,12 +3,18 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" href="mainpage.css">
   <style>
     table {
       border-collapse: collapse;
       width: 100%;
+    }
+
+    table thead th {
+      position: sticky;
+      z-index: -1;
     }
 
     th,
@@ -26,6 +32,8 @@
       background-color: #4CAF50;
       color: white;
     }
+
+
 
     td:nth-child(2),
     td:nth-child(8) {
@@ -212,6 +220,24 @@
         }
       }
     }
+
+    function toggleSidebar() {
+      var sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('collapsed');
+    }
+
+    window.addEventListener('resize', function(event) {
+      var width = window.innerWidth;
+      var sidebar = document.querySelector('.sidebar');
+      var toggleBtn = document.querySelector('.toggle-sidebar-btn');
+      if (width <= 768 && !sidebar.classList.contains('collapsed')) {
+        sidebar.classList.add('collapsed');
+        toggleBtn.style.display = 'block';
+      } else if (width > 768 && sidebar.classList.contains('collapsed')) {
+        sidebar.classList.remove('collapsed');
+        toggleBtn.style.display = 'none';
+      }
+    });
   </script>
 </body>
 

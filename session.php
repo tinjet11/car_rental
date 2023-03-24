@@ -8,7 +8,7 @@
   else
   {
     $_SESSION['timelimit'] = time();
-    echo "<p align='left'>Welcome ".$_SESSION['staffid']. "</h1>";
+    //echo "<p align='left'>Welcome ".$_SESSION['staffid']. "</h1>";
     $staffid = $_SESSION['staffid'];
   }
 ?>

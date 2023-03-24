@@ -24,6 +24,23 @@
     position: fixed;
   }
 
+  .sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f5f5f5;
+    overflow-x: hidden;
+    transition: 0.5s;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .sidebar {
+      width: 0;
+    }
+  }
+
   .wrapper .sidebar h2{
     color: #fff;
     text-transform: uppercase;
