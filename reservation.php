@@ -4,6 +4,8 @@
 <head>
     <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="mainpage.css">
     <style>
         form {
             display: flex;
@@ -96,6 +98,28 @@
 </head>
 
 <body>
+<div class="wrapper">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="main.html"><i class="fa-solid fa-house"></i>   Home</a></li>
+                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>reservation_dashboard</a></li>
+                <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
+                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>customer_dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>   Cars Available</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>   Check Car Database</a></li>
+            </ul> 
+        </div>
+        <div class="main_content">
+        <div class="header">Premier Car Rental Agency 
+        <div class="text">
+          <a href="logout.php">
+          Logout
+          </a>
+        </div>
+        <div class="info">
+        </div>
+      </div>
     <form method="post" id="reservation_form" enctype="multipart/form-data">
         <h1>New Reservation</h1>
         <label for="vehicle">Vehicle Type:</label>
@@ -194,6 +218,9 @@
         </div>
 
     </form>
+
+        </div>
+</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
         //prevent form resubmission
@@ -266,27 +293,25 @@
         if (isset($_POST["reserve_exist"])) {
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
-                $reservationid = $_POST["r_id"];
-                $vehicleid = $_POST["vehicle"];
-                $customerid = $_POST["customerid"];
-                //$staff_id = $_POST[""];
-                $staffid = "S0001";
-                $bookingdatetime = $_POST["pickup"];
-                $duration = $_POST["duration"];
-                $returndatetime = $_POST["return"];
+            $reservationid = $_POST["r_id"];
+            $vehicleid = $_POST["vehicle"];
+            $customerid = $_POST["customerid"];
+            //$staff_id = $_POST[""];
+            $staffid = "S0001";
+            $bookingdatetime = $_POST["pickup"];
+            $duration = $_POST["duration"];
+            $returndatetime = $_POST["return"];
 
-                $sql5 = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
+            $sql5 = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
                 VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
-                if ($conn->query($sql5) == TRUE) {
-                    echo "alert('Successful Add reservation for existing customer');";
-                } else {
-                    echo "alert('Error');";
-                }
-                $conn->close();
+            if ($conn->query($sql5) == TRUE) {
+                echo "alert('Successful Add reservation for existing customer');";
             } else {
-                echo "alert('Failed');";
+                echo "alert('Error');";
             }
-        
+            $conn->close();
+        }
+
 
         ?>
         $(function() {

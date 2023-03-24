@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+<head>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="stylesheet" href="mainpage.css">
   <style>
     table {
       border-collapse: collapse;
@@ -52,10 +54,36 @@
       margin-bottom: 12px;
       /* Add some space below the input */
     }
+    .i {
+    margin-right: 100px;
+     }
   </style>
 </head>
 
 <body>
+<div class="wrapper">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="main.html"><i class="fa-solid fa-house"></i>   Home</a></li>
+                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>reservation_dashboard</a></li>
+                <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
+                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>customer_dashboard</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>   Cars Available</a></li>
+                <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>   Check Car Database</a></li>
+            </ul> 
+        </div>
+        <div class="main_content">
+      <div class="header">Premier Car Rental Agency 
+        <div class="text">
+          <a href="logout.php">
+          Logout
+          </a>
+        </div>
+        <div class="info">
+        </div>
+      </div>
+            
 
   <input type="text" id="search" onkeyup="filter()" placeholder="Search" autocomplete="off">
   <select id="key">
@@ -79,7 +107,6 @@
         <th>Status</th>
         <th>Action</th>
         <th>Pickup/return</th>
-        <th>Make Payment</th>
       </tr>
     </thead>
     <tbody>
@@ -116,7 +143,7 @@
         $current_time = date('Y-m-d H:i:s');
 
         if ($current_time < $booking_datetime) {
-          $status = "About to";
+          $status = "Pending";
         } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
           $status = "Ongoing";
         } else {
@@ -142,7 +169,6 @@
             <a href="pickup.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">pickup
               <a href="return.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">return
           </td>
-          <td><button>Payment</button></td>
 
         </tr>
       <?php  } ?>
@@ -150,6 +176,8 @@
 
     </tbody>
   </table>
+        </div>
+</div>
 
   <script type="text/javascript">
     //prevent form resubmission
