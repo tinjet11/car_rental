@@ -11,3 +11,7 @@ Reservation table:
 Vehicle table:
 
 ![image](https://user-images.githubusercontent.com/87265327/226345425-897efb06-ca5f-4e3b-a2bb-f2b2e28baa00.png)
+
+Admin table:
+![image](https://user-images.githubusercontent.com/87265327/227409223-b6585852-482b-4600-8cbe-79f585226f41.png)
+
