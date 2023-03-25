@@ -114,33 +114,40 @@
     <script>
         <?php
 
-        //include("connection.php");
         $conn = new mysqli("localhost", "root", "", "car_rental");
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
         if (isset($_POST['submit'])) {
             $username = $_POST['user'];
             $password = $_POST['pass'];
 
+            // Prepare the statement
+            $stmt = $conn->prepare("SELECT username, password, staff_id FROM admin WHERE username = ? and password = ?");
+            $stmt->bind_param("ss", $username, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-
-            $sql = "SELECT username,password,staff_id FROM admin WHERE username = '$username' and password = '$password'";
-            $result = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $count = mysqli_num_rows($result);
+            // Process the result
+            $row = $result->fetch_assoc();
+            $count = $result->num_rows;
             session_start();
             $_SESSION["timelimit"] = time();
             $_SESSION["staffid"] = $row["staff_id"];
 
-
             if ($count == 1) {
                 header("Location: main.php");
+                exit();
             } else {
-                echo '
-					window.location.href = "index.php";
-					alert("Login failed. Invalid username or password")
-				';
+                echo '<script>
+                alert("Login failed. Invalid username or password");
+                window.location.href = "index.php";
+              </script>';
+                exit();
             }
-            $conn->close();
         }
+        $conn->close();
 
 
         ?>

@@ -101,7 +101,19 @@
         <option value="0" selected>Search by:</option>
         <option value="0">Reservation id</option>
         <option value="2">Customer name</option>
+        <option value="3">Vehicle id</option>
       </select>
+
+      <form method="post">
+      <select id="sort" name="sort">
+        <option value="0" selected>Sort by:</option>
+        <option value="0">Reservation id Ascending</option>
+        <option value="1">Booking Date Ascending</option>
+        <option value="2">Booking Date Descending</option>
+      
+      </select>
+      <button name ="apply">Apply</button>
+      </form>
 
       <table id="reservation_table">
         <thead>
@@ -122,10 +134,22 @@
         </thead>
         <tbody>
           <?php
+          //default
+          $sort = "reservation_id ASC";
+          
+          if(isset($_POST["apply"])){
+            if($_POST["sort"] == 1){
+             $sort = "booking_datetime ASC";
+            }elseif($_POST["sort"] == 2){
+              $sort = "booking_datetime DESC";
+            }else{
+              $sort = "reservation_id ASC";
+            }
+          }
 
           $conn = new mysqli("localhost", "root", "", "car_rental");
 
-          $sql = "SELECT * from reservation";
+          $sql = "SELECT * from reservation ORDER BY $sort;";
           $result = $conn->query($sql);
 
           while ($DataRows = $result->fetch_assoc()) {

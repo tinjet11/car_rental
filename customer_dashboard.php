@@ -95,6 +95,18 @@
         <option value="1">Customer name</option>
         <option value="2">IC No</option>
       </select>
+
+      <form method="post">
+      <select id="sort" name="sort">
+        <option value="0" selected>Sort by:</option>
+        <option value="0">Customer id Ascending</option>
+        <option value="1">Customer id Descending</option>
+        <option value="2">Name Ascending</option>
+        <option value="3">Name Descending</option>
+      
+      </select>
+      <button name ="apply">Apply</button>
+      </form>
       <table id="customer_table">
         <thead>
           <tr>
@@ -111,11 +123,26 @@
         </thead>
         <tbody>
           <?php
+           //default
+           $sort = "customer_id ASC";
+          
+           if(isset($_POST["apply"])){
+             if($_POST["sort"] == 1){
+              $sort = "customer_id DESC";
+             }elseif($_POST["sort"] == 2){
+              $sort = "Last_name ASC";
+             }
+             elseif($_POST["sort"] == 3){
+               $sort = "Last_name DESC";
+             }else{
+               $sort = "customer_id ASC";
+             }
+           }
 
           $conn = new mysqli("localhost", "root", "", "car_rental");
 
           //query to select firstname and lastname from customer database
-          $sql = "SELECT * FROM customer";
+          $sql = "SELECT * FROM customer ORDER BY $sort";
           $result = $conn->query($sql);
           while ($DataRows = $result->fetch_assoc()) {
             $c_id = $DataRows["customer_id"];
