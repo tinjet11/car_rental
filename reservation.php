@@ -366,7 +366,13 @@
             $('#submit').on('click', function(event) {
                 event.preventDefault();
                 const pickupTime = new Date(document.getElementById('pickup').value);
-                const duration = parseInt(document.getElementById('duration').value);
+                const current = new Date();
+
+                if(pickupTime < current){
+                    alert("cannot choose date which is past already");
+                }
+                else{
+                    const duration = parseInt(document.getElementById('duration').value);
                 const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
                 const vid = document.getElementById('vehicle').value;
 
@@ -426,6 +432,9 @@
 
                 // Send the request with the data in the request body
                 xhr.send(JSON.stringify(data));
+                }
+            
+                
 
 
             });
@@ -592,6 +601,9 @@
             // Set the onsubmit property of the form to return true
             myForm.onsubmit = allowSubmit;
         });
+
+     
+
     </script>
 </body>
 

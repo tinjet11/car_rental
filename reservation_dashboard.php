@@ -7,67 +7,117 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <link rel="stylesheet" href="mainpage.css">
   <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
+  table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+ 
+}
 
-    table thead th {
-      position: sticky;
-      z-index: -1;
-    }
+table thead tr th {
+  background-color: #1C4E80;
+  color: #fff;
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 16px;
+}
 
-    th,
-    td {
-      text-align: center;
-      padding: 8px;
-      border-bottom: 1px solid #ddd;
-    }
+table tbody tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
 
-    tr:hover {
-      background-color: #f5f5f5;
-    }
+table tbody tr:hover {
+  background-color: #A5D8DD;
+}
 
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
+table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+table td.highlight {
+  color: #1C4E80;
+  font-weight: bold;
+}
+
+table td.warning {
+  color: #F44336;
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  table thead {
+    display: none;
+  }
+
+  table tbody tr {
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+
+  table tbody td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    text-transform: uppercase;
+  }
+}
+
+#search {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+#key, #sort {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+button {
+  background-color: #1C4E80;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #133A94;
+}
+
+form {
+  display: inline-block;
+}
 
 
+#table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
 
-    td:nth-child(2),
-    td:nth-child(8) {
-      text-align: center;
-    }
-
-    td:nth-child(1),
-    td:nth-child(2) {
-      font-weight: bold;
-    }
-
-    /* Style for the search input */
-    #search {
-      padding: 10px;
-      width: 300px;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-      font-size: 16px;
-      color: #333;
-      background-color: #f5f5f5;
-    }
-
-    /* Style for the search dropdown */
-    #key {
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-      font-size: 16px;
-      color: #333;
-      background-color: #f5f5f5;
-      margin-left: 10px;
-    }
+#searchbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
   </style>
 </head>
 
@@ -94,7 +144,8 @@
         <div class="info">
         </div>
       </div>
-
+      <div id="table-container">
+      <div id="searchbar">
 
       <input type="text" id="search" onkeyup="filter()" placeholder="Search" autocomplete="off">
       <select id="key">
@@ -114,8 +165,10 @@
       </select>
       <button name ="apply">Apply</button>
       </form>
-
+</div>
       <table id="reservation_table">
+        
+
         <thead>
           <tr>
             <th>Reservation ID</th> <!--reservation -->
@@ -211,6 +264,7 @@
 
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 
