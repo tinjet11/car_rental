@@ -10,97 +10,7 @@ include 'session.php';
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="mainpage.css">
-
-    <style>
-        form {
-            display: flex;
-            flex-direction: column;
-            max-width: 500px;
-            margin: 0 auto;
-            border: 2px solid #ccc;
-            padding: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea {
-            padding: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-            border: none;
-            border-bottom: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            align-self: flex-end;
-            width: 100px;
-        }
-
-        button:hover {
-            background-color: #3e8e41;
-        }
-
-        select {
-            padding: 12px;
-            width: 100%;
-            font-size: 16px;
-            line-height: 1.3;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        select:hover,
-        select:focus {
-            border-color: #999;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        #customer_info {
-            display: none;
-        }
-
-        #customer_type {
-            display: none;
-        }
-
-        #new-c {
-            display: none;
-        }
-
-        #exist-c {
-            display: none;
-        }
-
-        #exist-ic {
-            display: none;
-        }
-    </style>
-
+    <link rel="stylesheet" href="reservation.css">
 </head>
 
 <body>
@@ -110,7 +20,6 @@ include 'session.php';
             <h2>Menu</h2>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <ul>
-
                 <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
                 <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
                 <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
@@ -118,7 +27,7 @@ include 'session.php';
                 <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
                 <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
             </ul>
-        </div><!-- end of -->
+        </div><!-- end of sidebar-->
 
         <div class="main_content" id="main_content">
 
@@ -411,7 +320,7 @@ include 'session.php';
                     alert("cannot choose date which is past already");
                 }
                 else{
-                    const duration = parseInt(document.getElementById('duration').value);
+                const duration = parseInt(document.getElementById('duration').value);
                 const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
                 const vid = document.getElementById('vehicle').value;
 
@@ -473,14 +382,8 @@ include 'session.php';
                 xhr.send(JSON.stringify(data));
                 }
             
-                
-
-
             });
         });
-
-
-
 
         function calculateReturnTime(available) {
             const pickupTime = new Date(document.getElementById('pickup').value);
