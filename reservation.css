@@ -24,7 +24,7 @@ textarea {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #1C4E80;  
     color: white;
     padding: 12px 20px;
     border: none;
@@ -35,7 +35,7 @@ button {
 }
 
 button:hover {
-    background-color: #3e8e41;
+    background-color: burlywood;
 }
 
 select {
