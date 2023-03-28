@@ -1,12 +1,16 @@
-<?php include 'session.php'; ?>
-<!DOCTYPE html>
+<?php
+include 'session.php';
+?>
+
 <html>
 
 <head>
-    <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="mainpage.css">
+
     <style>
         form {
             display: flex;
@@ -96,13 +100,17 @@
             display: none;
         }
     </style>
+
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="sidebar">
+    <div class="container">
+
+        <div class="sidebar" id="sidebar">
             <h2>Menu</h2>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <ul>
+
                 <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
                 <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
                 <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
@@ -110,9 +118,13 @@
                 <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
                 <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
             </ul>
-        </div>
-        <div class="main_content">
-            <div class="header">Premier Car Rental Agency
+        </div><!-- end of -->
+
+        <div class="main_content" id="main_content">
+
+            <div class="header" id="header">
+                <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
+                Premier Car Rental Agency
                 <div class="text">
                     <a href="logout.php">
                         Logout
@@ -120,7 +132,8 @@
                 </div>
                 <div class="info">
                 </div>
-            </div>
+
+            </div><!-- end of header-->
             <form method="post" id="reservation_form" enctype="multipart/form-data">
                 <h1>New Reservation</h1>
                 <label for="vehicle">Vehicle Type:</label>
@@ -219,12 +232,38 @@
                 </div>
 
             </form>
+        </div><!-- end of main content-->
+    </div><!-- end of container-->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+        function openNav() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("main_content").style.marginLeft = "250px";
+            // document.getElementById("header").style.width= "87%";
+            document.getElementById("openbtn").style.display = "none";
+        }
 
-        </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        //prevent form resubmission
+        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("main_content").style.marginLeft = "0";
+            //document.getElementById("header").style.width= "100%";
+            document.getElementById("openbtn").style.display = "block";
+
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById("sidebar").style.width = "250px";
+                document.getElementById("main_content").style.marginLeft = "250px";
+            } else {
+                document.getElementById("sidebar").style.width = "0";
+                document.getElementById("main_content").style.marginLeft = "0";
+            }
+        });
+
+         //prevent form resubmission
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
@@ -603,7 +642,6 @@
         });
 
      
-
     </script>
 </body>
 
