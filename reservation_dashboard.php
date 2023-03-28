@@ -188,7 +188,7 @@ include 'session.php';
       <div class="title"><h2>Reservation Dashboard</h2></div>  
         <div id="searchbar">
 
-          <input type="text" id="search" onkeyup="filter()" placeholder="Search" autocomplete="off">
+          <input type="text" id="search" onkeyup="filter()" placeholder="(Default:Reservation ID)" autocomplete="off">
           <select id="key">
             <option value="0" selected>Search by:</option>
             <option value="0">Reservation id</option>
@@ -351,7 +351,7 @@ include 'session.php';
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("search");
       filter = input.value.toUpperCase();
-      table = document.getElementById("reservation_table");
+      table = document.getElementById("table");
       tr = table.getElementsByTagName("tr");
       select = document.getElementById("key").value;
 
