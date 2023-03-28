@@ -6,7 +6,7 @@ include 'session.php';
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
+    <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="mainpage.css">
@@ -144,10 +144,9 @@ include 'session.php';
             </form>
         </div><!-- end of main content-->
     </div><!-- end of container-->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-
-         //prevent form resubmission
+        //prevent form resubmission
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
@@ -291,72 +290,71 @@ include 'session.php';
                 const pickupTime = new Date(document.getElementById('pickup').value);
                 const current = new Date();
 
-                if(pickupTime < current){
+                if (pickupTime < current) {
                     alert("cannot choose date which is past already");
-                }
-                else{
-                const duration = parseInt(document.getElementById('duration').value);
-                const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
-                const vid = document.getElementById('vehicle').value;
-
-                const momentObj1 = moment(pickupTime);
-
-                // Format the moment object as a string
-                const p_t = momentObj1.format('YYYY-MM-DD HH:mm:ss');
-
-                if (returnTime.getHours() < 12) {
-                    returnTime.setHours(12, 0, 0, 0);
                 } else {
-                    returnTime.setHours(18, 0, 0, 0);
-                }
+                    const duration = parseInt(document.getElementById('duration').value);
+                    const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
+                    const vid = document.getElementById('vehicle').value;
 
-                const momentObj2 = moment(returnTime);
+                    const momentObj1 = moment(pickupTime);
 
-                // Format the moment object as a string
-                const r_t = momentObj2.format('YYYY-MM-DD HH:mm:ss');
+                    // Format the moment object as a string
+                    const p_t = momentObj1.format('YYYY-MM-DD HH:mm:ss');
 
-                // Create a new XMLHttpRequest object
-                var xhr = new XMLHttpRequest();
-
-                // Define the URL to send the request to
-                var url = "available.php";
-
-                //default rid as it is new reservation
-                var rid = 'R0000';
-
-                // Define the data to send in the request body
-                var data = {
-                    vehicle: vid,
-                    reservation: rid,
-                    pickup: p_t, // convert to Unix timestamp
-                    return: r_t, // convert to Unix timestamp
-                };
-
-                // Define the callback function to handle the response
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // var response = xhr.responseText;
-                        // alert(response);
-
-                        var response = JSON.parse(xhr.responseText);
-                        var msg = response.msg;
-
-                        if (msg) {
-                            calculateReturnTime(true);
-                        } else {
-                            calculateReturnTime(false);
-                        }
+                    if (returnTime.getHours() < 12) {
+                        returnTime.setHours(12, 0, 0, 0);
+                    } else {
+                        returnTime.setHours(18, 0, 0, 0);
                     }
-                };
 
-                // Open the request and set the HTTP method and headers
-                xhr.open("POST", url, true);
-                xhr.setRequestHeader("Content-Type", "application/json");
+                    const momentObj2 = moment(returnTime);
 
-                // Send the request with the data in the request body
-                xhr.send(JSON.stringify(data));
+                    // Format the moment object as a string
+                    const r_t = momentObj2.format('YYYY-MM-DD HH:mm:ss');
+
+                    // Create a new XMLHttpRequest object
+                    var xhr = new XMLHttpRequest();
+
+                    // Define the URL to send the request to
+                    var url = "available.php";
+
+                    //default rid as it is new reservation
+                    var rid = 'R0000';
+
+                    // Define the data to send in the request body
+                    var data = {
+                        vehicle: vid,
+                        reservation: rid,
+                        pickup: p_t, // convert to Unix timestamp
+                        return: r_t, // convert to Unix timestamp
+                    };
+
+                    // Define the callback function to handle the response
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // var response = xhr.responseText;
+                            // alert(response);
+
+                            var response = JSON.parse(xhr.responseText);
+                            var msg = response.msg;
+
+                            if (msg) {
+                                calculateReturnTime(true);
+                            } else {
+                                calculateReturnTime(false);
+                            }
+                        }
+                    };
+
+                    // Open the request and set the HTTP method and headers
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+
+                    // Send the request with the data in the request body
+                    xhr.send(JSON.stringify(data));
                 }
-            
+
             });
         });
 
@@ -390,10 +388,6 @@ include 'session.php';
             // if slot available, display the return time and display customer information form
             // else, display "booking not available" and hide the customer information form
             if (available == true) {
-                alert("Slot available");
-                //generate reservation id
-                document.getElementById('r_id').value = generate_reservation_id('<?php echo $last_reservation_id ?>');
-
                 //change the datetime format back to sql format
                 // Parse a datetime string into a moment object
                 const momentObj = moment(returnTime);
@@ -401,14 +395,34 @@ include 'session.php';
                 // Format the moment object as a string
                 const formatted = momentObj.format('YYYY-MM-DD HH:mm:ss');
 
-                document.getElementById('return').value = formatted.toString();
-                document.getElementById("customer_info").style.display = "block";
-                document.getElementById("customer-type").style.display = "block";
+                //check is the user input is empty or not
+                if (formatted.toString() == "Invalid date" || vid == "") {
+                    alert("Invalid/Missing input");
+                    document.getElementById('return').value = "Invalid/Missing input";
+                    document.getElementById("customer_info").style.display = "none";
+                }else{
+                    alert("Slot available");
+                    //generate reservation id
+                    document.getElementById('r_id').value = generate_reservation_id('<?php echo $last_reservation_id ?>');
+
+                    document.getElementById('return').value = formatted.toString();
+                    document.getElementById("customer_info").style.display = "block";
+                    document.getElementById("customer-type").style.display = "block";
+                }
+
+
 
             } else {
+                //isNaN return true if the value is not number 
+                if(isNaN(duration)){
+                    alert("Invalid/Missing input");
+                    document.getElementById('return').value = "Invalid/Missing input";
+                    document.getElementById("customer_info").style.display = "none";
+                }else{
                 alert("booking not available");
                 document.getElementById('return').value = "Booking Not Available";
                 document.getElementById("customer_info").style.display = "none";
+                }
             }
         }
 
@@ -518,8 +532,6 @@ include 'session.php';
             // Set the onsubmit property of the form to return true
             myForm.onsubmit = allowSubmit;
         });
-
-     
     </script>
 </body>
 
