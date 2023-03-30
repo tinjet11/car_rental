@@ -2,9 +2,10 @@ table {
   border-collapse: collapse;
   width: 98%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 30px;
   font-size: 14px;
   color: #333;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
 
 }
 
@@ -15,6 +16,8 @@ table thead tr th {
   padding: 10px;
   font-weight: bold;
   font-size: 16px;
+  transition: all .05s ease-in;
+  cursor: pointer;
 }
 
 table tbody tr:nth-child(odd) {
@@ -79,6 +82,15 @@ table td.warning {
     border: none;
   }
 
+  .status {
+    all: revert;
+  }
+
+  .float-right{
+    display: none;
+}
+
+
 }
 
 #search {
@@ -138,5 +150,27 @@ form {
   font-family: 'Courier New', Courier, monospace;
 }
 
+#mainheader{
+  background-color: #013220;
+  color: #fff;
+}
+.status {
+  padding: .4rem;
+  border-radius: 2rem;
+  text-align: center;
+}
+.status.completed {
+  background-color: #86e49d;
+  color: #006b21;
+}
+.status.ongoing {
+  background-color: lightblue;
+}
 
+.status.pending {
+  background-color: #ebc474;
+}
+.i{
+  align-content: center;
+}
 

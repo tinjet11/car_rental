@@ -72,7 +72,13 @@ include 'session.php';
         <table id="table">
 
 
+
           <thead>
+            <tr id="mainheader">
+              <th colspan="12">
+                Reservation data
+              </th>
+            </tr>
             <tr>
               <th>Reservation ID</th> <!--reservation -->
               <th>Customer ID</th> <!--reservation -->
@@ -128,13 +134,12 @@ include 'session.php';
 
               //if the car havent been pickup, disabled the return link
               //if the car has already been returned, disable the link
-                if (is_null($exact_rt)) {
-                  $rlink =  "return.php?r_id=" . $r_id;
-                }
-                else {
-                  $rlink = "#";
-                }
-              
+              if (is_null($exact_rt)) {
+                $rlink =  "return.php?r_id=" . $r_id;
+              } else {
+                $rlink = "#";
+              }
+
 
               //query to select firstname and lastname from customer database
               $sql1 = "SELECT First_name, Last_name FROM customer where customer_id = '$c_id'";
@@ -154,11 +159,11 @@ include 'session.php';
               $current_time = date('Y-m-d H:i:s');
 
               if ($current_time < $booking_datetime) {
-                $status = "Pending";
+                $status = "<p class='status pending'> Pending </p>";
               } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
-                $status = "Ongoing";
+                $status = "<p class='status ongoing'> Ongoing </p>";
               } else {
-                $status = "Past";
+                $status = "<p class='status completed'> Completed </p>";
               }
 
             ?>
@@ -173,14 +178,16 @@ include 'session.php';
                 <td data-label="Duration"><?php echo $duration; ?></td>
                 <td data-label="Amount to pay"><?php echo 'RM ' . $amount; ?></td>
                 <td data-label="Status"><?php echo $status; ?></td>
-                <td data-label="Action"><a href="change_reservation.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">edit</a>
-                  <a href="cancel_reservation.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">delete
-                </td>
-                <td data-label="Pickup/Return">
-                  <a href=<?php echo $plink ?> role="button" aria-disabled="true">pickup
-                    <a href=<?php echo $rlink ?> role="button" aria-disabled="true">return
+                <td data-label="Action">
+                  <button onclick="window.location.href='change_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button onclick="window.location.href='cancel_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-trash"></i></button>
                 </td>
 
+                <td data-label="Pickup/Return">
+                  <button onclick="window.location.href='<?php echo $plink ?>'"><i class="fa-solid fa-truck-pickup"></i></button>
+                  <button onclick="window.location.href='<?php echo $rlink ?>'"><i class="fa-solid fa-rotate-left"></i></button>
+                  
+                </td>
               </tr>
             <?php  } ?>
 

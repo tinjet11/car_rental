@@ -174,3 +174,53 @@ width: 47px;
 }
 
 
+ .card-bigcontainer{
+      margin: 0;
+      padding: 0;
+      height: 100px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+    }
+
+      .color1{
+          background: #ADD8E6;
+      }
+      .color2{
+          background: #FFD580;
+      }
+      .color3{
+          background: #CBC3E3;
+      }
+      .card-body{
+          display: inline-block;
+          font-family: Verdana;
+          margin: 10px;
+          padding: 20px;
+          width: 250px;
+          height: 90px;
+          color: #fff;
+          border-radius: 5px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+      .float-left{
+          float: left;
+      }
+      .float-right{
+          float: right;
+      }
+      .card-body h3{
+          margin-bottom: 5px;
+      }
+      .count{
+          font-size: 30px;
+          font-weight: 500;
+      }
+      .card-body p{
+          font-size: 16px;
+          margin-top: 0;
+      }
+      .card-body i{
+          font-size: 30px;
+          padding-top: 10px;
+      }

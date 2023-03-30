@@ -124,8 +124,9 @@ include 'session.php';
                 <td data-label="Phone Number"><?php echo $phone_number; ?></td>
                 <td data-label="Email"><?php echo $email; ?></td>
                 <td data-label="Address"><?php echo $address; ?></td>
-                <td data-label="Action"><a href="change_customer.php?c_id=<?php echo $c_id ?>" role="button" aria-disabled="true">edit</a>
-                  <a href="delete_customer.php?c_id=<?php echo $c_id ?>" role="button" aria-disabled="true">delete
+                <td data-label="Action">  
+                  <button onclick="window.location.href='change_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button onclick="window.location.href='delete_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
             <?php  } ?>
