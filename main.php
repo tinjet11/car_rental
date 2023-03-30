@@ -45,40 +45,94 @@ include 'session.php';
 
       </div><!-- end of header-->
       <div class="card-bigcontainer">
-            <div class="card-body color1">
-                <div class="float-left">
-                    <h3>
-                        <span class="count">20</span>
-                    </h3>
-                    <p>Cars Available</p>
-                </div>
-                <div class="float-right">
-                    <i class="fa-solid fa-car"></i>
-                </div>
-            </div>
-            <div class="card-body color2">
-                <div class="float-left">
-                    <h3>
-                        <span class="count">10</span>
-                    </h3>
-                    <p>Customers</p>
-                </div>
-                <div class="float-right">
-                    <i class="fa-solid fa-user-group"></i>
-                </div>
-            </div>
-            <div class="card-body color3">
-                <div class="float-left">
-                    <h3>
-                        <span class="count">12</span>
-                    </h3>
-                    <p>Cars Rented</p>
-                </div>
-                <div class="float-right">
-                    <i class="fa-solid fa-car-side"></i>
-                </div>
-            </div>
+        <?php
+        $conn = new mysqli("localhost", "root", "", "car_rental");
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
+        // Prepare the statement
+        $stmt = $conn->prepare("SELECT * FROM vehicle");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $vehicle_num = $result->num_rows;
+
+        $stmt = $conn->prepare("SELECT * FROM customer");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $customer_num = $result->num_rows;
+
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $current_time = date('Y-m-d H:i:s');
+        $current_month = date('m');
+        $current_year = date('Y');
+
+        $stmt = $conn->prepare("SELECT * FROM reservation WHERE booking_datetime > '$current_time'");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $upcomingReservation_num = $result->num_rows;
+
+        $stmt = $conn->prepare("SELECT vehicle_id,duration FROM reservation WHERE month(booking_datetime) = '$current_month' AND year(booking_datetime) = '$current_year'");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $reservation_num_of_currentmonth = $result->num_rows;
+        $revenue = 0;
+        while ($reserverow = $result->fetch_assoc()) {
+          $stmt =  $conn->prepare("SELECT price FROM Vehicle WHERE vehicle_id= ?");
+          $stmt->bind_param("s", $reserverow["vehicle_id"]);
+          $stmt->execute();
+          $vehicleresult =  $stmt->get_result();
+          $vehiclerow = $vehicleresult->fetch_assoc();
+          $revenue += $vehiclerow["price"] * $reserverow["duration"];
+        }
+        ?>
+        <div class="card-body color1">
+          <div class="float-left">
+            <h3>
+              <span class="count"><?php echo $vehicle_num; ?></span>
+            </h3>
+            <p>Total vehicle</p>
+          </div>
+          <div class="float-right">
+            <i class="fa-solid fa-car"></i>
+          </div>
         </div>
+        <div class="card-body color2">
+          <div class="float-left">
+            <h3>
+              <span class="count"><?php echo $customer_num; ?></span>
+            </h3>
+            <p>Customers</p>
+          </div>
+          <div class="float-right">
+            <i class="fa-solid fa-user-group"></i>
+          </div>
+        </div>
+        <div class="card-body color3">
+          <div class="float-left">
+            <h3>
+              <span class="count"><?php echo $upcomingReservation_num; ?></span>
+            </h3>
+            <p>Upcoming Reservation</p>
+          </div>
+        </div>
+        <div class="card-body color1">
+          <div class="float-left">
+            <h3>
+              <span class="count">RM <?php echo $revenue; ?></span>
+            </h3>
+            <p>Total Revenue This Month</p>
+           
+          </div>
+        </div>
+        <div class="card-body color2">
+          <div class="float-left">
+            <h3>
+              <span class="count"><?php echo $reservation_num_of_currentmonth; ?></span>
+            </h3>
+            <p>Total reservation this month</p>
+          </div>
+        </div>
+      </div>
 
       <table id="table">
         <thead>
@@ -176,65 +230,65 @@ include 'session.php';
       </table>
 
       <table id="table">
-          <thead>
+        <thead>
           <tr id="mainheader">
             <th colspan="12">
               New Customer
             </th>
           </tr>
+          <tr>
+            <th>Customer ID</th>
+            <th>Customer Name</th>
+            <th>IC NO</th>
+            <th>Gender</th>
+            <th>Birthdate</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+
+          $conn = new mysqli("localhost", "root", "", "car_rental");
+
+          //query to select firstname and lastname from customer database
+          $sql = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 5";
+          $result = $conn->query($sql);
+          while ($DataRows = $result->fetch_assoc()) {
+            $c_id = $DataRows["customer_id"];
+            $customername =  $DataRows["First_name"] . ' ' . $DataRows["Last_name"];
+            $ic = $DataRows["IC_NO"];
+            $gender = $DataRows["Gender"];
+            $birthdate = $DataRows["Birthdate"];
+            $phone_number = $DataRows["Phone_Number"];
+            $email = $DataRows["Email"];
+            $address = $DataRows["Address"];
+
+          ?>
             <tr>
-              <th>Customer ID</th>
-              <th>Customer Name</th>
-              <th>IC NO</th>
-              <th>Gender</th>
-              <th>Birthdate</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Action</th>
+              <td data-label="Customer ID"><?php echo $c_id; ?></td>
+              <td data-label="Customer Name"><?php echo $customername; ?></td>
+              <td data-label="IC"><?php echo $ic; ?></td>
+              <td data-label="Gender"><?php echo $gender; ?></td>
+              <td data-label="Birthdate"><?php echo $birthdate; ?></td>
+              <td data-label="Phone Number"><?php echo $phone_number; ?></td>
+              <td data-label="Email"><?php echo $email; ?></td>
+              <td data-label="Address"><?php echo $address; ?></td>
+              <td data-label="Action">
+                <button onclick="window.location.href='change_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button onclick="window.location.href='delete_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-trash"></i></button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <?php
-
-            $conn = new mysqli("localhost", "root", "", "car_rental");
-
-            //query to select firstname and lastname from customer database
-            $sql = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 5";
-            $result = $conn->query($sql);
-            while ($DataRows = $result->fetch_assoc()) {
-              $c_id = $DataRows["customer_id"];
-              $customername =  $DataRows["First_name"] . ' ' . $DataRows["Last_name"];
-              $ic = $DataRows["IC_NO"];
-              $gender = $DataRows["Gender"];
-              $birthdate = $DataRows["Birthdate"];
-              $phone_number = $DataRows["Phone_Number"];
-              $email = $DataRows["Email"];
-              $address = $DataRows["Address"];
-
-            ?>
-              <tr>
-                <td data-label="Customer ID"><?php echo $c_id; ?></td>
-                <td data-label="Customer Name"><?php echo $customername; ?></td>
-                <td data-label="IC"><?php echo $ic; ?></td>
-                <td data-label="Gender"><?php echo $gender; ?></td>
-                <td data-label="Birthdate"><?php echo $birthdate; ?></td>
-                <td data-label="Phone Number"><?php echo $phone_number; ?></td>
-                <td data-label="Email"><?php echo $email; ?></td>
-                <td data-label="Address"><?php echo $address; ?></td>
-                <td data-label="Action">  
-                  <button onclick="window.location.href='change_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="window.location.href='delete_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-trash"></i></button>
-                </td>
-              </tr>
-            <?php  } ?>
+          <?php  } ?>
 
 
-          </tbody>
-        </table>
+        </tbody>
+      </table>
       </table>
 
-      
+
     </div><!-- end of main content-->
   </div><!-- end of container-->
 

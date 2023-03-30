@@ -74,11 +74,6 @@ include 'session.php';
 
 
           <thead>
-            <tr id="mainheader">
-              <th colspan="12">
-                Reservation data
-              </th>
-            </tr>
             <tr>
               <th>Reservation ID</th> <!--reservation -->
               <th>Customer ID</th> <!--reservation -->
@@ -160,10 +155,16 @@ include 'session.php';
 
               if ($current_time < $booking_datetime) {
                 $status = "<p class='status pending'> Pending </p>";
+                $change_link = "change_reservation.php?r_id=".$r_id;
+                $cancel_link = "cancel_reservation.php?r_id=".$r_id;
               } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
                 $status = "<p class='status ongoing'> Ongoing </p>";
+                $change_link = "#";
+                $cancel_link = "#";
               } else {
                 $status = "<p class='status completed'> Completed </p>";
+                $change_link = "#";
+                $cancel_link = "#";
               }
 
             ?>
@@ -179,8 +180,8 @@ include 'session.php';
                 <td data-label="Amount to pay"><?php echo 'RM ' . $amount; ?></td>
                 <td data-label="Status"><?php echo $status; ?></td>
                 <td data-label="Action">
-                  <button onclick="window.location.href='change_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="window.location.href='cancel_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-trash"></i></button>
+                  <button onclick="window.location.href='<?php echo $change_link ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button onclick="window.location.href='<?php echo $cancel_link ?>'"><i class="fa-solid fa-trash"></i></button>
                 </td>
 
                 <td data-label="Pickup/Return">

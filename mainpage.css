@@ -181,6 +181,7 @@ width: 47px;
       justify-content: center;
       align-items: center;
       display: flex;
+      
     }
 
       .color1{
@@ -202,6 +203,7 @@ width: 47px;
           color: #fff;
           border-radius: 5px;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+          flex-direction: column;
       }
       .float-left{
           float: left;

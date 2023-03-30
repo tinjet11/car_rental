@@ -65,8 +65,13 @@ include 'session.php';
                     <?php }
                     $conn->close(); ?>
                 </select>
+                <?php 
+                date_default_timezone_set('Asia/Kuala_Lumpur');
+                $current_time = date('Y-m-d H:i'); 
+                ?>
+
                 <label for="pickup">Pickup Time:</label>
-                <input type="datetime-local" id="pickup" name="pickup" required>
+                <input type="datetime-local" id="pickup" name="pickup" min="<?php echo $current_time ?>" required>
 
                 <label for="duration">Duration (in days):</label>
                 <input type="number" min="1" id="duration" name="duration" required>
