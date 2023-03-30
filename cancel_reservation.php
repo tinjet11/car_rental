@@ -35,12 +35,12 @@
             <div class="header" id="header">
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
-                <div class="text">
-                    <a href="logout.php">
-                        Logout
-                    </a>
-                </div>
-                <div class="info">
+                <div class="dropdown" style="float:right;">
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fa fa-home"></i> Profile </a>
+                        <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
+                    </div>
                 </div>
 
             </div><!-- end of header-->

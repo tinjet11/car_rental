@@ -34,12 +34,12 @@
             <div class="header" id="header">
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
-                <div class="text">
-                    <a href="logout.php">
-                        Logout
-                    </a>
-                </div>
-                <div class="info">
+                <div class="dropdown" style="float:right;">
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fa fa-home"></i> Profile </a>
+                        <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
+                    </div>
                 </div>
 
             </div><!-- end of header-->
@@ -196,73 +196,72 @@
                 event.preventDefault();
                 const pickupTime = new Date(document.getElementById('pickup').value);
                 const current = new Date();
-                if(pickupTime < current){
+                if (pickupTime < current) {
                     alert("cannot choose date which is past already");
-                }
-                else{
-                const duration = parseInt(document.getElementById('duration').value);
-                const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
-                const vid = document.getElementById('vehicle').value;
-        
-
-                const momentObj1 = moment(pickupTime);
-
-                // Format the moment object as a string
-                const p_t = momentObj1.format('YYYY-MM-DD HH:mm:ss');
-
-                if (returnTime.getHours() < 12) {
-                    returnTime.setHours(12, 0, 0, 0);
                 } else {
-                    returnTime.setHours(18, 0, 0, 0);
-                }
+                    const duration = parseInt(document.getElementById('duration').value);
+                    const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
+                    const vid = document.getElementById('vehicle').value;
 
-                const momentObj2 = moment(returnTime);
 
-                // Format the moment object as a string
-                const r_t = momentObj2.format('YYYY-MM-DD HH:mm:ss');
+                    const momentObj1 = moment(pickupTime);
 
-              
+                    // Format the moment object as a string
+                    const p_t = momentObj1.format('YYYY-MM-DD HH:mm:ss');
 
-                // Create a new XMLHttpRequest object
-                var xhr = new XMLHttpRequest();
-
-                // Define the URL to send the request to
-                var url = "available.php";
-
-                var rid = '<?php echo $r_id; ?>';
-
-                // Define the data to send in the request body
-                var data = {
-                    vehicle: vid,
-                    reservation: rid,
-                    pickup: p_t, // convert to Unix timestamp
-                    return: r_t, // convert to Unix timestamp
-                };
-
-                // Define the callback function to handle the response
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // var response = xhr.responseText;
-                        // alert(response);
-
-                        var response = JSON.parse(xhr.responseText);
-                        var msg = response.msg;
-
-                        if (msg) {
-                            calculateReturnTime(true);
-                        } else {
-                            calculateReturnTime(false);
-                        }
+                    if (returnTime.getHours() < 12) {
+                        returnTime.setHours(12, 0, 0, 0);
+                    } else {
+                        returnTime.setHours(18, 0, 0, 0);
                     }
-                };
 
-                // Open the request and set the HTTP method and headers
-                xhr.open("POST", url, true);
-                xhr.setRequestHeader("Content-Type", "application/json");
+                    const momentObj2 = moment(returnTime);
 
-                // Send the request with the data in the request body
-                xhr.send(JSON.stringify(data));
-            }
+                    // Format the moment object as a string
+                    const r_t = momentObj2.format('YYYY-MM-DD HH:mm:ss');
+
+
+
+                    // Create a new XMLHttpRequest object
+                    var xhr = new XMLHttpRequest();
+
+                    // Define the URL to send the request to
+                    var url = "available.php";
+
+                    var rid = '<?php echo $r_id; ?>';
+
+                    // Define the data to send in the request body
+                    var data = {
+                        vehicle: vid,
+                        reservation: rid,
+                        pickup: p_t, // convert to Unix timestamp
+                        return: r_t, // convert to Unix timestamp
+                    };
+
+                    // Define the callback function to handle the response
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // var response = xhr.responseText;
+                            // alert(response);
+
+                            var response = JSON.parse(xhr.responseText);
+                            var msg = response.msg;
+
+                            if (msg) {
+                                calculateReturnTime(true);
+                            } else {
+                                calculateReturnTime(false);
+                            }
+                        }
+                    };
+
+                    // Open the request and set the HTTP method and headers
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+
+                    // Send the request with the data in the request body
+                    xhr.send(JSON.stringify(data));
+                }
             });
         });
 
@@ -303,7 +302,6 @@
                 document.getElementById('return').value = "Booking Not Available";
             }
         }
-
     </script>
 </body>
 

@@ -35,12 +35,12 @@ include 'session.php';
             <div class="header" id="header">
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
-                <div class="text">
-                    <a href="logout.php">
-                        Logout
-                    </a>
-                </div>
-                <div class="info">
+                <div class="dropdown" style="float:right;">
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fa fa-home"></i> Profile </a>
+                        <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
+                    </div>
                 </div>
 
             </div><!-- end of header-->
@@ -400,7 +400,7 @@ include 'session.php';
                     alert("Invalid/Missing input");
                     document.getElementById('return').value = "Invalid/Missing input";
                     document.getElementById("customer_info").style.display = "none";
-                }else{
+                } else {
                     alert("Slot available");
                     //generate reservation id
                     document.getElementById('r_id').value = generate_reservation_id('<?php echo $last_reservation_id ?>');
@@ -414,14 +414,14 @@ include 'session.php';
 
             } else {
                 //isNaN return true if the value is not number 
-                if(isNaN(duration)){
+                if (isNaN(duration)) {
                     alert("Invalid/Missing input");
                     document.getElementById('return').value = "Invalid/Missing input";
                     document.getElementById("customer_info").style.display = "none";
-                }else{
-                alert("booking not available");
-                document.getElementById('return').value = "Booking Not Available";
-                document.getElementById("customer_info").style.display = "none";
+                } else {
+                    alert("booking not available");
+                    document.getElementById('return').value = "Booking Not Available";
+                    document.getElementById("customer_info").style.display = "none";
                 }
             }
         }

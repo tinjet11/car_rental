@@ -35,17 +35,19 @@ include 'session.php';
       <div class="header" id="header">
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
-        <div class="text">
-          <a href="logout.php">
-            Logout
-          </a>
-        </div>
-        <div class="info"id="info">
+        <div class="dropdown" style="float:right;">
+          <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+          <div class="dropdown-content">
+            <a href="#"><i class="fa fa-home"></i> Profile </a>
+            <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
+          </div>
         </div>
 
       </div><!-- end of header-->
       <div id="table-container">
-      <div class="title"><h2>Reservation Dashboard</h2></div>  
+        <div class="title">
+          <h2>Reservation Dashboard</h2>
+        </div>
         <div id="searchbar">
 
           <input type="text" id="search" onkeyup="filter()" placeholder="(Default:Reservation ID)" autocomplete="off">
@@ -113,6 +115,26 @@ include 'session.php';
               $booking_datetime = $DataRows["booking_datetime"];
               $return_datetime = $DataRows["return_datetime"];
               $duration = $DataRows["duration"];
+              $exact_pt = $DataRows["exact_pickup_datetime"];
+              $exact_rt = $DataRows["exact_return_datetime"];
+
+              //if the car has already been pickup, disable the link
+              if (is_null($exact_pt)) {
+                $plink =  "pickup.php?r_id=" . $r_id;
+                $rlink =  "#";
+              } else {
+                $plink = "#";
+              }
+
+              //if the car havent been pickup, disabled the return link
+              //if the car has already been returned, disable the link
+                if (is_null($exact_rt)) {
+                  $rlink =  "return.php?r_id=" . $r_id;
+                }
+                else {
+                  $rlink = "#";
+                }
+              
 
               //query to select firstname and lastname from customer database
               $sql1 = "SELECT First_name, Last_name FROM customer where customer_id = '$c_id'";
@@ -155,8 +177,8 @@ include 'session.php';
                   <a href="cancel_reservation.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">delete
                 </td>
                 <td data-label="Pickup/Return">
-                  <a href="pickup.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">pickup
-                    <a href="return.php?r_id=<?php echo $r_id ?>" role="button" aria-disabled="true">return
+                  <a href=<?php echo $plink ?> role="button" aria-disabled="true">pickup
+                    <a href=<?php echo $rlink ?> role="button" aria-disabled="true">return
                 </td>
 
               </tr>
