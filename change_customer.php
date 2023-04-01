@@ -5,7 +5,6 @@
 <head>
     <link rel="stylesheet" href="mainpage.css">
     <link rel="stylesheet" href="form.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <script src="sidebar.js"></script>
 </head>
