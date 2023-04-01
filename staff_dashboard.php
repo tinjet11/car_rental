@@ -45,7 +45,7 @@
         <div class="title">
           <h2>Staff Dashboard</h2>
         </div>
-        <table>
+        <table id="table">
           <thead>
             <tr>
               <th>Staff ID</th>
@@ -55,6 +55,7 @@
               <th>Action</th>
             </tr>
           </thead>
+          <tbody>
           <?php
           $conn = new mysqli("localhost", "root", "", "car_rental");
           $sql = "SELECT staff_id,username,name,role FROM admin";

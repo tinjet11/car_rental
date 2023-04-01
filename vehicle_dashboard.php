@@ -50,7 +50,7 @@
         <table id="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Vehicle ID</th>
               <th>Model</th>
               <th>Type</th>
               <th>Color</th>
