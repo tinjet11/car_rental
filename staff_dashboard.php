@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="mainpage.css">
-    <link rel="stylesheet" href="dashboard.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <script src="sidebar.js"></script>
+<head>
+  <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="mainpage.css">
+  <link rel="stylesheet" href="dashboard.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <script src="sidebar.js"></script>
 </head>
+
 <body>
   <div class="container">
 
-    <div class="sidebar" id="sidebar">
+  <div class="sidebar" id="sidebar">
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
-
         <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
         <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
         <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
         <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-        <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-        <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
+        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
 
@@ -44,28 +45,44 @@
         <div class="title">
           <h2>Staff Dashboard</h2>
         </div>
-        
+        <table>
+          <thead>
+            <tr>
+              <th>Staff ID</th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <?php
+          $conn = new mysqli("localhost", "root", "", "car_rental");
+          $sql = "SELECT staff_id,username,name,role FROM admin";
+          $result = $conn->query($sql);
+          while ($validdata = $result->fetch_assoc()) {
+            $s_id = $validdata["staff_id"];
+            $username = $validdata["username"];
+            $name = $validdata["name"];
+            $role = $validdata["role"];
+          ?>
+            <tr>
+              <td data-label="Staff ID"><?php echo $s_id; ?></td>
+              <td data-label="UserName"><?php echo $username; ?></td>
+              <td data-label="Name"><?php echo $name; ?></td>
+              <td data-label="Role"><?php echo $role; ?></td>
 
-<table> 
-<tr><td>Staff ID</td>
-    <td>Username</td>
-    <td>Password</td>
-    <td>Name</td>
-    <td>Role</td></tr>
-<?php
-$conn = new mysqli("localhost","root","","staff_database");
-$sql = "SELECT staff_Id,username,password,name,role FROM staff_details";
-$result = $conn->query($sql);
-while($validdata = $result->fetch_assoc()){
-    $id = $validdata["staff_Id"];
-    $user = $validdata["username"];
-    $pass = $validdata["password"];
-    $name = $validdata["name"];
-    $role = $validdata["role"];
-    echo" <tr><td>".$id."</td><td>".$user."</td><td>".$pass."</td><td>".$name."</td><td>".$role."</td><td><a href = \"edit_staff.php?s_id=$id\">Edit</a></td><td><a href = \"delete_staff.php?s_id=$id\" role = \"button\">Delete</a></td></tr>";}
-
-$conn->close();
-?>
-<tr><td><a href="add_staff.php">Add</a></td></tr>
-</table>
-</html>
+              <td data-label="Action">
+                <button onclick="window.location.href='edit_staff.php?s_id=<?php echo $s_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button onclick="window.location.href='delete_staff.php?s_id=<?php echo $s_id ?>'"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            </tr>
+          <?php }
+          $conn->close();
+          ?>
+          <tr>
+            <td>
+              <a href="add_staff.php">Add</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>

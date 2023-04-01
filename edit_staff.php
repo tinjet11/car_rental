@@ -2,13 +2,14 @@
 <html>
 
 <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="mainpage.css">
-    <link rel="stylesheet" href="form.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="mainpage.css">
+<link rel="stylesheet" href="form.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <script src="sidebar.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+<script src="sidebar.js"></script>
 </head>
+
 <body>
   <div class="container">
 
@@ -16,13 +17,12 @@
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
-
         <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
         <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
         <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
         <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-        <li><a href="#"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-        <li><a href="#"><i class="fa-sharp fa-solid fa-database"></i>Staff_Dashboard</a></li>
+        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
+        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
 
@@ -40,69 +40,84 @@
         </div>
 
       </div><!-- end of header-->
-      <div id="table-container">
-        <div class="title">
-          <h2>Edit Staff</h2>
-        </div>
-       
+      <div id="table-container"> 
+        <form method="post" enctype="multipart/form-data">
+        <h1>Edit Staff</h1>
 
-<?php $id = $_GET["s_id"];
-    $conn = new mysqli("localhost","root","","staff_database");
-    $value = $conn->query("SELECT username,password,name,role FROM staff_details WHERE staff_Id = '$id'");
-    $values = $value->fetch_assoc();
-    $user = $values["username"];
-    $pass = $values["password"];
-    $name = $values["name"];
-    $role = $values["role"];
-?>
-<h1>Update Data:</h1>
-<form method="post" enctype="multipart/form-data">
+          <label for="staff_Id">Staff ID:</label>
+          <input type="text" id="staff_id" name="staff_id" readonly>
 
-    <label for="staff_Id">Staff ID:</label>
-    <label><?php echo"$id"?></label>
 
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" value =<?php echo"$user"?> required>
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
 
-    <label for="password">Password:</label>
-    <input type="text" id="password" name="password" value =<?php echo"$pass"?> required>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
 
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" value =<?php echo"$name"?> required>
+          <label for="role">Role:</label>
+          <input type="text" id="role" name="role" required>
 
-    <label for="role">Role:</label>
-    <select type="int" id="role" name="role" value =<?php echo"$role"?> required>
-    <option>Branch Manager</option>
-    <option>Manager</option>
-    <option>Sales Rep</option>
-    </select>
-    <button type="submit" id="change" name="change">Submit</button>
-
-    
-    <button style="position: relative; bottom: 40px;right:350px;"><a href="staff_dashboard.php">Back</a></button>
-</form>
-<?php
-$conn = new mysqli("localhost", "root", "", "staff_database");
-if (isset($_POST["change"])){
-        $user = isset($_POST["username"]) ? $_POST["username"] : "";
-        $pass = isset($_POST["password"]) ? $_POST["password"] : "";
-        $name = isset($_POST["name"]) ? $_POST["name"] : "";
-        $role = isset($_POST["role"]) ? $_POST["role"] : "";
         
-        // check if all required fields are filled
-        if ($id != "" && $user != "" && $pass != "" && $name != "" && $role != "") {
-            $sql = " UPDATE staff_details SET username = '$user',password = '$pass',name = '$name',role = '$role' WHERE staff_Id = '$id';";
-        if ($conn->query($sql) == true){
-            echo'alert("Update Successful");';
-}
-else{
-    echo 'alert("Error: Problem Updating Data");';
-}
-}
-else {  
-      echo 'alert("Error: Please fill all required fields.");';
-        }   
-}
-$conn->close()
-?>
+          <button type="submit" id="change" name="change">Submit</button>
+
+
+          <a href="staff_dashboard.php">Back</a>
+        </form>
+
+        <script>
+          //prevent form resubmission
+          if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+          }
+
+          function redirect() {
+            window.location.replace("http://localhost/car_rental/staff_dashboard.php");
+          }
+          <?php
+
+
+          //This part of code is fetch vehicle information from database
+          $sid = $_GET["s_id"];
+
+
+          $conn = new mysqli("localhost", "root", "", "car_rental");
+          $value = $conn->query("SELECT username,name,role FROM admin WHERE staff_id = '$sid'");
+          $values = $value->fetch_assoc();
+          $user = $values["username"];
+          $name = $values["name"];
+          $role = $values["role"];
+          echo "document.getElementById('staff_id').value = '$sid';";
+          echo "document.getElementById('username').value = '$user';";
+          echo "document.getElementById('name').value ='$name';";
+          echo "document.getElementById('role').value = '$role' ;";
+
+          $conn->close();
+          ?>
+
+          <?php
+          $conn = new mysqli("localhost", "root", "", "car_rental");
+          if (isset($_POST["change"])) {
+            $sid = isset($_POST["staff_id"]) ? $_POST["staff_id"] : "";
+            $user = isset($_POST["username"]) ? $_POST["username"] : "";
+            $name = isset($_POST["name"]) ? $_POST["name"] : "";
+            $role = isset($_POST["role"]) ? $_POST["role"] : "";
+
+            // check if all required fields are filled
+            if ($sid != "" && $user != "" && $name != "" && $role != "") {
+              $sql = " UPDATE admin SET username = '$user',name = '$name',role = '$role' WHERE staff_id = '$sid';";
+              if ($conn->query($sql) == true) {
+                echo 'alert("Update Successful");';
+                echo 'redirect();';
+              } else {
+                echo 'alert("Error: Problem Updating Data");';
+              }
+            } else {
+              echo 'alert("Error: Please fill all required fields.");';
+            }
+          }
+          $conn->close()
+          ?>
+        </script>
+</body>
+
 </html>
