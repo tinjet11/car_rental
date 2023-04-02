@@ -16,7 +16,7 @@ include 'session.php';
 <body>
   <div class="container">
 
-  <div class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
@@ -72,6 +72,9 @@ include 'session.php';
 
 
           <thead>
+
+            <td><a href="reservation.php">New Reservation</a></td>
+
             <tr>
               <th>Reservation ID</th> <!--reservation -->
               <th>Customer ID</th> <!--reservation -->
@@ -153,8 +156,8 @@ include 'session.php';
 
               if ($current_time < $booking_datetime) {
                 $status = "<p class='status pending'> Pending </p>";
-                $change_link = "change_reservation.php?r_id=".$r_id;
-                $cancel_link = "cancel_reservation.php?r_id=".$r_id;
+                $change_link = "change_reservation.php?r_id=" . $r_id;
+                $cancel_link = "cancel_reservation.php?r_id=" . $r_id;
               } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
                 $status = "<p class='status ongoing'> Ongoing </p>";
                 $change_link = "#";
@@ -184,7 +187,7 @@ include 'session.php';
 
                 <td data-label="Pickup/Return">
                   <button onclick="window.location.href='<?php echo $plink ?>'"><i class="fa-solid fa-truck-pickup"></i></button>
-                  <button onclick="window.location.href='<?php echo $rlink ?>'"><i class="fa-solid fa-rotate-left"></i></button> 
+                  <button onclick="window.location.href='<?php echo $rlink ?>'"><i class="fa-solid fa-rotate-left"></i></button>
                 </td>
               </tr>
             <?php  } ?>

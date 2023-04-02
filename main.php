@@ -37,7 +37,7 @@ include 'session.php';
         <div class="dropdown" style="float:right;">
           <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
           <div class="dropdown-content">
-            <a href="#"><i class="fa fa-home"></i> Profile </a>
+            <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
           </div>
         </div>
