@@ -56,7 +56,7 @@ include 'session.php';
                     <input type="text" id="username" name="username" required>
 
                     <label for="password">Password:</label>
-                    <input type="text" id="password" name="password" required>
+                    <input type="password" id="password" name="password" required>
 
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
@@ -64,7 +64,6 @@ include 'session.php';
                     <label for="role">Role:</label>
                     <input type="text" id="role" name="role" required>
 
-                   
                         <button type="submit" id="change" name="change">Submit</button>
                         <a href="main.php">Back</a>
              
