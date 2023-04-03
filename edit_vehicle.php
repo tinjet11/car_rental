@@ -68,10 +68,9 @@ include 'session.php';
           <label for="Price">Price:</label>
           <input type="text" id="Price" name="Price" required>
           
-          <a href="vehicle_dashboard.php" >Back</a>
 
           <button type="submit" id="change" name="change">Submit</button>
-
+          <a href="vehicle_dashboard.php" >Back</a>
 
         </form>
 

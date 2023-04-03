@@ -64,10 +64,10 @@ include 'session.php';
                     <label for="role">Role:</label>
                     <input type="text" id="role" name="role" required>
 
-                    <div>
-                        <a href="main.php">Back</a>
+                   
                         <button type="submit" id="change" name="change">Submit</button>
-                    </div>
+                        <a href="main.php">Back</a>
+             
                 </form>
 
 

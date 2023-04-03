@@ -12,9 +12,24 @@ include 'session.php';
 </head>
 
 <body>
+  <?php
+  //default
+  $sort = "customer_id ASC";
+  $display_sort = "Customer ID with Ascending Order";
+
+  if (isset($_POST["apply"])) {
+    if ($_POST["sort"] == 1) {
+      $sort = "customer_id DSC";
+      $display_sort = "Customer ID with Descending Order";
+    } else {
+      $sort = "reservation_id ASC";
+      $display_sort = "Customer ID with Ascending Order";
+    }
+  }
+  ?>
   <div class="container">
 
-  <div class="sidebar" id="sidebar">
+    <div class="sidebar" id="sidebar">
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
@@ -26,7 +41,6 @@ include 'session.php';
         <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
-
     <div class="main_content" id="main_content">
 
       <div class="header" id="header">
@@ -46,26 +60,28 @@ include 'session.php';
           <h2>Customer Dashboard</h2>
         </div>
         <div id="searchbar">
-          <input type="text" id="search" onkeyup="filter()" placeholder="Default:Customer ID" autocomplete="off">
-          <select id="key">
+
+          <input type="text" id="search" onkeyup="filter()" placeholder="Type Customer ID..." autocomplete="off">
+          <select id="key" onchange="key_placeholder()">
             <option value="0" selected>Search by:</option>
-            <option value="0">Customer id</option>
-            <option value="1">Customer name</option>
-            <option value="2">IC No</option>
+            <option value="0">Customer ID</option>
+            <option value="1">Customer Name</option>
+            <option value="2">IC NO</option>
           </select>
 
-          <form method="post">
+          <form method="post" style="margin-left: 30px;">
             <select id="sort" name="sort">
               <option value="0" selected>Sort by:</option>
-              <option value="0">Customer id Ascending</option>
-              <option value="1">Customer id Descending</option>
-              <option value="2">Name Ascending</option>
-              <option value="3">Name Descending</option>
-
+              <option value="0">Customer ID Ascending</option>
+              <option value="1">Customer ID Descending</option>
             </select>
-            <button name="apply">Apply</button>
+
+            <button name="apply">Apply Sorting</button>
           </form>
         </div>
+        <span>
+          <p1>Table sort by: <?php echo $display_sort; ?></p1>
+        </span>
 
         <table id="table">
           <thead>
@@ -123,7 +139,7 @@ include 'session.php';
                 <td data-label="Phone Number"><?php echo $phone_number; ?></td>
                 <td data-label="Email"><?php echo $email; ?></td>
                 <td data-label="Address"><?php echo $address; ?></td>
-                <td data-label="Action">  
+                <td data-label="Action">
                   <button onclick="window.location.href='change_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
                   <button onclick="window.location.href='delete_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-trash"></i></button>
                 </td>
@@ -142,6 +158,18 @@ include 'session.php';
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);
     }
+
+    function key_placeholder() {
+      select = document.getElementById("key").value;
+      if (select == "0") {
+        document.getElementById("search").placeholder = "Type Customer ID...";
+      } else if (select == "1") {
+        document.getElementById("search").placeholder = "Type Customer Name...";
+      } else if (select == "2") {
+        document.getElementById("search").placeholder = "Type IC NO...";
+      }
+    }
+
 
     function filter() {
       // Declare variables

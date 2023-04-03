@@ -14,6 +14,24 @@ include 'session.php';
 </head>
 
 <body>
+  <?php
+  //default
+  $sort = "reservation_id ASC";
+  $display_sort = "Reservation ID with Ascending Order";
+
+  if (isset($_POST["apply"])) {
+    if ($_POST["sort"] == 1) {
+      $sort = "booking_datetime ASC";
+      $display_sort = "Booking DateTime with Ascending Order";
+    } elseif ($_POST["sort"] == 2) {
+      $sort = "booking_datetime DESC";
+      $display_sort = "Booking DateTime with Descending Order";
+    } else {
+      $sort = "reservation_id ASC";
+      $display_sort = "Reservation ID with Ascending Order";
+    }
+  }
+  ?>
   <div class="container">
 
     <div class="sidebar" id="sidebar">
@@ -48,25 +66,29 @@ include 'session.php';
         </div>
         <div id="searchbar">
 
-          <input type="text" id="search" onkeyup="filter()" placeholder="(Default:Reservation ID)" autocomplete="off">
-          <select id="key">
+          <input type="text" id="search" onkeyup="filter()" placeholder="Type Reservation ID..." autocomplete="off">
+          <select id="key" onchange="key_placeholder()">
             <option value="0" selected>Search by:</option>
-            <option value="0">Reservation id</option>
-            <option value="2">Customer name</option>
-            <option value="3">Vehicle id</option>
+            <option value="0">Reservation ID</option>
+            <option value="1">Customer ID</option>
+            <option value="2">Customer Name</option>
+            <option value="3">Vehicle ID</option>
           </select>
 
-          <form method="post">
+          <form method="post" style="margin-left: 30px;">
             <select id="sort" name="sort">
               <option value="0" selected>Sort by:</option>
-              <option value="0">Reservation id Ascending</option>
+              <option value="0">Reservation ID Ascending</option>
               <option value="1">Booking Date Ascending</option>
               <option value="2">Booking Date Descending</option>
             </select>
 
-            <button name="apply">Apply</button>
+            <button name="apply">Apply Sorting</button>
           </form>
         </div>
+        <span>
+          <p1>Table sort by: <?php echo $display_sort; ?></p1>
+        </span>
         <table id="table">
 
 
@@ -92,18 +114,6 @@ include 'session.php';
           </thead>
           <tbody>
             <?php
-            //default
-            $sort = "reservation_id ASC";
-
-            if (isset($_POST["apply"])) {
-              if ($_POST["sort"] == 1) {
-                $sort = "booking_datetime ASC";
-              } elseif ($_POST["sort"] == 2) {
-                $sort = "booking_datetime DESC";
-              } else {
-                $sort = "reservation_id ASC";
-              }
-            }
 
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
@@ -205,6 +215,20 @@ include 'session.php';
       window.history.replaceState(null, null, window.location.href);
     }
 
+    function key_placeholder() {
+      select = document.getElementById("key").value;
+      if(select == "0"){
+        document.getElementById("search").placeholder = "Type Reservation ID...";
+      }else if(select == "1"){
+        document.getElementById("search").placeholder = "Type Customer ID...";
+      }else if(select == "2"){
+        document.getElementById("search").placeholder = "Type Customer Name...";
+      }else if(select == "3"){
+        document.getElementById("search").placeholder = "Type Vehicle ID...";
+      }
+      //alert("as");
+    }
+
     function filter() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -212,7 +236,6 @@ include 'session.php';
       filter = input.value.toUpperCase();
       table = document.getElementById("table");
       tr = table.getElementsByTagName("tr");
-      select = document.getElementById("key").value;
 
       // Loop through all table rows, and hide those who don't match the search query
       for (i = 0; i < tr.length; i++) {

@@ -46,6 +46,7 @@
                 <input type="text" id="reservation-id" name="reservation-id">
 
                 <button name="submit">Pickup</button>
+                <a href="reservation_dashboard.php">Back</a>
             </form>
         </div><!-- end of main content-->
     </div><!-- end of container-->

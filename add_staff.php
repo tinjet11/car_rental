@@ -61,10 +61,9 @@ include 'session.php';
 
           <label for="role">Role:</label>
           <input type="text" id="role" name="role" required>
-      
-          <a href="staff_dashboard.php">Back</a>
 
           <button type="submit" id="change" name="change">Submit</button>
+          <a href="staff_dashboard.php">Back</a>
 
 
         </form>

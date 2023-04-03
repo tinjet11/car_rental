@@ -50,6 +50,7 @@
                 <input type="text" id="reservation-id" name="reservation-id" readonly>
 
                 <button name="cancel">Cancel</button>
+                <a href="reservation_dashboard.php">Back</a>
             </form>
         </div><!-- end of main content-->
     </div><!-- end of container-->

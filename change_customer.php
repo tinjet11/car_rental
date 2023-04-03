@@ -73,6 +73,7 @@
                     <textarea id="address" name="address" required></textarea>
 
                     <button type="submit" name="change">Submit</button>
+                    <a href="customer_dashboard.php">Back</a>
                 </div>
             </form>
         </div><!-- end of main content-->

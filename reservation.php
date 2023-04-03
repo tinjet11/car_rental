@@ -88,7 +88,6 @@ include 'session.php';
                 <div id="customer_info">
 
                     <div id="customer-type">
-                        <h1>Customer/Existing Customer</h2>
                             <label for="c-type">Customer-type:</label>
                             <select id="c-type">
                                 <option value="">Select a customer type</option>
@@ -111,7 +110,6 @@ include 'session.php';
                     </div>
 
                     <div id="new-c">
-                        <h1>Customer Information</h1>
                         <label for="c_id">Customer id:</label>
                         <input type="text" id="c_id" name="c_id" readonly>
 

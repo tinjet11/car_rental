@@ -212,14 +212,15 @@ include 'session.php';
               <td data-label="Amount to pay"><?php echo 'RM ' . $amount; ?></td>
               <td data-label="Status"><?php echo $status; ?></td>
               <td data-label="Action">
+                <div>
                 <button onclick="window.location.href='change_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
                 <button onclick="window.location.href='cancel_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-trash"></i></button>
+                </div>
               </td>
 
               <td data-label="Pickup/Return">
                 <button onclick="window.location.href='<?php echo $plink ?>'"><i class="fa-solid fa-truck-pickup"></i></button>
                 <button onclick="window.location.href='<?php echo $rlink ?>'"><i class="fa-solid fa-rotate-left"></i></button>
-
               </td>
             </tr>
           <?php  } ?>

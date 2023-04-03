@@ -45,6 +45,7 @@
                 <input type="text" id="customer-id" name="customer-id" readonly>
 
                 <button name="delete">delete</button>
+                <a href="customer_dashboard.php">Back</a>
             </form>
         </div><!-- end of main content-->
     </div><!-- end of container-->

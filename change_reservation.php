@@ -102,8 +102,9 @@
                     <label for="return">New Return Time:</label>
                     <input type="text" id="return" name="return" readonly>
 
-
-                    <button type="submit" name="submit" id="submit">Check availability</button>
+                    
+                    <button type="submit" name="submit" id="submit">Check availability</button> 
+                    <a href="reservation_dashboard.php">Back</a>
                 </div>
 
                 <div id="reserve_div">
