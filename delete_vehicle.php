@@ -1,18 +1,22 @@
-<?php
-include 'session.php';
-?>
+<?php include 'session.php'; ?>
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="mainpage.css">
-<link rel="stylesheet" href="form.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-<script src="sidebar.js"></script>
+<head>
+  <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+  <link rel="stylesheet" href="form.css">
+  <link rel="stylesheet" href="mainpage.css">
+  <script src="sidebar.js"></script>
 </head>
 
 <body>
+  <!-- Container -->
   <div class="container">
 
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -26,63 +30,76 @@ include 'session.php';
       </ul>
     </div><!-- end of sidebar -->
 
+    <!-- Main content -->
     <div class="main_content" id="main_content">
 
+      <!-- Header -->
       <div class="header" id="header">
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
           <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
           <div class="dropdown-content">
-            <a href="#"><i class="fa fa-home"></i> Profile </a>
+            <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
           </div>
         </div>
 
       </div><!-- end of header-->
-      <div id="table-container">
 
-        <form method="post">
-        <h1>Delete Vehicle</h1>
-          <label for="reservation-id">Customer ID:</label>
-          <input type="text" id="vehicle-id" name="vehicle-id" readonly>
+      <h1>Delete Vehicle</h1>
+      <form method="post">
 
-          <button name="Delete"> Delete</button>
-          <a href="vehicle_dashboard.php"> Back </a>
-        </form>
+        <label for="reservation-id">Customer ID:</label>
+        <input type="text" id="vehicle-id" name="vehicle-id" readonly>
 
+        <button name="Delete"> Delete</button>
+        <a href="vehicle_dashboard.php"> Back </a>
 
+      </form>
 
-        <script>
-          //prevent form resubmission
-          if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-          }
+      <script>
+        //prevent form resubmission
+        if (window.history.replaceState) {
+          window.history.replaceState(null, null, window.location.href);
+        }
+        //redirect to specific page after action
+        function redirect() {
+          window.location.replace("http://localhost/car_rental/vehicle_dashboard.php");
+        }
+        <?php
+        //Using GET method to get the vehicle id
+        $v_id = $_GET["v_id"];
 
-          function redirect() {
-            window.location.replace("http://localhost/car_rental/vehicle_dashboard.php");
-          }
-          <?php
+        //display vehicle id in the form
+        echo "document.getElementById('vehicle-id').value = '$v_id';";
 
-          $v_id = $_GET["v_id"];
-          echo "document.getElementById('vehicle-id').value = '$v_id';";
+        if (isset($_POST["Delete"])) {
+
+          //open connection
           $conn = new mysqli("localhost", "root", "", "car_rental");
-          if (isset($_POST["Delete"])) {
-            if ($conn->query("DELETE FROM vehicle WHERE vehicle_id = '$v_id'") == TRUE) {
-              $change = $conn->affected_rows;
-              if ($change == 1) {
-                echo "<body>$v_id is deleted</body>";
-                echo 'redirect();';
-              } else {
-                echo "<body> $v_id does not exist </body>";
-              }
-            } else {
 
-              echo "$v_id could not be deleted";
+          $sql  = $conn->query("DELETE FROM vehicle WHERE vehicle_id = '$v_id'");
+
+          if ($conn->query($sql) === TRUE) {
+
+            $change = $conn->affected_rows;
+
+            if ($change == 1) {
+              echo "alert('Delete Sucessful');";
+              echo 'redirect();';
+            } else {
+              echo "alert('Error')";
             }
+          } else {
+            echo "alert('Error')";
           }
-          $conn->close();
-          ?>
-        </script>
+        }
+
+        //close connection
+        $conn->close();
+        ?>
+      </script>
+</body>
 
 </html>

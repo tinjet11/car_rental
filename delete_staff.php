@@ -1,19 +1,22 @@
-<?php
-include 'session.php';
-?>
+<?php include 'session.php'; ?>
 <!DOCTYPE html>
 <html>
 
-<link rel="stylesheet" href="mainpage.css">
-<link rel="stylesheet" href="form.css">
+<head>
+  <script type="text/JavaScript" src=" https://MomentJS.com/downloads/moment.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-<script src="sidebar.js"></script>
+  <link rel="stylesheet" href="form.css">
+  <link rel="stylesheet" href="mainpage.css">
+  <script src="sidebar.js"></script>
 </head>
 
 <body>
+  <!-- Container -->
   <div class="container">
 
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -27,63 +30,77 @@ include 'session.php';
       </ul>
     </div><!-- end of sidebar -->
 
+    <!-- Main content -->
     <div class="main_content" id="main_content">
 
+      <!-- Header -->
       <div class="header" id="header">
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
           <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
           <div class="dropdown-content">
-            <a href="#"><i class="fa fa-home"></i> Profile </a>
+            <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
           </div>
         </div>
 
       </div><!-- end of header-->
-      <div id="table-container">
 
-        <form method="post">
+      <form method="post">
         <h1>Delete staff</h1>
-          <label for="staff-id">Staff ID:</label>
-          <input type="text" id="staff-id" name="staff-id" readonly>
+        <label for="staff-id">Staff ID:</label>
+        <input type="text" id="staff-id" name="staff-id" readonly>
 
-          <button name="Delete"> Delete</button>
-          <a href="staff_dashboard.php"> Back </a>
-        </form>
+        <button name="Delete"> Delete</button>
+        <a href="staff_dashboard.php"> Back </a>
+      </form>
 
 
 
-        <script>
-          //prevent form resubmission
-          if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-          }
+      <script>
+        //prevent form resubmission
+        if (window.history.replaceState) {
+          window.history.replaceState(null, null, window.location.href);
+        }
 
-          function redirect() {
-            window.location.replace("http://localhost/car_rental/staff_dashboard.php");
-          }
-          <?php
+        //redirect to specific page after action
+        function redirect() {
+          window.location.replace("http://localhost/car_rental/staff_dashboard.php");
+        }
 
-          $s_id = $_GET["s_id"];
-          echo "document.getElementById('staff-id').value = '$s_id';";
+        <?php
+        //Using GET method to get the staff id
+        $s_id = $_GET["s_id"];
+
+        //display staff id in the form
+        echo "document.getElementById('staff-id').value = '$s_id';";
+
+        if (isset($_POST["Delete"])) {
+          //open connection
           $conn = new mysqli("localhost", "root", "", "car_rental");
-          if (isset($_POST["Delete"])) {
-            if ($conn->query("DELETE FROM admin WHERE staff_id = '$s_id'") == TRUE) {
-              $change = $conn->affected_rows;
-              if ($change == 1) {
-                echo "alert('delete sucessful');";
-                echo 'redirect();';
-              } else {
-                echo "alert('error')";
-              }
-            } else {
 
-              echo "alert('error')";
+          $sql = $conn->query("DELETE FROM admin WHERE staff_id = '$s_id'");
+
+          if ($conn->query($sql) === TRUE) {
+
+            $change = $conn->affected_rows;
+
+            if ($change == 1) {
+              echo "alert('Delete Sucessful');";
+              echo 'redirect();';
+            } else {
+              echo "alert('Error')";
             }
+          } else {
+            echo "alert('Error')";
           }
-          $conn->close();
-          ?>
-        </script>
+        }
+
+        //close connection
+        $conn->close();
+        ?>
+      </script>
+</body>
 
 </html>

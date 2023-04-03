@@ -120,7 +120,7 @@ include 'session.php';
               <span class="count">RM <?php echo $revenue; ?></span>
             </h3>
             <p>Total Revenue This Month</p>
-           
+
           </div>
         </div>
         <div class="card-body color2">
@@ -213,8 +213,8 @@ include 'session.php';
               <td data-label="Status"><?php echo $status; ?></td>
               <td data-label="Action">
                 <div>
-                <button onclick="window.location.href='change_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button onclick="window.location.href='cancel_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-trash"></i></button>
+                  <button onclick="window.location.href='change_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button onclick="window.location.href='cancel_reservation.php?r_id=<?php echo $r_id ?>'"><i class="fa-solid fa-trash"></i></button>
                 </div>
               </td>
 

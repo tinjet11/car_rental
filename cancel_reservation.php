@@ -65,6 +65,7 @@
             window.history.replaceState(null, null, window.location.href);
         }
 
+        //redirect to specific page after action
         function redirect() {
             window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
         }
@@ -101,6 +102,6 @@
         }
         ?>
     </script>
-</body>f
+</body>
 
 </html>
