@@ -19,6 +19,7 @@ include 'session.php';
   $sort = "reservation_id ASC";
   $display_sort = "Reservation ID with Ascending Order";
 
+  // when sorting apply,update the sql statement with $sort, update & display the sorting condition with $display_sort
   if (isset($_POST["apply"])) {
     if ($_POST["sort"] == 1) {
       $sort = "booking_datetime ASC";
@@ -32,8 +33,11 @@ include 'session.php';
     }
   }
   ?>
+  
+  <!-- Container -->
   <div class="container">
 
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -46,15 +50,18 @@ include 'session.php';
         <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
+
+    <!-- Main content -->
     <div class="main_content" id="main_content">
 
+      <!-- Header -->
       <div class="header" id="header">
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
           <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
           <div class="dropdown-content">
-            <a href="#"><i class="fa fa-home"></i> Profile </a>
+            <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
           </div>
         </div>
@@ -90,33 +97,33 @@ include 'session.php';
           <p1>Table sort by: <?php echo $display_sort; ?></p1>
         </span>
         <table id="table">
-
-
-
           <thead>
-
             <td><a href="reservation.php">New Reservation</a></td>
-
+            <!-- Table header -->
             <tr>
-              <th>Reservation ID</th> <!--reservation -->
-              <th>Customer ID</th> <!--reservation -->
-              <th>Customer Name</th> <!--customer -->
-              <th>Vehicle ID</th> <!--reservation -->
-              <th>Vehicle Type</th> <!--vehicle -->
-              <th>Booking Datetime</th> <!--reservation -->
-              <th>Return Datetime</th> <!--reservation -->
-              <th>Duration</th> <!--reservation -->
-              <th>Amount to Pay</th> <!--vehicle -->
+              <th>Reservation ID</th>
+              <th>Customer ID</th>
+              <th>Customer Name</th>
+              <th>Vehicle ID</th>
+              <th>Vehicle Type</th>
+              <th>Booking Datetime</th>
+              <th>Return Datetime</th>
+              <th>Duration</th>
+              <th>Amount to Pay</th>
               <th>Status</th>
               <th>Action</th>
               <th>Pickup/return</th>
             </tr>
           </thead>
+
           <tbody>
             <?php
+            //This part of php code is to generate the reservation dashboard  
 
+            //open connection
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
+            //select all the data from reservation table with $sort order 
             $sql = "SELECT * from reservation ORDER BY $sort;";
             $result = $conn->query($sql);
 
@@ -147,32 +154,43 @@ include 'session.php';
               }
 
 
-              //query to select firstname and lastname from customer database
+              //query to select firstname and lastname from customer table
               $sql1 = "SELECT First_name, Last_name FROM customer where customer_id = '$c_id'";
               $result1 = $conn->query($sql1);
               $DataRows1 = $result1->fetch_assoc();
 
+              //customer full name combine by first name and last name
               $customername =  $DataRows1["First_name"] . ' ' . $DataRows1["Last_name"];
 
+              //query to select model,color,price from vehicle table
               $sql2 = "SELECT model,color,price FROM Vehicle WHERE vehicle_id='$v_id'";
               $result2 = $conn->query($sql2);
-
               $DataRows2 = $result2->fetch_assoc();
-              $amount = (int)($DataRows2["price"]) * $duration;
-              $vehicle_description = $DataRows2["model"] . '(' . $DataRows2["color"] . ')';
-              date_default_timezone_set('Asia/Kuala_Lumpur');
 
+              //calculate the amount to pay usinig price and duration
+              $amount = (int)($DataRows2["price"]) * $duration;
+              //vehicle description combine by model and color
+              $vehicle_description = $DataRows2["model"] . '(' . $DataRows2["color"] . ')';
+
+              date_default_timezone_set('Asia/Kuala_Lumpur');
               $current_time = date('Y-m-d H:i:s');
 
+              // if current time is before the booking datetime
+              // set status pending, still can change or cancel reservation    
               if ($current_time < $booking_datetime) {
                 $status = "<p class='status pending'> Pending </p>";
                 $change_link = "change_reservation.php?r_id=" . $r_id;
                 $cancel_link = "cancel_reservation.php?r_id=" . $r_id;
-              } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
+              }
+              // if current time is between the booking datetime and return datetime
+              // set status ongoing, then cannot change & cancel the reservation
+              else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
                 $status = "<p class='status ongoing'> Ongoing </p>";
                 $change_link = "#";
                 $cancel_link = "#";
-              } else {
+              }
+              // else set status Completed, then cannot change & cancel the reservation
+              else {
                 $status = "<p class='status completed'> Completed </p>";
                 $change_link = "#";
                 $cancel_link = "#";
@@ -190,6 +208,7 @@ include 'session.php';
                 <td data-label="Duration"><?php echo $duration; ?></td>
                 <td data-label="Amount to pay"><?php echo 'RM ' . $amount; ?></td>
                 <td data-label="Status"><?php echo $status; ?></td>
+
                 <td data-label="Action">
                   <button onclick="window.location.href='<?php echo $change_link ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
                   <button onclick="window.location.href='<?php echo $cancel_link ?>'"><i class="fa-solid fa-trash"></i></button>
@@ -201,7 +220,6 @@ include 'session.php';
                 </td>
               </tr>
             <?php  } ?>
-
 
           </tbody>
         </table>
@@ -215,18 +233,18 @@ include 'session.php';
       window.history.replaceState(null, null, window.location.href);
     }
 
+    //change the input placeholder while user select search key
     function key_placeholder() {
       select = document.getElementById("key").value;
-      if(select == "0"){
+      if (select == "0") {
         document.getElementById("search").placeholder = "Type Reservation ID...";
-      }else if(select == "1"){
+      } else if (select == "1") {
         document.getElementById("search").placeholder = "Type Customer ID...";
-      }else if(select == "2"){
+      } else if (select == "2") {
         document.getElementById("search").placeholder = "Type Customer Name...";
-      }else if(select == "3"){
+      } else if (select == "3") {
         document.getElementById("search").placeholder = "Type Vehicle ID...";
       }
-      //alert("as");
     }
 
     function filter() {

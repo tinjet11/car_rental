@@ -22,13 +22,15 @@ include 'session.php';
       $sort = "customer_id DSC";
       $display_sort = "Customer ID with Descending Order";
     } else {
-      $sort = "reservation_id ASC";
+      $sort = "customer_id ASC";
       $display_sort = "Customer ID with Ascending Order";
     }
   }
   ?>
+  <!-- Container -->
   <div class="container">
 
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <h2>Menu</h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -41,20 +43,24 @@ include 'session.php';
         <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
+
+    <!-- Main content -->
     <div class="main_content" id="main_content">
 
+      <!-- Header -->
       <div class="header" id="header">
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
           <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
           <div class="dropdown-content">
-            <a href="#"><i class="fa fa-home"></i> Profile </a>
+            <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
           </div>
         </div>
 
       </div><!-- end of header-->
+
       <div id="table-container">
         <div class="title">
           <h2>Customer Dashboard</h2>
@@ -99,21 +105,8 @@ include 'session.php';
           </thead>
           <tbody>
             <?php
-            //default
-            $sort = "customer_id ASC";
 
-            if (isset($_POST["apply"])) {
-              if ($_POST["sort"] == 1) {
-                $sort = "customer_id DESC";
-              } elseif ($_POST["sort"] == 2) {
-                $sort = "Last_name ASC";
-              } elseif ($_POST["sort"] == 3) {
-                $sort = "Last_name DESC";
-              } else {
-                $sort = "customer_id ASC";
-              }
-            }
-
+            //open connection
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
             //query to select firstname and lastname from customer database
@@ -145,10 +138,9 @@ include 'session.php';
                 </td>
               </tr>
             <?php  } ?>
-
-
           </tbody>
         </table>
+
       </div>
     </div><!-- end of main content-->
   </div><!-- end of container-->
@@ -159,6 +151,7 @@ include 'session.php';
       window.history.replaceState(null, null, window.location.href);
     }
 
+    //change the input placeholder while user select search key
     function key_placeholder() {
       select = document.getElementById("key").value;
       if (select == "0") {

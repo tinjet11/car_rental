@@ -151,6 +151,7 @@ include 'session.php';
                     </div>
 
                 </div><!-- end of Customer Information Field-->
+                <a href="reservation_dashboard.php">Back</a>
             </form><!-- end of form-->
         </div><!-- end of main content-->
     </div><!-- end of container-->
