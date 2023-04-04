@@ -107,9 +107,13 @@ include 'session.php';
           </thead>
           <tbody>
             <?php
+            //open connection
             $conn = new mysqli("localhost", "root", "", "car_rental");
+
+            //select vehicle data from database 
             $sql = "SELECT vehicle_id,model,type,color,price FROM vehicle ORDER BY $sort";
             $result = $conn->query($sql);
+
             while ($validdata = $result->fetch_assoc()) {
               $v_id = $validdata["vehicle_id"];
               $model = $validdata["model"];
@@ -143,6 +147,7 @@ include 'session.php';
       window.history.replaceState(null, null, window.location.href);
     }
 
+     //change the input placeholder while user select search key
     function key_placeholder() {
       select = document.getElementById("key").value;
       if (select == "0") {
@@ -156,7 +161,7 @@ include 'session.php';
       }
     }
 
-
+    // function to filter the table content while searching
     function filter() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;

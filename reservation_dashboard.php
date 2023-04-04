@@ -219,7 +219,8 @@ include 'session.php';
                   <button onclick="window.location.href='<?php echo $rlink ?>'"><i class="fa-solid fa-rotate-left"></i></button>
                 </td>
               </tr>
-            <?php  } ?>
+            <?php  }
+             $conn->close(); ?>
 
           </tbody>
         </table>
@@ -247,6 +248,7 @@ include 'session.php';
       }
     }
 
+    // function to filter the table content while searching
     function filter() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -268,6 +270,7 @@ include 'session.php';
         }
       }
     }
+
   </script>
 </body>
 

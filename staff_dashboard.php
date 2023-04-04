@@ -13,7 +13,7 @@ include 'session.php';
 </head>
 
 <body>
-<?php
+  <?php
   //default
   $sort = "staff_id ASC";
   $display_sort = "Staff ID with Ascending Order";
@@ -131,7 +131,7 @@ include 'session.php';
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);
     }
-
+    //change the input placeholder while user select search key
     function key_placeholder() {
       select = document.getElementById("key").value;
       if (select == "0") {

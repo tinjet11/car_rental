@@ -62,11 +62,12 @@ include 'session.php';
       </div><!-- end of header-->
 
       <div id="table-container">
+
         <div class="title">
           <h2>Customer Dashboard</h2>
         </div>
-        <div id="searchbar">
 
+        <div id="searchbar">
           <input type="text" id="search" onkeyup="filter()" placeholder="Type Customer ID..." autocomplete="off">
           <select id="key" onchange="key_placeholder()">
             <option value="0" selected>Search by:</option>
@@ -84,12 +85,14 @@ include 'session.php';
 
             <button name="apply">Apply Sorting</button>
           </form>
+
         </div>
         <span>
           <p1>Table sort by: <?php echo $display_sort; ?></p1>
         </span>
 
         <table id="table">
+          <!-- Table header -->
           <thead>
             <tr>
               <th>Customer ID</th>
@@ -103,6 +106,7 @@ include 'session.php';
               <th>Action</th>
             </tr>
           </thead>
+
           <tbody>
             <?php
 
@@ -137,7 +141,9 @@ include 'session.php';
                   <button onclick="window.location.href='delete_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
-            <?php  } ?>
+
+            <?php  } 
+             $conn->close();?>
           </tbody>
         </table>
 
@@ -163,7 +169,7 @@ include 'session.php';
       }
     }
 
-
+    // function to filter the table content while searching
     function filter() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;

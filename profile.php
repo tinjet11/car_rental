@@ -37,7 +37,7 @@ include 'session.php';
                 <div class="dropdown" style="float:right;">
                     <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
                     <div class="dropdown-content">
-                        <a href="#"><i class="fa fa-home"></i> Profile </a>
+                        <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
                         <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
                     </div>
                 </div>
@@ -64,9 +64,9 @@ include 'session.php';
                     <label for="role">Role:</label>
                     <input type="text" id="role" name="role" required>
 
-                        <button type="submit" id="change" name="change">Submit</button>
-                        <a href="main.php">Back</a>
-             
+                    <button type="submit" id="change" name="change">Submit</button>
+                    <a href="main.php">Back</a>
+
                 </form>
 
 
@@ -74,7 +74,6 @@ include 'session.php';
         </div><!-- end of container-->
 
         <script>
-
             //prevent form resubmission
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
@@ -83,26 +82,28 @@ include 'session.php';
             function redirect() {
                 window.location.replace("http://localhost/car_rental/main.php");
             }
+
             <?php
-
-
-            //This part of code is fetch vehicle information from database
-            $sid = $staffid;
-
-
+            //open connection
             $conn = new mysqli("localhost", "root", "", "car_rental");
+
+            //select staff data from database
             $value = $conn->query("SELECT * FROM admin WHERE staff_id = '$sid'");
             $values = $value->fetch_assoc();
+
             $user = $values["username"];
             $pass = $values["password"];
             $name = $values["name"];
             $role = $values["role"];
-            echo "document.getElementById('staff_id').value = '$sid';";
+
+            //display the data to the form
+            echo "document.getElementById('staff_id').value = '$staffid';";
             echo "document.getElementById('username').value = '$user';";
             echo "document.getElementById('password').value = '$pass';";
             echo "document.getElementById('name').value ='$name';";
             echo "document.getElementById('role').value = '$role' ;";
 
+            //close connection
             $conn->close();
             ?>
 
