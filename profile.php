@@ -45,8 +45,8 @@ include 'session.php';
             </div><!-- end of header-->
 
             <div id="table-container">
+                <h1>Edit Profile</h1>
                 <form method="post" enctype="multipart/form-data">
-                    <h1>Edit Profile</h1>
 
                     <label for="staff_Id">Staff ID:</label>
                     <input type="text" id="staff_id" name="staff_id" readonly>
@@ -88,7 +88,7 @@ include 'session.php';
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
             //select staff data from database
-            $value = $conn->query("SELECT * FROM admin WHERE staff_id = '$sid'");
+            $value = $conn->query("SELECT * FROM admin WHERE staff_id = '$staffid'");
             $values = $value->fetch_assoc();
 
             $user = $values["username"];
@@ -129,6 +129,7 @@ include 'session.php';
                     echo 'alert("Error: Please fill all required fields.");';
                 }
             }
+            //close connection
             $conn->close()
             ?>
         </script>
