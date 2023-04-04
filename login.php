@@ -132,7 +132,7 @@
             $password = $_POST['pass'];
 
             // Prepare the statement
-            $stmt = $conn->prepare("SELECT username, password, staff_id FROM admin WHERE username = ? and password = ?");
+            $stmt = $conn->prepare("SELECT username, password, staff_id, name FROM admin WHERE username = ? and password = ?");
             $stmt->bind_param("ss", $username, $password);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -143,15 +143,15 @@
             session_start();
             $_SESSION["timelimit"] = time();
             $_SESSION["staffid"] = $row["staff_id"];
+            $_SESSION["name"] = $row["name"];
 
             if ($count == 1) {
                 header("Location: main.php");
                 exit();
             } else {
-                echo '<script>
+                echo '
                 alert("Login failed. Invalid username or password");
-            //window.location.href = "login.php";
-              </script>';
+              ';
                 exit();
             }
         }
