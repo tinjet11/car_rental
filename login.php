@@ -138,15 +138,15 @@
             $result = $stmt->get_result();
 
             // Process the result
-            $row = $result->fetch_assoc();
-            $count = $result->num_rows;
-            session_start();
-            $_SESSION["timelimit"] = time();
-            $_SESSION["staffid"] = $row["staff_id"];
-            $_SESSION["name"] = $row["name"];
+            $row = $result->fetch_assoc(); // Retrieves the first row of the query result set as an associative array
+            $count = $result->num_rows; // Returns the number of rows in the result
+            session_start(); // Start a new session
+            $_SESSION["timelimit"] = time(); // Sets timelimit to the website
+            $_SESSION["staffid"] = $row["staff_id"]; // Sets the staffid session variable to the value of staffid column in the row of the associative array
+            $_SESSION["name"] = $row["name"]; // Sets the name session variable to the value of the name column in the row of the associative array
 
-            if ($count == 1) {
-                header("Location: main.php");
+            if ($count == 1) { // Checks if the result contains 1 row, means the login is valid
+                header("Location: main.php"); // Webiste is redirected to main.php
                 exit();
             } else {
                 echo '
