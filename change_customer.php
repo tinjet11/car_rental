@@ -53,7 +53,7 @@
             <form method="post" enctype="multipart/form-data">
 
                 <div id="found_div">
-                    <label for="customerid">Customer id:</label>
+                    <label for="customerid">Customer ID:</label>
                     <input type="text" id="customerid" name="customerid" required>
 
                     <label for="first-name">First Name:</label>

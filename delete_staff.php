@@ -97,10 +97,11 @@
           } else {
             echo "alert('Error')";
           }
+          //close connection
+          $conn->close(); 
         }
 
-        //close connection
-        $conn->close();
+
         ?>
       </script>
 </body>

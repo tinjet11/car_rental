@@ -52,7 +52,7 @@
       <h1>Delete Vehicle</h1>
       <form method="post">
 
-        <label for="reservation-id">Customer ID:</label>
+        <label for="vehicle-id">Vehicle ID:</label>
         <input type="text" id="vehicle-id" name="vehicle-id" readonly>
 
         <button name="Delete"> Delete</button>
@@ -96,10 +96,11 @@
           } else {
             echo "alert('Error')";
           }
+
+          //close connection
+          $conn->close();
         }
 
-        //close connection
-        $conn->close();
         ?>
       </script>
 </body>

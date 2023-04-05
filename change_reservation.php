@@ -54,10 +54,10 @@
             <form method="post" id="reservation_form" enctype="multipart/form-data">
 
                 <div id="found_div">
-                    <label for="r_id">Reservation id:</label>
+                    <label for="r_id">Reservation ID:</label>
                     <input type="text" id="r_id" name="r_id" readonly>
 
-                    <label for="c_id">Customer id:</label>
+                    <label for="c_id">Customer ID:</label>
                     <input type="text" id="c_id" name="c_id" readonly>
 
                     <label for="vehicle">Vehicle Type:</label>

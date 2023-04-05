@@ -49,13 +49,13 @@
 
             </div><!-- end of header-->
 
-            <h1>Cancel Reservation</h1>
+            <h1>Delete Customer</h1>
             <form method="post">
 
                 <label for="reservation-id">Customer ID:</label>
                 <input type="text" id="customer-id" name="customer-id" readonly>
 
-                <button name="delete">delete</button>
+                <button name="delete">Delete</button>
                 <a href="customer_dashboard.php">Back</a>
 
             </form>
