@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //Checks if the request method is PO
 
 
 $available = true;
-$conn = new mysqli("localhost", "root", "", "car_rental"); //creating mysqli object to connect to database
+$conn = new mysqli("localhost", "root", "", "comp1044_database"); //creating mysqli object to connect to database
 
 $sql = "SELECT booking_datetime,return_datetime FROM reservation where vehicle_id = '$vid' AND reservation_id NOT IN ('$rid'); "; //SQL query to retrieve the booking and return datetime for all reservations which doesn't match the current reservation ID.
 $result = $conn->query($sql); //Result store in variable

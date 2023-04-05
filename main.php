@@ -47,7 +47,7 @@ include 'session.php';
       </div><!-- end of header-->
       <div class="card-bigcontainer">
         <?php
-        $conn = new mysqli("localhost", "root", "", "car_rental"); // Connection to database
+        $conn = new mysqli("localhost", "root", "", "comp1044_database"); // Connection to database
         if ($conn->connect_error) { // Check for error connecting to database
           die("Connection failed: " . $conn->connect_error);
         }
@@ -159,7 +159,7 @@ include 'session.php';
         </thead>
         <tbody>
           <?php
-          $conn = new mysqli("localhost", "root", "", "car_rental");
+          $conn = new mysqli("localhost", "root", "", "comp1044_database");
           $current_time = date('Y-m-d H:i:s');
 
           $sql = "SELECT * FROM reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC LIMIT 5;"; // SQL Query to select all reservations from database that have a booking_datime greater than current time. Ordered by booking_datetime in ascending order and limited to 5 results.
@@ -253,7 +253,7 @@ include 'session.php';
         <tbody>
           <?php
 
-          $conn = new mysqli("localhost", "root", "", "car_rental");
+          $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
           //query to select firstname and lastname from customer database
           $sql = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 5";

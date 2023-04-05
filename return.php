@@ -31,7 +31,9 @@
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
                 <div class="dropdown" style="float:right;">
-                    <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+                         <button class="dropbtn"><i class="fa-solid fa-user"></i>
+                        <p><?php echo $name; ?></p>
+                    </button>
                     <div class="dropdown-content">
                         <a href="#"><i class="fa fa-home"></i> Profile </a>
                         <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -72,7 +74,7 @@
 
 
         if (isset($_POST["submit"])) { //Checks if the submit button is clicked
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
             $r_id = $_POST["reservation-id"]; //Retrieves value from reservtion-id and set it in $r_id variable
             $sql  = "UPDATE reservation SET exact_return_datetime = '$currentDateTime' WHERE reservation_id = '$r_id';"; //SQL UPDATE statement to update the reservation table with current datetime in the relevant reservation_id column
