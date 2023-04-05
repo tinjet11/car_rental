@@ -15,21 +15,21 @@ include 'session.php';
 <body>
 <?php
   //default
-  $sort = "vehicle_id ASC";
+  $sort = "vehicle_id ASC"; //Data stored in vehicle_id will be sorted in ascending order
   $display_sort = "Vehicle ID with Ascending Order";
 
-  if (isset($_POST["apply"])) {
-    if ($_POST["sort"] == 1) {
-      $sort = "vehicle_id DESC";
+  if (isset($_POST["apply"])) { //checks if the apply button is clicked in the form
+    if ($_POST["sort"] == 1) { 
+      $sort = "vehicle_id DESC"; //If the value of sort = 1, the sort variable is updated to vehicle_id sorted in descending order
       $display_sort = "Vehicle ID with Descending Order";
     }else if($_POST["sort"] == 2){
-      $sort = "Price ASC";
+      $sort = "Price ASC"; //If value of sort = 2, the sort variable is updated to price sorted in ascending order
       $display_sort = "Price From Low to High";
     }else if($_POST["sort"] == 3){
-      $sort = "price DESC";
+      $sort = "price DESC"; //If the value of sort = 3, the sort variable is updated to price sorted in descending order
       $display_sort = "Price From High to Low";
     }else {
-      $sort = "vehicle_id ASC";
+      $sort = "vehicle_id ASC"; //Else the vehicle_id will be sorted in ascending order
       $display_sort = "Vehicle ID with Ascending Order";
     }
   }
