@@ -64,21 +64,21 @@
 
 
         <?php
-        $r_id = $_GET["r_id"];
+        $r_id = $_GET["r_id"]; //Line of code is retrieved using the GET variable
 
-        echo "document.getElementById('reservation-id').value = '$r_id';";
-        date_default_timezone_set("Asia/Kuala_Lumpur");
+        echo "document.getElementById('reservation-id').value = '$r_id';"; //Outputs the javascript code of document.getElementById method
+        date_default_timezone_set("Asia/Kuala_Lumpur"); 
         $currentDateTime = date('Y-m-d H:i:s');
 
 
-        if (isset($_POST["submit"])) {
+        if (isset($_POST["submit"])) { //Checks if the submit button is clicked
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
-            $r_id = $_POST["reservation-id"];
-            $sql  = "UPDATE reservation SET exact_return_datetime = '$currentDateTime' WHERE reservation_id = '$r_id';";
+            $r_id = $_POST["reservation-id"]; //Retrieves value from reservtion-id and set it in $r_id variable
+            $sql  = "UPDATE reservation SET exact_return_datetime = '$currentDateTime' WHERE reservation_id = '$r_id';"; //SQL UPDATE statement to update the reservation table with current datetime in the relevant reservation_id column
 
             if ($conn->query($sql) === TRUE) {
-                echo 'alert("Return Successful");';
+                echo 'alert("Return Successful");'; //Alert if successful
             } else {
                 echo 'alert("Error");';
             }
