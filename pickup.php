@@ -63,18 +63,18 @@
 
         <?php
 
-        $r_id = $_GET["r_id"];
+        $r_id = $_GET["r_id"]; //Retrieves value of $r_id by using GET variable
 
-        echo "document.getElementById('reservation-id').value = '$r_id';";
+        echo "document.getElementById('reservation-id').value = '$r_id';"; //echos the Javascript document.getElementById() method
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $currentDateTime = date('Y-m-d H:i:s');
 
 
-        if (isset($_POST["submit"])) {
+        if (isset($_POST["submit"])) { //Check if the submit button is clicked
             $conn = new mysqli("localhost", "root", "", "car_rental");
 
-            $r_id = $_POST["reservation-id"];
-            $sql  = "UPDATE reservation SET exact_pickup_datetime = '$currentDateTime' WHERE reservation_id = '$r_id';";
+            $r_id = $_POST["reservation-id"]; //Retrieves the reservation-id value and sets it to $r_id
+            $sql  = "UPDATE reservation SET exact_pickup_datetime = '$currentDateTime' WHERE reservation_id = '$r_id';"; //SQL UPDATE statement to update reservation table with current datetime relevant to reservation_id
 
             if ($conn->query($sql) === TRUE) {
                 echo 'alert("Pickup Successful");';
