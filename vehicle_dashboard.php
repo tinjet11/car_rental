@@ -13,23 +13,23 @@ include 'session.php';
 </head>
 
 <body>
-  <?php
+<?php
   //default
-  $sort = "vehicle_id ASC";
+  $sort = "vehicle_id ASC"; //Data stored in vehicle_id will be sorted in ascending order
   $display_sort = "Vehicle ID with Ascending Order";
 
-  if (isset($_POST["apply"])) {
-    if ($_POST["sort"] == 1) {
-      $sort = "vehicle_id DESC";
+  if (isset($_POST["apply"])) { //checks if the apply button is clicked in the form
+    if ($_POST["sort"] == 1) { 
+      $sort = "vehicle_id DESC"; //If the value of sort = 1, the sort variable is updated to vehicle_id sorted in descending order
       $display_sort = "Vehicle ID with Descending Order";
-    } else if ($_POST["sort"] == 2) {
-      $sort = "Price ASC";
+    }else if($_POST["sort"] == 2){
+      $sort = "Price ASC"; //If value of sort = 2, the sort variable is updated to price sorted in ascending order
       $display_sort = "Price From Low to High";
-    } else if ($_POST["sort"] == 3) {
-      $sort = "price DESC";
+    }else if($_POST["sort"] == 3){
+      $sort = "price DESC"; //If the value of sort = 3, the sort variable is updated to price sorted in descending order
       $display_sort = "Price From High to Low";
-    } else {
-      $sort = "vehicle_id ASC";
+    }else {
+      $sort = "vehicle_id ASC"; //Else the vehicle_id will be sorted in ascending order
       $display_sort = "Vehicle ID with Ascending Order";
     }
   }
@@ -55,9 +55,7 @@ include 'session.php';
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
-          <button class="dropbtn"><i class="fa-solid fa-user"></i>
-            <p><?php echo $name; ?></p>
-          </button>
+          <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
           <div class="dropdown-content">
             <a href="#"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -110,7 +108,7 @@ include 'session.php';
           <tbody>
             <?php
             //open connection
-            $conn = new mysqli("localhost", "root", "", "comp1044_database");
+            $conn = new mysqli("localhost", "root", "", "car_rental");
 
             //select vehicle data from database 
             $sql = "SELECT vehicle_id,model,type,color,price FROM vehicle ORDER BY $sort";
@@ -149,14 +147,14 @@ include 'session.php';
       window.history.replaceState(null, null, window.location.href);
     }
 
-    //change the input placeholder while user select search key
+     //change the input placeholder while user select search key
     function key_placeholder() {
       select = document.getElementById("key").value;
       if (select == "0") {
         document.getElementById("search").placeholder = "Type Vehicle ID...";
       } else if (select == "1") {
         document.getElementById("search").placeholder = "Type Vehicle Model...";
-      } else if (select == "2") {
+      }else if (select == "2") {
         document.getElementById("search").placeholder = "Type Vehicle Type...";
       } else if (select == "3") {
         document.getElementById("search").placeholder = "Type Vehicle Color...";

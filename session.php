@@ -1,9 +1,9 @@
 <?php
   session_start();
-  if((time() - $_SESSION['timelimit']) > 1000)
+  if((time() - $_SESSION['timelimit']) > 1000) //If time is greater than 1000 seconds then the session will be destroyed and user will be redirected to logout.php
   {
     header("location:logout.php");
-    session_destroy();
+    session_destroy(); //Removes all session data
   }
   else
   {

@@ -35,9 +35,7 @@ include 'session.php';
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
                 <div class="dropdown" style="float:right;">
-                    <button class="dropbtn"><i class="fa-solid fa-user"></i>
-                        <p><?php echo $name; ?></p>
-                    </button>
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
                     <div class="dropdown-content">
                         <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
                         <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -87,7 +85,7 @@ include 'session.php';
 
             <?php
             //open connection
-            $conn = new mysqli("localhost", "root", "", "comp1044_database");
+            $conn = new mysqli("localhost", "root", "", "car_rental");
 
             //select staff data from database
             $value = $conn->query("SELECT * FROM admin WHERE staff_id = '$staffid'");
@@ -110,19 +108,19 @@ include 'session.php';
             ?>
 
             <?php
-            $conn = new mysqli("localhost", "root", "", "comp1044_database");
-            if (isset($_POST["change"])) {
-                $sid = isset($_POST["staff_id"]) ? $_POST["staff_id"] : "";
-                $user = isset($_POST["username"]) ? $_POST["username"] : "";
-                $pass = isset($_POST["password"]) ? $_POST["password"] : "";
-                $name = isset($_POST["name"]) ? $_POST["name"] : "";
-                $role = isset($_POST["role"]) ? $_POST["role"] : "";
+            $conn = new mysqli("localhost", "root", "", "car_rental");
+            if (isset($_POST["change"])) { //Checks if the change button is clicked
+                $sid = isset($_POST["staff_id"]) ? $_POST["staff_id"] : ""; //Retrieves data of staff_id
+                $user = isset($_POST["username"]) ? $_POST["username"] : ""; //Retrieves data of username
+                $pass = isset($_POST["password"]) ? $_POST["password"] : ""; //Retrieves data of password
+                $name = isset($_POST["name"]) ? $_POST["name"] : ""; //Retrieves data of name
+                $role = isset($_POST["role"]) ? $_POST["role"] : ""; //Retrieves data of role
 
                 // check if all required fields are filled
-                if ($sid != "" && $user != "" && $pass != "" && $name != "" && $role != "") {
-                    $sql = " UPDATE admin SET username = '$user',password= '$pass', name = '$name',role = '$role' WHERE staff_id = '$sid';";
+                if ($sid != "" && $user != "" && $pass != "" && $name != "" && $role != "") { 
+                    $sql = " UPDATE admin SET username = '$user',password= '$pass', name = '$name',role = '$role' WHERE staff_id = '$sid';"; //SQL statement to update the admin table
                     if ($conn->query($sql) == true) {
-                        echo 'alert("Update Successful");';
+                        echo 'alert("Update Successful");'; //Alert to inform that the update is successful
                         echo 'redirect();';
                     } else {
                         echo 'alert("Error: Problem Updating Data");';

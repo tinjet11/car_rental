@@ -47,39 +47,39 @@ include 'session.php';
       </div><!-- end of header-->
       <div class="card-bigcontainer">
         <?php
-        $conn = new mysqli("localhost", "root", "", "comp1044_database");
-        if ($conn->connect_error) {
+        $conn = new mysqli("localhost", "root", "", "car_rental"); // Connection to database
+        if ($conn->connect_error) { // Check for error connecting to database
           die("Connection failed: " . $conn->connect_error);
         }
         // Prepare the statement
-        $stmt = $conn->prepare("SELECT * FROM vehicle");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $vehicle_num = $result->num_rows;
+        $stmt = $conn->prepare("SELECT * FROM vehicle"); // Prepares SQL statement to select all rows from vehicle table
+        $stmt->execute(); // Execute the SQL statement
+        $result = $stmt->get_result(); // Retrieves result from executed statement
+        $vehicle_num = $result->num_rows; // Counts the rows in result
 
-        $stmt = $conn->prepare("SELECT * FROM customer");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $customer_num = $result->num_rows;
+        $stmt = $conn->prepare("SELECT * FROM customer"); // Prepares SQL statement to select all rows from vehicle table
+        $stmt->execute(); // Execute the SQL statement
+        $result = $stmt->get_result(); // Retrieves result from executed statement
+        $customer_num = $result->num_rows; // Counts the rows in result
 
-        date_default_timezone_set('Asia/Kuala_Lumpur');
-        $current_time = date('Y-m-d H:i:s');
-        $current_month = date('m');
-        $current_year = date('Y');
+        date_default_timezone_set('Asia/Kuala_Lumpur'); // Sets default timezone 
+        $current_time = date('Y-m-d H:i:s'); // Formats current date and time
+        $current_month = date('m'); // Gets current month
+        $current_year = date('Y'); // Gets current year
 
-        $stmt = $conn->prepare("SELECT * FROM reservation WHERE booking_datetime > '$current_time'");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $upcomingReservation_num = $result->num_rows;
+        $stmt = $conn->prepare("SELECT * FROM reservation WHERE booking_datetime > '$current_time'"); // Prepares SQL statement to select all rows from vehicle table
+        $stmt->execute(); // Execute the SQL statement
+        $result = $stmt->get_result(); // Retrieves result from executed statement
+        $upcomingReservation_num = $result->num_rows; // Counts the rows in result
 
-        $stmt = $conn->prepare("SELECT vehicle_id,duration FROM reservation WHERE month(booking_datetime) = '$current_month' AND year(booking_datetime) = '$current_year'");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $reservation_num_of_currentmonth = $result->num_rows;
-        $revenue = 0;
-        while ($reserverow = $result->fetch_assoc()) {
-          $stmt =  $conn->prepare("SELECT price FROM Vehicle WHERE vehicle_id= ?");
-          $stmt->bind_param("s", $reserverow["vehicle_id"]);
+        $stmt = $conn->prepare("SELECT vehicle_id,duration FROM reservation WHERE month(booking_datetime) = '$current_month' AND year(booking_datetime) = '$current_year'"); // SQL statement to retrieve vehicleid and duration from reservation table but only for the rows that match the month and year and booking datetime.
+        $stmt->execute(); // Query is executed
+        $result = $stmt->get_result(); // Retrieves result from executed statement
+        $reservation_num_of_currentmonth = $result->num_rows; // Number of rows in result is stored 
+        $revenue = 0; // Revenue variable set to 0
+        while ($reserverow = $result->fetch_assoc()) { // Loop retrieves each row from the result 
+          $stmt =  $conn->prepare("SELECT price FROM Vehicle WHERE vehicle_id= ?"); // SQL statement to retrieve price from vehicle table where vehicleid matches vehicleid in current row
+          $stmt->bind_param("s", $reserverow["vehicle_id"]); // Binds vechicleid value from current row to a prepared statement
           $stmt->execute();
           $vehicleresult =  $stmt->get_result();
           $vehiclerow = $vehicleresult->fetch_assoc();
@@ -159,15 +159,15 @@ include 'session.php';
         </thead>
         <tbody>
           <?php
-          $conn = new mysqli("localhost", "root", "", "comp1044_database");
+          $conn = new mysqli("localhost", "root", "", "car_rental");
           $current_time = date('Y-m-d H:i:s');
 
-          $sql = "SELECT * FROM reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC LIMIT 5;";
+          $sql = "SELECT * FROM reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC LIMIT 5;"; // SQL Query to select all reservations from database that have a booking_datime greater than current time. Ordered by booking_datetime in ascending order and limited to 5 results.
 
           $result = $conn->query($sql);
 
           while ($DataRows = $result->fetch_assoc()) {
-            $r_id = $DataRows["reservation_id"];
+            $r_id = $DataRows["reservation_id"]; //Extract the data and assigned to variables
             $c_id = $DataRows["customer_id"];
             $v_id = $DataRows["vehicle_id"];
             $booking_datetime = $DataRows["booking_datetime"];
@@ -177,13 +177,13 @@ include 'session.php';
             $exact_rt = $DataRows["exact_return_datetime"];
 
             //query to select firstname and lastname from customer database
-            $sql1 = "SELECT First_name, Last_name FROM customer where customer_id = '$c_id'";
+            $sql1 = "SELECT First_name, Last_name FROM customer where customer_id = '$c_id'"; // SQL Query to select First Name and Last Name from Customer 
             $result1 = $conn->query($sql1);
             $DataRows1 = $result1->fetch_assoc();
 
-            $customername =  $DataRows1["First_name"] . ' ' . $DataRows1["Last_name"];
+            $customername =  $DataRows1["First_name"] . ' ' . $DataRows1["Last_name"]; // Customer name is received by concatenating the first and last name
 
-            $sql2 = "SELECT model,color,price FROM Vehicle WHERE vehicle_id='$v_id'";
+            $sql2 = "SELECT model,color,price FROM Vehicle WHERE vehicle_id='$v_id'"; // SQL query that selects the model, color, and price of the vehicle
             $result2 = $conn->query($sql2);
 
             $DataRows2 = $result2->fetch_assoc();
@@ -193,12 +193,12 @@ include 'session.php';
 
             $current_time = date('Y-m-d H:i:s');
 
-            if ($current_time < $booking_datetime) {
+            if ($current_time < $booking_datetime) { // If current time is before booking datetime then the reservation will be in pending status
               $status = "<p class='status pending'> Pending </p>";
-            } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
+            } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) { // Else if current time is between booking and return datetime then the reservation will be in ongoing status
               $status = "<p class='status ongoing'> Ongoing </p>";
             } else {
-              $status = "<p class='status completed'> Completed </p>";
+              $status = "<p class='status completed'> Completed </p>"; // Else then it will be in Completed status
             }
 
           ?>
@@ -253,7 +253,7 @@ include 'session.php';
         <tbody>
           <?php
 
-          $conn = new mysqli("localhost", "root", "", "comp1044_database");
+          $conn = new mysqli("localhost", "root", "", "car_rental");
 
           //query to select firstname and lastname from customer database
           $sql = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 5";
