@@ -38,7 +38,9 @@
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
-          <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+          <button class="dropbtn"><i class="fa-solid fa-user"></i>
+            <p><?php echo $name; ?></p>
+          </button>
           <div class="dropdown-content">
             <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -84,7 +86,7 @@
         $sid = $_GET["s_id"];
 
         //open connection
-        $conn = new mysqli("localhost", "root", "", "car_rental");
+        $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
         //select staff data from database
         $sql = "SELECT username,name,role FROM admin WHERE staff_id = '$sid'";

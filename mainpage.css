@@ -133,21 +133,22 @@ font-size: 15px;
 cursor: pointer;
 background-color: #111;
 color: white;
-padding: 10px 15px;
+padding: 10px 10px;
 border: none;
 float: right;
 width: 150px;
 }
 
 
+.dropbtn i{
+  float: left;
+  margin-left:2px;
+}
 
 .dropbtn p{
   float: right;
+  margin-left: 0;
 }
-
-
-
-
 
 .dropdown {
   position: relative;

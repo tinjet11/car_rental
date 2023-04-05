@@ -35,7 +35,9 @@ include 'session.php';
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
-          <button class="dropbtn"><i class="fa-solid fa-user"></i><p><?php echo $name;?></p></button>
+          <button class="dropbtn"><i class="fa-solid fa-user"></i>
+            <p><?php echo $name; ?></p>
+          </button>
           <div class="dropdown-content">
             <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -45,7 +47,7 @@ include 'session.php';
       </div><!-- end of header-->
       <div class="card-bigcontainer">
         <?php
-        $conn = new mysqli("localhost", "root", "", "car_rental");
+        $conn = new mysqli("localhost", "root", "", "comp1044_database");
         if ($conn->connect_error) {
           die("Connection failed: " . $conn->connect_error);
         }
@@ -157,7 +159,7 @@ include 'session.php';
         </thead>
         <tbody>
           <?php
-          $conn = new mysqli("localhost", "root", "", "car_rental");
+          $conn = new mysqli("localhost", "root", "", "comp1044_database");
           $current_time = date('Y-m-d H:i:s');
 
           $sql = "SELECT * FROM reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC LIMIT 5;";
@@ -251,7 +253,7 @@ include 'session.php';
         <tbody>
           <?php
 
-          $conn = new mysqli("localhost", "root", "", "car_rental");
+          $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
           //query to select firstname and lastname from customer database
           $sql = "SELECT * FROM customer ORDER BY customer_id DESC LIMIT 5";

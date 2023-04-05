@@ -49,7 +49,9 @@ include 'session.php';
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
-          <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+          <button class="dropbtn"><i class="fa-solid fa-user"></i>
+            <p><?php echo $name; ?></p>
+          </button>
           <div class="dropdown-content">
             <a href="#"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -97,7 +99,7 @@ include 'session.php';
           </thead>
           <tbody>
             <?php
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
             $sql = "SELECT staff_id,username,name,role FROM admin ORDER BY $sort;";
             $result = $conn->query($sql);
             while ($validdata = $result->fetch_assoc()) {

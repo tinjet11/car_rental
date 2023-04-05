@@ -38,7 +38,9 @@
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
                 <div class="dropdown" style="float:right;">
-                    <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i>
+                        <p><?php echo $name; ?></p>
+                    </button>
                     <div class="dropdown-content">
                         <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
                         <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -63,7 +65,7 @@
                         <option value="">Select a vehicle Model</option>
                         <?php
                         //open connection
-                        $conn = new mysqli("localhost", "root", "", "car_rental");
+                        $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
                         $sql = "SELECT vehicle_id, model,color FROM Vehicle";
                         $result = $conn->query($sql);
@@ -136,7 +138,7 @@
         $r_id = $_GET["r_id"];
 
         //open connection
-        $conn = new mysqli("localhost", "root", "", "car_rental");
+        $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
         //select reservation data using SQL select statement
         $sql = "SELECT * FROM reservation where reservation_id = '$r_id' ";
@@ -172,7 +174,7 @@
         if (isset($_POST["reserve"])) {
 
             //open connection
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
             //reservation information
             $reservationid = $_POST["r_id"];

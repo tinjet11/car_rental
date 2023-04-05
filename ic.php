@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 //open connection
-$conn = new mysqli("localhost", "root", "", "car_rental");
+$conn = new mysqli("localhost", "root", "", "comp1044_database");
 
 //default customer id
 //if response with this default id, mean customer not found

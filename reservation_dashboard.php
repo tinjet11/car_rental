@@ -33,7 +33,7 @@ include 'session.php';
     }
   }
   ?>
-  
+
   <!-- Container -->
   <div class="container">
 
@@ -59,7 +59,9 @@ include 'session.php';
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
-          <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+          <button class="dropbtn"><i class="fa-solid fa-user"></i>
+            <p><?php echo $name; ?></p>
+          </button>
           <div class="dropdown-content">
             <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -121,7 +123,7 @@ include 'session.php';
             //This part of php code is to generate the reservation dashboard  
 
             //open connection
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
             //select all the data from reservation table with $sort order 
             $sql = "SELECT * from reservation ORDER BY $sort;";
@@ -174,6 +176,8 @@ include 'session.php';
 
               date_default_timezone_set('Asia/Kuala_Lumpur');
               $current_time = date('Y-m-d H:i:s');
+              //calculate current time plus 1 hour
+              $current_timeplus1 = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
               // if current time is before the booking datetime
               // set status pending, still can change or cancel reservation    
@@ -194,6 +198,14 @@ include 'session.php';
                 $status = "<p class='status completed'> Completed </p>";
                 $change_link = "#";
                 $cancel_link = "#";
+                $plink = "#";
+                $rlink = "#";
+              }
+
+              //let the car can be pickup before 1 hour of the booking time
+              if ($current_timeplus1 <= $booking_datetime) {
+                $plink = "#";
+                $rlink = "#";
               }
 
             ?>
@@ -220,7 +232,7 @@ include 'session.php';
                 </td>
               </tr>
             <?php  }
-             $conn->close(); ?>
+            $conn->close(); ?>
 
           </tbody>
         </table>
@@ -270,7 +282,6 @@ include 'session.php';
         }
       }
     }
-
   </script>
 </body>
 

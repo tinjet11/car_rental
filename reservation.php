@@ -36,7 +36,9 @@ include 'session.php';
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
                 <div class="dropdown" style="float:right;">
-                    <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i>
+                        <p><?php echo $name; ?></p>
+                    </button>
                     <div class="dropdown-content">
                         <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
                         <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -52,7 +54,7 @@ include 'session.php';
                     <option value="">Select a vehicle Model</option>
                     <?php
                     //open connection
-                    $conn = new mysqli("localhost", "root", "", "car_rental");
+                    $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
                     $sql = "SELECT vehicle_id, model,color FROM Vehicle";
                     $result = $conn->query($sql);
@@ -187,7 +189,7 @@ include 'session.php';
         //This part of code is to insert information into `reservation` table and `customer` table when the customer is new customer
         if (isset($_POST["reserve"])) {
             //open connection
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
             //reservation information
             $reservationid = $_POST["r_id"];
@@ -230,7 +232,7 @@ include 'session.php';
         //This part of code is to insert information into `reservation` table only when the customer is existing customer
         if (isset($_POST["reserve_exist"])) {
             //open connection
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
             $reservationid = $_POST["r_id"];
             $vehicleid = $_POST["vehicle"];
@@ -384,7 +386,7 @@ include 'session.php';
 
             <?php
             //open connection
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
             //get the last reservation id from database;    
             $sql = "SELECT reservation_id from reservation ORDER BY reservation_id DESC LIMIT 1 ";
@@ -442,93 +444,92 @@ include 'session.php';
             }
         }
 
-            const customertypeselect = document.getElementById('c-type');
+        const customertypeselect = document.getElementById('c-type');
 
-            customertypeselect.addEventListener('change', function() {
+        customertypeselect.addEventListener('change', function() {
 
-                if (customertypeselect.value == "new-c") {
-                    //generate customer id
-                    document.getElementById('c_id').value = generate_customer_id('<?php echo $last_customer_id ?>');
-                    document.getElementById("new-c").style.display = "block";
-                    document.getElementById("exist-c").style.display = "none";
+            if (customertypeselect.value == "new-c") {
+                //generate customer id
+                document.getElementById('c_id').value = generate_customer_id('<?php echo $last_customer_id ?>');
+                document.getElementById("new-c").style.display = "block";
+                document.getElementById("exist-c").style.display = "none";
 
-                    // Get the div element
-                    const div1 = document.getElementById("new-c");
+                // Get the div element
+                const div1 = document.getElementById("new-c");
 
-                    // Get all the input elements in the div
-                    const inputs1 = div1.getElementsByTagName("input");
+                // Get all the input elements in the div
+                const inputs1 = div1.getElementsByTagName("input");
 
-                    // Loop through each input element and remove the "required" attribute if it's not readonly
-                    for (let i = 0; i < inputs1.length; i++) {
-                        if (!inputs1[i].readOnly) {
-                            inputs1[i].setAttribute("required", "");
-                        }
+                // Loop through each input element and remove the "required" attribute if it's not readonly
+                for (let i = 0; i < inputs1.length; i++) {
+                    if (!inputs1[i].readOnly) {
+                        inputs1[i].setAttribute("required", "");
                     }
-                    document.getElementById("gender").setAttribute("required", "");
-                    document.getElementById("address").setAttribute("required", "");
-                    document.getElementById("ic").removeAttribute("required");
-
-                } else {
-                    document.getElementById("exist-c").style.display = "block";
-                    document.getElementById("new-c").style.display = "none";
-                    // Get the div element
-                    const div = document.getElementById("new-c");
-
-                    // Get all the input elements in the div
-                    const inputs = div.getElementsByTagName("input");
-
-                    // Loop through each input element and remove the "required" attribute if it's not readonly
-                    for (let i = 0; i < inputs.length; i++) {
-                        if (!inputs[i].readOnly) {
-                            inputs[i].removeAttribute("required");
-                        }
-                    }
-                    document.getElementById("gender").removeAttribute("required");
-                    document.getElementById("address").removeAttribute("required");
-                    document.getElementById("ic").setAttribute("required", "");
                 }
-            });
+                document.getElementById("gender").setAttribute("required", "");
+                document.getElementById("address").setAttribute("required", "");
+                document.getElementById("ic").removeAttribute("required");
 
-            //generate the lastest reservation id
-            function generate_reservation_id(last_id) {
-                // Current reservation id
-                const currentCode = last_id;
+            } else {
+                document.getElementById("exist-c").style.display = "block";
+                document.getElementById("new-c").style.display = "none";
+                // Get the div element
+                const div = document.getElementById("new-c");
 
-                // Extract numerical part
-                const currentNum = parseInt(currentCode.match(/\d+/)[0]);
+                // Get all the input elements in the div
+                const inputs = div.getElementsByTagName("input");
 
-                // Generate next number
-                const nextNum = currentNum + 1;
-
-                // Pad with leading zeros
-                const paddedNum = nextNum.toString().padStart(currentCode.match(/\d+/)[0].length, "0");
-
-                // Concatenate prefix and padded number to generate next reservation code
-                const nextCode = "R" + paddedNum;
-
-                return nextCode;
+                // Loop through each input element and remove the "required" attribute if it's not readonly
+                for (let i = 0; i < inputs.length; i++) {
+                    if (!inputs[i].readOnly) {
+                        inputs[i].removeAttribute("required");
+                    }
+                }
+                document.getElementById("gender").removeAttribute("required");
+                document.getElementById("address").removeAttribute("required");
+                document.getElementById("ic").setAttribute("required", "");
             }
+        });
 
-            //generate the lastest customer id
-            function generate_customer_id(last_id) {
-                // Current customer id
-                const currentCode = last_id;
+        //generate the lastest reservation id
+        function generate_reservation_id(last_id) {
+            // Current reservation id
+            const currentCode = last_id;
 
-                // Extract numerical part
-                const currentNum = parseInt(currentCode.match(/\d+/)[0]);
+            // Extract numerical part
+            const currentNum = parseInt(currentCode.match(/\d+/)[0]);
 
-                // Generate next number
-                const nextNum = currentNum + 1;
+            // Generate next number
+            const nextNum = currentNum + 1;
 
-                // Pad with leading zeros
-                const paddedNum = nextNum.toString().padStart(currentCode.match(/\d+/)[0].length, "0");
+            // Pad with leading zeros
+            const paddedNum = nextNum.toString().padStart(currentCode.match(/\d+/)[0].length, "0");
 
-                // Concatenate prefix and padded number to generate next reservation code
-                const nextCode = "C" + paddedNum;
+            // Concatenate prefix and padded number to generate next reservation code
+            const nextCode = "R" + paddedNum;
 
-                return nextCode;
-            }
+            return nextCode;
+        }
 
+        //generate the lastest customer id
+        function generate_customer_id(last_id) {
+            // Current customer id
+            const currentCode = last_id;
+
+            // Extract numerical part
+            const currentNum = parseInt(currentCode.match(/\d+/)[0]);
+
+            // Generate next number
+            const nextNum = currentNum + 1;
+
+            // Pad with leading zeros
+            const paddedNum = nextNum.toString().padStart(currentCode.match(/\d+/)[0].length, "0");
+
+            // Concatenate prefix and padded number to generate next reservation code
+            const nextCode = "C" + paddedNum;
+
+            return nextCode;
+        }
     </script>
 </body>
 

@@ -13,7 +13,7 @@ include 'session.php';
 </head>
 
 <body>
-<?php
+  <?php
   //default
   $sort = "vehicle_id ASC";
   $display_sort = "Vehicle ID with Ascending Order";
@@ -22,13 +22,13 @@ include 'session.php';
     if ($_POST["sort"] == 1) {
       $sort = "vehicle_id DESC";
       $display_sort = "Vehicle ID with Descending Order";
-    }else if($_POST["sort"] == 2){
+    } else if ($_POST["sort"] == 2) {
       $sort = "Price ASC";
       $display_sort = "Price From Low to High";
-    }else if($_POST["sort"] == 3){
+    } else if ($_POST["sort"] == 3) {
       $sort = "price DESC";
       $display_sort = "Price From High to Low";
-    }else {
+    } else {
       $sort = "vehicle_id ASC";
       $display_sort = "Vehicle ID with Ascending Order";
     }
@@ -55,7 +55,9 @@ include 'session.php';
         <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
         Premier Car Rental Agency
         <div class="dropdown" style="float:right;">
-          <button class="dropbtn"><i class="fa-solid fa-user"></i></button>
+          <button class="dropbtn"><i class="fa-solid fa-user"></i>
+            <p><?php echo $name; ?></p>
+          </button>
           <div class="dropdown-content">
             <a href="#"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
@@ -108,7 +110,7 @@ include 'session.php';
           <tbody>
             <?php
             //open connection
-            $conn = new mysqli("localhost", "root", "", "car_rental");
+            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
             //select vehicle data from database 
             $sql = "SELECT vehicle_id,model,type,color,price FROM vehicle ORDER BY $sort";
@@ -147,14 +149,14 @@ include 'session.php';
       window.history.replaceState(null, null, window.location.href);
     }
 
-     //change the input placeholder while user select search key
+    //change the input placeholder while user select search key
     function key_placeholder() {
       select = document.getElementById("key").value;
       if (select == "0") {
         document.getElementById("search").placeholder = "Type Vehicle ID...";
       } else if (select == "1") {
         document.getElementById("search").placeholder = "Type Vehicle Model...";
-      }else if (select == "2") {
+      } else if (select == "2") {
         document.getElementById("search").placeholder = "Type Vehicle Type...";
       } else if (select == "3") {
         document.getElementById("search").placeholder = "Type Vehicle Color...";
