@@ -128,6 +128,17 @@ include 'session.php';
               $email = $DataRows["Email"];
               $address = $DataRows["Address"];
 
+              $sql = "SELECT * FROM reservation WHERE customer_id = '$c_id'";
+              $result1 = $conn->query($sql);
+
+              if($result1->num_rows > 0){
+                $dlink = "#";
+              }else{
+                $dlink = "delete_customer.php?c_id=$c_id";
+                
+              }
+
+
             ?>
               <tr>
                 <td data-label="Customer ID"><?php echo $c_id; ?></td>
@@ -140,7 +151,7 @@ include 'session.php';
                 <td data-label="Address"><?php echo $address; ?></td>
                 <td data-label="Action">
                   <button onclick="window.location.href='change_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="window.location.href='delete_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-trash"></i></button>
+                  <button onclick="window.location.href= '<?php echo $dlink; ?>'"><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
 

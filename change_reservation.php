@@ -95,9 +95,14 @@
 
                 <!-- Select New pickup and Duration Container -->
                 <div id="check_div">
+                    <?php
+                    //current time with current timezone 
+                    date_default_timezone_set('Asia/Kuala_Lumpur');
+                    $current_time = date('Y-m-d H:i');
+                    ?>
 
                     <label for="pickup">New Pickup Time:</label>
-                    <input type="datetime-local" id="pickup" name="pickup">
+                    <input type="datetime-local" id="pickup" name="pickup" min="<?php echo $current_time ?>">
 
                     <label for="duration">New Duration (in days):</label>
                     <input type="number" min="1" id="duration" name="duration">
@@ -111,7 +116,8 @@
 
                 <!-- Reservation button container -->
                 <div id="reserve_div">
-                    <hr>
+                    
+                    <br><hr>
                     <p1>Click the reserve button to make changes to reservation</p1>
                     <button type="submit" name="reserve" id="reserve">Reserve</button>
                 </div>
@@ -211,8 +217,8 @@
             const pickupTime = new Date(document.getElementById('pickup').value);
             const current = new Date();
 
-            if (pickupTime < current) {
-                alert("cannot choose date which is past already");
+            if (pickupTime.getHours() > 18 || pickupTime.getHours() < 8) {
+                alert("Time chosen not within working hour.Try Again");
             } else {
                 const duration = parseInt(document.getElementById('duration').value);
                 const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
@@ -298,7 +304,7 @@
             // if slot available, display the return time and display customer information form
             // else, display "booking not available" and hide the customer information form
             if (available == true) {
-                alert("Slot available");
+         
 
                 //change the datetime format back to sql format
                 // Parse a datetime string into a moment object
@@ -307,14 +313,21 @@
                 // Format the moment object as a string
                 const formatted = momentObj.format('YYYY-MM-DD HH:mm:ss');
 
-                document.getElementById('return').value = formatted.toString();
-                document.getElementById("reserve_div").style.display = "block";
-
-            } else {
-                alert("booking not available");
-                document.getElementById('return').value = "Booking Not Available";
+                //check is the user input is empty or not
+                if (formatted.toString() == "Invalid date" || vid == "") {
+                    alert("Invalid/Missing input");
+                    document.getElementById('return').value = "Invalid/Missing input";
+                    document.getElementById("customer_info").style.display = "none";
+                } else {
+                    alert("Slot available");
+                    document.getElementById('return').value = formatted.toString();
+                    document.getElementById("reserve_div").style.display = "block";
+                }
+                } else {
+                    alert("booking not available");
+                    document.getElementById('return').value = "Booking Not Available";
+                }
             }
-        }
     </script>
 </body>
 

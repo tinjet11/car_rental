@@ -94,7 +94,16 @@
           $sql = "SELECT  staff_id from admin ORDER BY staff_id DESC LIMIT 1 ";
           $result = $conn->query($sql);
           $DataRows = $result->fetch_assoc();
-          $last_staff_id = $DataRows["staff_id"];
+          
+          $count = $result->num_rows; // Returns the number of rows in the result
+          if ($count == 0) {
+            $last_staff_id = "S0001";
+          } else {
+            $last_staff_id = $DataRows["staff_id"];
+          }
+        
+
+          
 
           //close connection
           $conn->close();
@@ -121,8 +130,11 @@
          }
 
          // display the staff id in the form
+         if('<?php echo $last_staff_id?>' == "S0001"){
+          document.getElementById('Staff_ID').value = "S0001";
+         }else{
          document.getElementById('Staff_ID').value = generate_staff_id('<?php echo $last_staff_id ?>');
-
+         }
          <?php
 
           //open connection

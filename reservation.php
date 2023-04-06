@@ -307,8 +307,8 @@ include 'session.php';
             const current = new Date();
 
             //cannot choose pickup date which is already past
-            if (pickupTime < current) {
-                alert("cannot choose date which is past already");
+            if (pickupTime.getHours() > 18 || pickupTime.getHours() < 8) {
+                alert("Time chosen not within working hour.Try Again");
             } else {
                 const duration = parseInt(document.getElementById('duration').value);
                 const returnTime = new Date(pickupTime.getTime() + duration * 24 * 60 * 60 * 1000);
@@ -392,14 +392,23 @@ include 'session.php';
             $sql = "SELECT reservation_id from reservation ORDER BY reservation_id DESC LIMIT 1 ";
             $result = $conn->query($sql);
             $DataRows = $result->fetch_assoc();
-            $last_reservation_id = $DataRows["reservation_id"];
+            $count = $result->num_rows; // Returns the number of rows in the result
+            if ($count == 0) {
+                $last_reservation_id  = "R0001";
+            } else {
+                $last_reservation_id = $DataRows["reservation_id"];
+            }
 
             //get the last customer id from database;    
             $sql = "SELECT  customer_id from customer ORDER BY customer_id DESC LIMIT 1 ";
             $result = $conn->query($sql);
             $DataRows = $result->fetch_assoc();
-            $last_customer_id = $DataRows["customer_id"];
-
+            $count = $result->num_rows; // Returns the number of rows in the result
+            if ($count == 0) {
+                $last_customer_id = "C0001";
+            } else {
+                $last_customer_id = $DataRows["customer_id"];
+            }
             //close connection
             $conn->close();
             ?>
@@ -421,8 +430,14 @@ include 'session.php';
                     document.getElementById("customer_info").style.display = "none";
                 } else {
                     alert("Slot available");
+                    
                     //generate reservation id
+                    if('<?php echo $last_reservation_id ?>' == "R0001"){
+                    document.getElementById('r_id').value = "R0001";
+                    }else{
                     document.getElementById('r_id').value = generate_reservation_id('<?php echo $last_reservation_id ?>');
+                    }
+
                     document.getElementById('return').value = formatted.toString();
                     document.getElementById("customer_info").style.display = "block";
                     document.getElementById("customer-type").style.display = "block";
@@ -450,7 +465,11 @@ include 'session.php';
 
             if (customertypeselect.value == "new-c") {
                 //generate customer id
+                if('<?php echo $last_customer_id ?>' == "C0001"){
+                    document.getElementById('c_id').value = "C0001";
+                }else{
                 document.getElementById('c_id').value = generate_customer_id('<?php echo $last_customer_id ?>');
+                }
                 document.getElementById("new-c").style.display = "block";
                 document.getElementById("exist-c").style.display = "none";
 

@@ -98,7 +98,14 @@ include 'session.php';
         $sql = "SELECT  vehicle_id from vehicle ORDER BY vehicle_id DESC LIMIT 1 ";
         $result = $conn->query($sql);
         $DataRows = $result->fetch_assoc();
-        $last_vehicle_id = $DataRows["vehicle_id"];
+
+        $count = $result->num_rows; // Returns the number of rows in the result
+        if ($count == 0) {
+          $last_vehicle_id = "V0001";
+        } else {
+          $last_vehicle_id = $DataRows["vehicle_id"];
+        }
+       
 
         //close connection
         $conn->close();
@@ -126,9 +133,12 @@ include 'session.php';
         }
 
         // display the vehicle id in the form
+        if('<?php echo $last_vehicle_id; ?>' == "V0001"){
+          document.getElementById('Vehicle_ID').value =  "V0001";
+        }else{
         document.getElementById('Vehicle_ID').value = generate_vehicle_id('<?php echo $last_vehicle_id ?>');
+        }
         <?php
-
 
         //open connection
         $conn = new mysqli("localhost", "root", "", "comp1044_database");
