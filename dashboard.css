@@ -5,7 +5,11 @@ table {
   margin-top: 30px;
   font-size: 14px;
   color: #333;
-  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2); 
+  border-radius: 10px;
+  border-spacing: 0;
+  border: 1px solid black;
+  overflow: hidden;
 
 }
 

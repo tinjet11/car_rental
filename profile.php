@@ -11,6 +11,7 @@ include 'session.php';
     <link rel="stylesheet" href="form.css">
 
     <script src="sidebar.js"></script>
+
 </head>
 
 <body>
@@ -35,7 +36,7 @@ include 'session.php';
                 <button class="openbtn" id="openbtn" onclick="openNav()">☰ </button>
                 Premier Car Rental Agency
                 <div class="dropdown" style="float:right;">
-                         <button class="dropbtn"><i class="fa-solid fa-user"></i>
+                    <button class="dropbtn"><i class="fa-solid fa-user"></i>
                         <p><?php echo $name; ?></p>
                     </button>
                     <div class="dropdown-content">
@@ -57,8 +58,15 @@ include 'session.php';
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required>
 
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <div class="input-checkbox">
+                            <input type="password" id="password" name="password" required>
+                            <input type="checkbox" id="show-password" onclick="showHidePassword()">
+                        </div>
+                    </div>
+
 
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
@@ -119,7 +127,7 @@ include 'session.php';
                 $role = isset($_POST["role"]) ? $_POST["role"] : ""; //Retrieves data of role
 
                 // check if all required fields are filled
-                if ($sid != "" && $user != "" && $pass != "" && $name != "" && $role != "") { 
+                if ($sid != "" && $user != "" && $pass != "" && $name != "" && $role != "") {
                     $sql = " UPDATE admin SET username = '$user',password= '$pass', name = '$name',role = '$role' WHERE staff_id = '$sid';"; //SQL statement to update the admin table
                     if ($conn->query($sql) == true) {
                         echo 'alert("Update Successful");'; //Alert to inform that the update is successful
@@ -134,6 +142,15 @@ include 'session.php';
             //close connection
             $conn->close()
             ?>
+
+            function showHidePassword() {
+                var passwordField = document.getElementById("password");
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                } else {
+                    passwordField.type = "password";
+                }
+            }
         </script>
 
 

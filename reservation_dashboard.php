@@ -247,6 +247,8 @@ include 'session.php';
     }
 
     //change the input placeholder while user select search key
+    //default 
+    select = "0" ;
     function key_placeholder() {
       select = document.getElementById("key").value;
       if (select == "0") {

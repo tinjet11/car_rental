@@ -49,7 +49,6 @@ include 'session.php';
 
             <h1>New Reservation</h1>
             <div id="container">
-
                 <table id="table">
                     <thead>
                         <!-- Table header -->
@@ -63,12 +62,14 @@ include 'session.php';
                     </thead>
                     <tbody>
                         <?php
-
                         //open connection
                         $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
+                        date_default_timezone_set('Asia/Kuala_Lumpur');
+                        $current_time = date('Y-m-d H:i:s');
+
                         //select all the data from reservation table with $sort order 
-                        $sql = "SELECT * from reservation ORDER BY booking_datetime ASC";
+                        $sql = "SELECT * from reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC";
                         $result = $conn->query($sql);
 
                         while ($DataRows = $result->fetch_assoc()) {
@@ -76,9 +77,6 @@ include 'session.php';
                             $booking_datetime = $DataRows["booking_datetime"];
                             $return_datetime = $DataRows["return_datetime"];
                             $duration = $DataRows["duration"];
-
-                            date_default_timezone_set('Asia/Kuala_Lumpur');
-                            $current_time = date('Y-m-d H:i:s');
 
                             // if current time is before the booking datetime
                             // set status pending, still can change or cancel reservation    

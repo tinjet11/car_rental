@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="form.css">
     <link rel="stylesheet" href="mainpage.css">
+    <link rel="stylesheet" href="reservation.css">
     <script src="sidebar.js"></script>
 </head>
 
@@ -51,78 +52,142 @@
 
             <h1>Change Reservation</h1>
 
-            <form method="post" id="reservation_form" enctype="multipart/form-data">
+            <div id="container">
 
-                <div id="found_div">
-                    <label for="r_id">Reservation ID:</label>
-                    <input type="text" id="r_id" name="r_id" readonly>
-
-                    <label for="c_id">Customer ID:</label>
-                    <input type="text" id="c_id" name="c_id" readonly>
-
-                    <label for="vehicle">Vehicle Type:</label>
-                    <select id="vehicle" name="vehicle">
-                        <option value="">Select a vehicle Model</option>
+                <table id="table">
+                    <thead>
+                        <!-- Table header -->
+                        <tr>
+                            <th>Vehicle ID</th>
+                            <th>Booking Datetime</th>
+                            <th>Return Datetime</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
+
                         //open connection
                         $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
-                        $sql = "SELECT vehicle_id, model,color FROM Vehicle";
+                        date_default_timezone_set('Asia/Kuala_Lumpur');
+                        $current_time = date('Y-m-d H:i:s');
+
+                        //select all the data from reservation table with $sort order 
+                        $sql = "SELECT * from reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC";
                         $result = $conn->query($sql);
-                        // retrieve the details of vehicle 
+
                         while ($DataRows = $result->fetch_assoc()) {
-                            $vehicle_id = $DataRows["vehicle_id"];
-                            $model = $DataRows["model"];
-                            $color = $DataRows["color"];
-                            $details = $model . "(" . $color . ")"
+                            $v_id = $DataRows["vehicle_id"];
+                            $booking_datetime = $DataRows["booking_datetime"];
+                            $return_datetime = $DataRows["return_datetime"];
+                            $duration = $DataRows["duration"];
+
+                            // if current time is before the booking datetime
+                            // set status pending, still can change or cancel reservation    
+                            if ($current_time < $booking_datetime) {
+                                $status = "<p class='status pending'> Pending </p>";
+                            }
+                            // if current time is between the booking datetime and return datetime
+                            // set status ongoing, then cannot change & cancel the reservation
+                            else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
+                                $status = "<p class='status ongoing'> Ongoing </p>";
+                            }
+                            // else set status Completed, then cannot change & cancel the reservation
+                            else {
+                                $status = "<p class='status completed'> Completed </p>";
+                            }
+
+
                         ?>
-                            <option value="<?php echo $vehicle_id ?>"><?php echo $details ?></option>
-                        <?php }
-                        //close connection
+                            <tr>
+                                <td data-label="Vehicle ID"><?php echo $v_id; ?></td>
+                                <td data-label="Booking Datetime"><?php echo $booking_datetime; ?></td>
+                                <td data-label="Return Datetime"><?php echo $return_datetime; ?></td>
+                                <td data-label="Duration"><?php echo $duration; ?></td>
+                                <td data-label="Status"><?php echo $status; ?></td>
+                            </tr>
+                        <?php  }
                         $conn->close(); ?>
-                    </select>
+                    </tbody>
+                </table>
 
 
-                    <label for="pickuptime">Original Pickup time:</label>
-                    <input type="text" id="pickuptime" name="pickuptime" readonly>
+                <form method="post" id="reservation_form" enctype="multipart/form-data">
 
-                    <label for="return">Original Return Time:</label>
-                    <input type="text" id="returntime" name="returntime" readonly>
+                    <div id="found_div">
+                        <label for="r_id">Reservation ID:</label>
+                        <input type="text" id="r_id" name="r_id" readonly>
 
-                    <label for="duration">Original Duration (in days):</label>
-                    <input type="number" min="1" id="oriduration" name="oriduration" readonly>
-                </div>
+                        <label for="c_id">Customer ID:</label>
+                        <input type="text" id="c_id" name="c_id" readonly>
 
-                <!-- Select New pickup and Duration Container -->
-                <div id="check_div">
-                    <?php
-                    //current time with current timezone 
-                    date_default_timezone_set('Asia/Kuala_Lumpur');
-                    $current_time = date('Y-m-d H:i');
-                    ?>
+                        <label for="vehicle">Vehicle Type:</label>
+                        <select id="vehicle" name="vehicle" onchange="filter()" required>
+                            <option value="">Select a vehicle Model</option>
+                            <?php
+                            //open connection
+                            $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
-                    <label for="pickup">New Pickup Time:</label>
-                    <input type="datetime-local" id="pickup" name="pickup" min="<?php echo $current_time ?>">
+                            $sql = "SELECT vehicle_id, model,color FROM Vehicle";
+                            $result = $conn->query($sql);
+                            // retrieve the details of vehicle 
+                            while ($DataRows = $result->fetch_assoc()) {
+                                $vehicle_id = $DataRows["vehicle_id"];
+                                $model = $DataRows["model"];
+                                $color = $DataRows["color"];
+                                $details = $model . "(" . $color . ")"
+                            ?>
+                                <option value="<?php echo $vehicle_id ?>"><?php echo $details ?></option>
+                            <?php }
+                            //close connection
+                            $conn->close(); ?>
+                        </select>
 
-                    <label for="duration">New Duration (in days):</label>
-                    <input type="number" min="1" id="duration" name="duration">
 
-                    <label for="return">New Return Time:</label>
-                    <input type="text" id="return" name="return" readonly>
+                        <label for="pickuptime">Original Pickup time:</label>
+                        <input type="text" id="pickuptime" name="pickuptime" readonly>
 
-                    <button type="submit" name="submit" id="submit">Check availability</button>
-                    <a href="reservation_dashboard.php">Back</a>
-                </div>
+                        <label for="return">Original Return Time:</label>
+                        <input type="text" id="returntime" name="returntime" readonly>
 
-                <!-- Reservation button container -->
-                <div id="reserve_div">
-                    
-                    <br><hr>
-                    <p1>Click the reserve button to make changes to reservation</p1>
-                    <button type="submit" name="reserve" id="reserve">Reserve</button>
-                </div>
+                        <label for="duration">Original Duration (in days):</label>
+                        <input type="number" min="1" id="oriduration" name="oriduration" readonly>
+                    </div>
 
-            </form>
+                    <!-- Select New pickup and Duration Container -->
+                    <div id="check_div">
+                        <?php
+                        //current time with current timezone 
+                        date_default_timezone_set('Asia/Kuala_Lumpur');
+                        $current_time = date('Y-m-d H:i');
+                        ?>
+
+                        <label for="pickup">New Pickup Time:</label>
+                        <input type="datetime-local" id="pickup" name="pickup" min="<?php echo $current_time ?>">
+
+                        <label for="duration">New Duration (in days):</label>
+                        <input type="number" min="1" id="duration" name="duration">
+
+                        <label for="return">New Return Time:</label>
+                        <input type="text" id="return" name="return" readonly>
+
+                        <button type="submit" name="submit" id="submit">Check availability</button>
+                        <a href="reservation_dashboard.php">Back</a>
+                    </div>
+
+                    <!-- Reservation button container -->
+                    <div id="reserve_div">
+
+                        <br>
+                        <hr>
+                        <p1>Click the reserve button to make changes to reservation</p1>
+                        <button type="submit" name="reserve" id="reserve">Reserve</button>
+                    </div>
+
+                </form>
+            </div>
         </div><!-- end of main content-->
     </div><!-- end of container-->
 
@@ -304,7 +369,7 @@
             // if slot available, display the return time and display customer information form
             // else, display "booking not available" and hide the customer information form
             if (available == true) {
-         
+
 
                 //change the datetime format back to sql format
                 // Parse a datetime string into a moment object
@@ -323,11 +388,35 @@
                     document.getElementById('return').value = formatted.toString();
                     document.getElementById("reserve_div").style.display = "block";
                 }
-                } else {
-                    alert("booking not available");
-                    document.getElementById('return').value = "Booking Not Available";
+            } else {
+                alert("booking not available");
+                document.getElementById('return').value = "Booking Not Available";
+            }
+        }
+
+        // function to filter the table content while searching
+        function filter() {
+            // Declare variables
+            var filter, table, tr, td, i, txtValue;
+
+            filter = document.getElementById("vehicle").value.toUpperCase();
+            table = document.getElementById("table");
+            tr = table.getElementsByTagName("tr");
+
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
+        }
     </script>
 </body>
 
