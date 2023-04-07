@@ -12,6 +12,7 @@ include 'session.php';
     <link rel="stylesheet" href="mainpage.css">
     <link rel="stylesheet" href="reservation.css">
     <link rel="stylesheet" href="form.css">
+
     <script src="sidebar.js"></script>
 </head>
 
@@ -47,114 +48,178 @@ include 'session.php';
             </div><!-- end of header-->
 
             <h1>New Reservation</h1>
-            <form method="post" id="reservation_form" enctype="multipart/form-data">
+            <div id="container">
 
-                <label for="vehicle">Vehicle Type:</label>
-                <select id="vehicle" name="vehicle" required>
-                    <option value="">Select a vehicle Model</option>
+                <table id="table">
+                    <thead>
+                        <!-- Table header -->
+                        <tr>
+                            <th>Vehicle ID</th>
+                            <th>Booking Datetime</th>
+                            <th>Return Datetime</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+
+                        //open connection
+                        $conn = new mysqli("localhost", "root", "", "comp1044_database");
+
+                        //select all the data from reservation table with $sort order 
+                        $sql = "SELECT * from reservation ORDER BY booking_datetime ASC";
+                        $result = $conn->query($sql);
+
+                        while ($DataRows = $result->fetch_assoc()) {
+                            $v_id = $DataRows["vehicle_id"];
+                            $booking_datetime = $DataRows["booking_datetime"];
+                            $return_datetime = $DataRows["return_datetime"];
+                            $duration = $DataRows["duration"];
+
+                            date_default_timezone_set('Asia/Kuala_Lumpur');
+                            $current_time = date('Y-m-d H:i:s');
+
+                            // if current time is before the booking datetime
+                            // set status pending, still can change or cancel reservation    
+                            if ($current_time < $booking_datetime) {
+                                $status = "<p class='status pending'> Pending </p>";
+                            }
+                            // if current time is between the booking datetime and return datetime
+                            // set status ongoing, then cannot change & cancel the reservation
+                            else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
+                                $status = "<p class='status ongoing'> Ongoing </p>";
+                            }
+                            // else set status Completed, then cannot change & cancel the reservation
+                            else {
+                                $status = "<p class='status completed'> Completed </p>";
+                            }
+
+
+                        ?>
+                            <tr>
+                                <td data-label="Vehicle ID"><?php echo $v_id; ?></td>
+                                <td data-label="Booking Datetime"><?php echo $booking_datetime; ?></td>
+                                <td data-label="Return Datetime"><?php echo $return_datetime; ?></td>
+                                <td data-label="Duration"><?php echo $duration; ?></td>
+                                <td data-label="Status"><?php echo $status; ?></td>
+                            </tr>
+                        <?php  }
+                        $conn->close(); ?>
+                    </tbody>
+                </table>
+
+
+                <form method="post" id="reservation_form" enctype="multipart/form-data">
+
+                    <label for="vehicle">Vehicle Type:</label>
+                    <select id="vehicle" name="vehicle" onchange="filter()" required>
+                        <option value="">Select a vehicle Model</option>
+                        <?php
+                        //open connection
+                        $conn = new mysqli("localhost", "root", "", "comp1044_database");
+
+                        $sql = "SELECT vehicle_id, model,color FROM Vehicle";
+                        $result = $conn->query($sql);
+                        // retrieve the details of vehicle 
+                        while ($DataRows = $result->fetch_assoc()) {
+                            $vehicle_id = $DataRows["vehicle_id"];
+                            $model = $DataRows["model"];
+                            $color = $DataRows["color"];
+                            $details = $model . "(" . $color . ")"
+                        ?>
+                            <option value="<?php echo $vehicle_id ?>"><?php echo $details ?></option>
+                        <?php }
+                        //close connection
+                        $conn->close(); ?>
+                    </select>
+
                     <?php
-                    //open connection
-                    $conn = new mysqli("localhost", "root", "", "comp1044_database");
-
-                    $sql = "SELECT vehicle_id, model,color FROM Vehicle";
-                    $result = $conn->query($sql);
-                    // retrieve the details of vehicle 
-                    while ($DataRows = $result->fetch_assoc()) {
-                        $vehicle_id = $DataRows["vehicle_id"];
-                        $model = $DataRows["model"];
-                        $color = $DataRows["color"];
-                        $details = $model . "(" . $color . ")"
+                    //current time with current timezone 
+                    date_default_timezone_set('Asia/Kuala_Lumpur');
+                    $current_time = date('Y-m-d H:i');
                     ?>
-                        <option value="<?php echo $vehicle_id ?>"><?php echo $details ?></option>
-                    <?php }
-                    //close connection
-                    $conn->close(); ?>
-                </select>
 
-                <?php
-                //current time with current timezone 
-                date_default_timezone_set('Asia/Kuala_Lumpur');
-                $current_time = date('Y-m-d H:i');
-                ?>
+                    <label for="pickup">Pickup Time:</label>
+                    <input type="datetime-local" id="pickup" name="pickup" min="<?php echo $current_time ?>" required>
 
-                <label for="pickup">Pickup Time:</label>
-                <input type="datetime-local" id="pickup" name="pickup" min="<?php echo $current_time ?>" required>
+                    <label for="duration">Duration (in days):</label>
+                    <input type="number" min="1" id="duration" name="duration" required>
 
-                <label for="duration">Duration (in days):</label>
-                <input type="number" min="1" id="duration" name="duration" required>
+                    <button type="submit" name="submit" id="submit">Check availability</button>
 
-                <button type="submit" name="submit" id="submit">Check availability</button>
+                    <label for="return">Return Time:</label>
+                    <input type="text" id="return" name="return" readonly>
 
-                <label for="return">Return Time:</label>
-                <input type="text" id="return" name="return" readonly>
+                    <label for="r_id">Reservation id:</label>
+                    <input type="text" id="r_id" name="r_id" readonly>
 
-                <label for="r_id">Reservation id:</label>
-                <input type="text" id="r_id" name="r_id" readonly>
+                    <!--Customer Information field -->
+                    <div id="customer_info">
 
-                <!--Customer Information field -->
-                <div id="customer_info">
+                        <!-- Customer Type -->
+                        <div id="customer-type">
+                            <label for="c-type">Customer-type:</label>
+                            <select id="c-type">
+                                <option value="">Select a customer type</option>
+                                <option value="new-c">New Customer</option>
+                                <option value="exist-c">Existing Customer</option>
+                            </select>
+                        </div>
+                        <!-- Existing Customer  -->
+                        <div id="exist-c">
+                            <label for="ic">IC No:</label>
+                            <input type="text" id="ic" name="ic" placeholder="010831-13-5673" required>
 
-                    <!-- Customer Type -->
-                    <div id="customer-type">
-                        <label for="c-type">Customer-type:</label>
-                        <select id="c-type">
-                            <option value="">Select a customer type</option>
-                            <option value="new-c">New Customer</option>
-                            <option value="exist-c">Existing Customer</option>
-                        </select>
-                    </div>
-                    <!-- Existing Customer  -->
-                    <div id="exist-c">
-                        <label for="ic">IC No:</label>
-                        <input type="text" id="ic" name="ic" placeholder="010831-13-5673" required>
+                            <button id="search" name="search" style="float:right;">Search</button>
+                        </div>
 
-                        <button id="search" name="search" style="float:right;">Search</button>
-                    </div>
+                        <div id="exist-ic">
+                            <label for="c_id">Customer id:</label>
+                            <input type="text" id="customerid" name="customerid" readonly>
+                            <button id="reserve_exist" name="reserve_exist" style="float:right;">Reserve</button>
+                        </div>
 
-                    <div id="exist-ic">
-                        <label for="c_id">Customer id:</label>
-                        <input type="text" id="customerid" name="customerid" readonly>
-                        <button id="reserve_exist" name="reserve_exist" style="float:right;">Reserve</button>
-                    </div>
+                        <!-- New Customer -->
+                        <div id="new-c">
+                            <label for="c_id">Customer id:</label>
+                            <input type="text" id="c_id" name="c_id" readonly>
 
-                    <!-- New Customer -->
-                    <div id="new-c">
-                        <label for="c_id">Customer id:</label>
-                        <input type="text" id="c_id" name="c_id" readonly>
+                            <label for="first-name">First Name:</label>
+                            <input type="text" id="first-name" name="first-name" required>
 
-                        <label for="first-name">First Name:</label>
-                        <input type="text" id="first-name" name="first-name" required>
+                            <label for="last-name">Last Name:</label>
+                            <input type="text" id="last-name" name="last-name" required>
 
-                        <label for="last-name">Last Name:</label>
-                        <input type="text" id="last-name" name="last-name" required>
+                            <label for="ic-no">IC No:</label>
+                            <input type="text" id="ic-no" name="ic-no" placeholder="010831-13-5673" required>
 
-                        <label for="ic-no">IC No:</label>
-                        <input type="text" id="ic-no" name="ic-no" placeholder="010831-13-5673" required>
+                            <label for="gender">Gender:</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
 
-                        <label for="gender">Gender:</label>
-                        <select id="gender" name="gender" required>
-                            <option value="">Select gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
+                            <label for="contact">Contact:</label>
+                            <input type="tel" id="contact" name="phone_number" placeholder="012-345-6789" required>
 
-                        <label for="contact">Contact:</label>
-                        <input type="tel" id="contact" name="phone_number" placeholder="012-345-6789" required>
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
 
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
+                            <label for="address">Address:</label>
+                            <textarea id="address" name="address" required></textarea>
 
-                        <label for="address">Address:</label>
-                        <textarea id="address" name="address" required></textarea>
+                            <button id="reserve" name="reserve" style="float:right;">Reserve</button>
 
-                        <button id="reserve" name="reserve" style="float:right;">Reserve</button>
+                        </div>
 
-                    </div>
+                    </div><!-- end of Customer Information Field-->
+                    <a href="reservation_dashboard.php">Back</a>
+                </form><!-- end of form-->
 
-                </div><!-- end of Customer Information Field-->
-                <a href="reservation_dashboard.php">Back</a>
-            </form><!-- end of form-->
+            </div>
         </div><!-- end of main content-->
     </div><!-- end of container-->
 
@@ -430,12 +495,12 @@ include 'session.php';
                     document.getElementById("customer_info").style.display = "none";
                 } else {
                     alert("Slot available");
-                    
+
                     //generate reservation id
-                    if('<?php echo $last_reservation_id ?>' == "R0001"){
-                    document.getElementById('r_id').value = "R0001";
-                    }else{
-                    document.getElementById('r_id').value = generate_reservation_id('<?php echo $last_reservation_id ?>');
+                    if ('<?php echo $last_reservation_id ?>' == "R0001") {
+                        document.getElementById('r_id').value = "R0001";
+                    } else {
+                        document.getElementById('r_id').value = generate_reservation_id('<?php echo $last_reservation_id ?>');
                     }
 
                     document.getElementById('return').value = formatted.toString();
@@ -465,10 +530,10 @@ include 'session.php';
 
             if (customertypeselect.value == "new-c") {
                 //generate customer id
-                if('<?php echo $last_customer_id ?>' == "C0001"){
+                if ('<?php echo $last_customer_id ?>' == "C0001") {
                     document.getElementById('c_id').value = "C0001";
-                }else{
-                document.getElementById('c_id').value = generate_customer_id('<?php echo $last_customer_id ?>');
+                } else {
+                    document.getElementById('c_id').value = generate_customer_id('<?php echo $last_customer_id ?>');
                 }
                 document.getElementById("new-c").style.display = "block";
                 document.getElementById("exist-c").style.display = "none";
@@ -548,6 +613,30 @@ include 'session.php';
             const nextCode = "C" + paddedNum;
 
             return nextCode;
+        }
+
+        // function to filter the table content while searching
+        function filter() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+
+            filter = document.getElementById("vehicle").value.toUpperCase();
+            table = document.getElementById("table");
+            tr = table.getElementsByTagName("tr");
+
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
         }
     </script>
 </body>
