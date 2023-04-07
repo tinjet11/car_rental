@@ -167,7 +167,7 @@ include 'session.php';
           $result = $conn->query($sql);
 
           while ($DataRows = $result->fetch_assoc()) {
-            $r_id = $DataRows["reservation_id"]; //Extract the data and assigned to variables
+            $r_id = $DataRows["reservation_id"];
             $c_id = $DataRows["customer_id"];
             $v_id = $DataRows["vehicle_id"];
             $booking_datetime = $DataRows["booking_datetime"];
@@ -176,30 +176,75 @@ include 'session.php';
             $exact_pt = $DataRows["exact_pickup_datetime"];
             $exact_rt = $DataRows["exact_return_datetime"];
 
-            //query to select firstname and lastname from customer database
-            $sql1 = "SELECT First_name, Last_name FROM customer where customer_id = '$c_id'"; // SQL Query to select First Name and Last Name from Customer 
+            //if the car has already been pickup, disable the link
+            if (is_null($exact_pt)) {
+              $plink =  "pickup.php?r_id=" . $r_id;
+              $rlink =  "#";
+            } else {
+              $plink = "#";
+            }
+
+            //if the car havent been pickup, disabled the return link
+            //if the car has already been returned, disable the link
+            if (is_null($exact_rt)) {
+              $rlink =  "return.php?r_id=" . $r_id;
+            } else {
+              $rlink = "#";
+            }
+
+
+            //query to select firstname and lastname from customer table
+            $sql1 = "SELECT First_name, Last_name FROM customer where customer_id = '$c_id'";
             $result1 = $conn->query($sql1);
             $DataRows1 = $result1->fetch_assoc();
 
-            $customername =  $DataRows1["First_name"] . ' ' . $DataRows1["Last_name"]; // Customer name is received by concatenating the first and last name
+            //customer full name combine by first name and last name
+            $customername =  $DataRows1["First_name"] . ' ' . $DataRows1["Last_name"];
 
-            $sql2 = "SELECT model,color,price FROM Vehicle WHERE vehicle_id='$v_id'"; // SQL query that selects the model, color, and price of the vehicle
+            //query to select model,color,price from vehicle table
+            $sql2 = "SELECT model,color,price FROM Vehicle WHERE vehicle_id='$v_id'";
             $result2 = $conn->query($sql2);
-
             $DataRows2 = $result2->fetch_assoc();
+
+            //calculate the amount to pay usinig price and duration
             $amount = (int)($DataRows2["price"]) * $duration;
+            //vehicle description combine by model and color
             $vehicle_description = $DataRows2["model"] . '(' . $DataRows2["color"] . ')';
+
             date_default_timezone_set('Asia/Kuala_Lumpur');
-
             $current_time = date('Y-m-d H:i:s');
+            //calculate current time plus 1 hour
+            $current_timeplus1 = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-            if ($current_time < $booking_datetime) { // If current time is before booking datetime then the reservation will be in pending status
+            // if current time is before the booking datetime
+            // set status pending, still can change or cancel reservation    
+            if ($current_time < $booking_datetime) {
               $status = "<p class='status pending'> Pending </p>";
-            } else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) { // Else if current time is between booking and return datetime then the reservation will be in ongoing status
-              $status = "<p class='status ongoing'> Ongoing </p>";
-            } else {
-              $status = "<p class='status completed'> Completed </p>"; // Else then it will be in Completed status
+              $change_link = "change_reservation.php?r_id=" . $r_id;
+              $cancel_link = "cancel_reservation.php?r_id=" . $r_id;
             }
+            // if current time is between the booking datetime and return datetime
+            // set status ongoing, then cannot change & cancel the reservation
+            else if ($current_time <= $return_datetime && $current_time >= $booking_datetime) {
+              $status = "<p class='status ongoing'> Ongoing </p>";
+              $change_link = "#";
+              $cancel_link = "#";
+            }
+            // else set status Completed, then cannot change & cancel the reservation
+            else {
+              $status = "<p class='status completed'> Completed </p>";
+              $change_link = "#";
+              $cancel_link = "#";
+              $plink = "#";
+              $rlink = "#";
+            }
+
+            //let the car can be pickup before 1 hour of the booking time
+            if ($current_timeplus1 <= $booking_datetime) {
+              $plink = "#";
+              $rlink = "#";
+            }
+
 
           ?>
             <tr>
