@@ -276,11 +276,12 @@ include 'session.php';
             $Phone_Number = $_POST["phone_number"];
             $Email = $_POST["email"];
             $Address = $_POST["address"];
+
             // insert customer information into table 
             $sql1  = "INSERT INTO customer(customer_id, First_name, Last_name, IC_NO, Gender, Birthdate, Phone_Number, Email, Address)
     VALUES('$customerid', '$First_name', '$Last_name', '$IC_No', '$Gender', '$Birthdate', '$Phone_Number', '$Email', '$Address')";
 
-            if ($conn->query($sql) === TRUE && $conn->query($sql1) === TRUE) {
+            if ($conn->query($sql) == TRUE && $conn->query($sql1) == TRUE) {
                 echo "alert('Successful Add reservation and customer');";
             } else {
                 echo "alert('Error');";

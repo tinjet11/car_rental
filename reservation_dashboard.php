@@ -115,6 +115,7 @@ include 'session.php';
               <th>Status</th>
               <th>Action</th>
               <th>Pickup/return</th>
+              <th>Print</th>
             </tr>
           </thead>
 
@@ -229,6 +230,9 @@ include 'session.php';
                 <td data-label="Pickup/Return">
                   <button onclick="window.location.href='<?php echo $plink ?>'"><i class="fa-solid fa-truck-pickup"></i></button>
                   <button onclick="window.location.href='<?php echo $rlink ?>'"><i class="fa-solid fa-rotate-left"></i></button>
+                </td>
+                <td data-label="Print">
+                <button onclick="window.location.href='<?php echo $rlink ?>'"><i class="fa-sharp fa-solid fa-print"></i></button>
                 </td>
               </tr>
             <?php  }
