@@ -22,11 +22,12 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
         <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
-        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
         <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
-        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation Dashboard</a></li>
+
+        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer Dashboard</a></li>
+        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin Dashboard</a></li>
+        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
 
@@ -62,7 +63,12 @@
         <input type="text" id="name" name="name" required>
 
         <label for="role">Role:</label>
-        <input type="text" id="role" name="role" required>
+        <select type="text" id="role" name="role" required>
+          <option>Select Staff Role</option>
+          <option>Normal Staff</option>
+          <option>HR</option>
+          <option>Manager</option>
+        </select>
 
 
         <button type="submit" id="change" name="change">Submit</button>
@@ -76,12 +82,22 @@
           window.history.replaceState(null, null, window.location.href);
         }
 
+
+
         //redirect to specific page after action
         function redirect() {
           window.location.replace("http://localhost/car_rental/staff_dashboard.php");
         }
 
+
+
         <?php
+
+        if ($role != "HR" && $role != "Manager") {
+          echo "alert('Access Denied');";
+          echo "redirect();";
+        }
+
         //Using GET method to get the staff id
         $sid = $_GET["s_id"];
 

@@ -36,11 +36,12 @@ include 'session.php';
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
         <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
-        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
         <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
-        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation Dashboard</a></li>
+
+        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer Dashboard</a></li>
+        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin Dashboard</a></li>
+        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
 
@@ -131,13 +132,11 @@ include 'session.php';
               $sql = "SELECT * FROM reservation WHERE customer_id = '$c_id'";
               $result1 = $conn->query($sql);
 
-              if($result1->num_rows > 0){
-                $dlink = "#";
-              }else{
-                $dlink = "delete_customer.php?c_id=$c_id";
-                
+              if ($result1->num_rows > 0) {
+                $dlink = "alert('Customer cannot be delete as it has reservation')";
+              } else {
+                $dlink = "window.location.href='delete_customer.php?c_id=$c_id'";
               }
-
 
             ?>
               <tr>
@@ -151,7 +150,7 @@ include 'session.php';
                 <td data-label="Address"><?php echo $address; ?></td>
                 <td data-label="Action">
                   <button onclick="window.location.href='change_customer.php?c_id=<?php echo $c_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="window.location.href= '<?php echo $dlink; ?>'"><i class="fa-solid fa-trash"></i></button>
+                  <button onclick="<?php echo $dlink; ?>"><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
 

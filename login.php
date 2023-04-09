@@ -132,7 +132,7 @@
             $password = $_POST['pass'];
 
             // Prepare the statement
-            $stmt = $conn->prepare("SELECT username, password, staff_id, name FROM admin WHERE username = ? and password = ?");
+            $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ? and password = ?");
             $stmt->bind_param("ss", $username, $password);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -144,6 +144,7 @@
             $_SESSION["timelimit"] = time(); // Sets timelimit to the website
             $_SESSION["staffid"] = $row["staff_id"]; // Sets the staffid session variable to the value of staffid column in the row of the associative array
             $_SESSION["name"] = $row["name"]; // Sets the name session variable to the value of the name column in the row of the associative array
+            $_SESSION["role"] = $row["role"]; // Sets the name session variable to the value of the name column in the row of the associative array
 
             if ($count == 1) { // Checks if the result contains 1 row, means the login is valid
                 header("Location: main.php"); // Webiste is redirected to main.php

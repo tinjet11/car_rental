@@ -22,11 +22,12 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
         <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
-        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
         <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
-        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation Dashboard</a></li>
+
+        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer Dashboard</a></li>
+        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin Dashboard</a></li>
+        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
 
@@ -66,12 +67,19 @@
           window.history.replaceState(null, null, window.location.href);
         }
 
+
+
         //redirect to specific page after action
         function redirect() {
           window.location.replace("http://localhost/car_rental/staff_dashboard.php");
         }
 
         <?php
+
+        if ($role != "HR" && $role != "Manager") {
+          echo "alert('Access Denied');";
+          echo "redirect();";
+        }
         //Using GET method to get the staff id
         $s_id = $_GET["s_id"];
 
@@ -89,7 +97,7 @@
             $change = $conn->affected_rows;
 
             if ($change == 1) {
-              echo "alert('Delete Sucessful');";
+              echo 'alert("Delete Sucessful");';
               echo 'redirect();';
             } else {
               echo "alert('Error')";
@@ -98,7 +106,7 @@
             echo "alert('Error')";
           }
           //close connection
-          $conn->close(); 
+          $conn->close();
         }
 
 

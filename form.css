@@ -19,13 +19,14 @@ label {
     font-weight: bold;
 }
 
-input {
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    font-size: 16px;
+input,
+textarea {
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
 }
 
 button {

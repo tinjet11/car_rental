@@ -164,20 +164,25 @@ form {
   background-color: #013220;
   color: #fff;
 }
-.status {
+
+.status_completed {
   padding: .4rem;
   border-radius: 2rem;
   text-align: center;
-}
-.status.completed {
   background-color: #86e49d;
   color: #006b21;
 }
-.status.ongoing {
+.status_ongoing {
+  padding: .4rem;
+  border-radius: 2rem;
+  text-align: center;
   background-color: lightblue;
 }
 
-.status.pending {
+.status_pending {
+  padding: .4rem;
+  border-radius: 2rem;
+  text-align: center;
   background-color: #ebc474;
 }
 
@@ -185,4 +190,13 @@ form {
   align-content: center;
 }
 
+#checkbox-container{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  margin-left: 5px;
+}
 
+.completed{
+display: none;
+}

@@ -11,5 +11,6 @@
     //echo "<p align='left'>Welcome ".$_SESSION['staffid']. "</h1>";
     $staffid = $_SESSION['staffid'];
     $name = $_SESSION["name"];
+    $role = $_SESSION["role"];
   }
 ?>

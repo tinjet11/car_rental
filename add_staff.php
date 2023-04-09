@@ -21,11 +21,11 @@
        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
        <ul>
          <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
-         <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
          <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
-         <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-         <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-         <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+         <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation Dashboard</a></li>
+         <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer Dashboard</a></li>
+         <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin Dashboard</a></li>
+         <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle Dashboard</a></li>
        </ul>
      </div><!-- end of sidebar -->
 
@@ -66,7 +66,13 @@
            <input type="text" id="name" name="name" required>
 
            <label for="role">Role:</label>
-           <input type="text" id="role" name="role" required>
+           <select type="text" id="role" name="role" required>
+             <option>Select Staff Role</option>
+             <option>Normal Staff</option>
+             <option>HR</option>
+             <option>Manager</option>
+           </select>
+
 
            <button type="submit" id="change" name="change">Submit</button>
            <a href="staff_dashboard.php">Back</a>
@@ -87,6 +93,11 @@
          }
 
          <?php
+
+          if ($role != "HR" && $role != "Manager") {
+            echo "alert('Access Denied');";
+            echo "redirect();";
+          }
           //open connection
           $conn = new mysqli("localhost", "root", "", "comp1044_database");
 
@@ -94,16 +105,16 @@
           $sql = "SELECT  staff_id from admin ORDER BY staff_id DESC LIMIT 1 ";
           $result = $conn->query($sql);
           $DataRows = $result->fetch_assoc();
-          
+
           $count = $result->num_rows; // Returns the number of rows in the result
           if ($count == 0) {
             $last_staff_id = "S0001";
           } else {
             $last_staff_id = $DataRows["staff_id"];
           }
-        
 
-          
+
+
 
           //close connection
           $conn->close();
@@ -130,10 +141,10 @@
          }
 
          // display the staff id in the form
-         if('<?php echo $last_staff_id?>' == "S0001"){
-          document.getElementById('Staff_ID').value = "S0001";
-         }else{
-         document.getElementById('Staff_ID').value = generate_staff_id('<?php echo $last_staff_id ?>');
+         if ('<?php echo $last_staff_id ?>' == "S0001") {
+           document.getElementById('Staff_ID').value = "S0001";
+         } else {
+           document.getElementById('Staff_ID').value = generate_staff_id('<?php echo $last_staff_id ?>');
          }
          <?php
 

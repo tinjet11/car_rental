@@ -23,11 +23,11 @@
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <ul>
                 <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
-                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
                 <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
-                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-                <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-                <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+                <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation Dashboard</a></li>
+                <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer Dashboard</a></li>
+                <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin Dashboard</a></li>
+                <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle Dashboard</a></li>
             </ul>
         </div><!-- end of sidebar -->
 
@@ -75,7 +75,7 @@
                         $current_time = date('Y-m-d H:i:s');
 
                         //select all the data from reservation table with $sort order 
-                        $sql = "SELECT * from reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC";
+                        $sql = "SELECT * from reservation WHERE ('$current_time' <= return_datetime AND '$current_time' >= booking_datetime) OR booking_datetime > '$current_time' ORDER BY booking_datetime ASC";
                         $result = $conn->query($sql);
 
                         while ($DataRows = $result->fetch_assoc()) {

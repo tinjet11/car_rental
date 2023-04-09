@@ -35,11 +35,12 @@ include 'session.php';
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <ul>
         <li><a href="main.php"><i class="fa-solid fa-house"></i>Home</a></li>
-        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation_Dashboard</a></li>
         <li><a href="reservation.php"><i class="fa-sharp fa-solid fa-file"></i>New Reservation</a></li>
-        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer_Dashboard</a></li>
-        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin_Dashboard</a></li>
-        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle_Dashboard</a></li>
+        <li><a href="reservation_dashboard.php"><i class="fa-sharp fa-solid fa-file"></i>Reservation Dashboard</a></li>
+
+        <li><a href="customer_dashboard.php"><i class="fa-solid fa-car"></i>Customer Dashboard</a></li>
+        <li><a href="staff_dashboard.php"><i class="fa-sharp fa-solid fa-eye"></i>Admin Dashboard</a></li>
+        <li><a href="vehicle_dashboard.php"><i class="fa-sharp fa-solid fa-database"></i>Vehicle Dashboard</a></li>
       </ul>
     </div><!-- end of sidebar -->
 
@@ -53,7 +54,7 @@ include 'session.php';
             <p><?php echo $name; ?></p>
           </button>
           <div class="dropdown-content">
-            <a href="#"><i class="fa fa-home"></i> Profile </a>
+            <a href="profile.php"><i class="fa fa-home"></i> Profile </a>
             <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout </a>
           </div>
         </div>
@@ -87,9 +88,17 @@ include 'session.php';
           <p1>Table sort by: <?php echo $display_sort; ?></p1>
         </span>
 
+        <?php
+        if ($role == "HR" || $role == "Manager") {
+          $addlink = "<td><a href='add_staff.php'>New Staff</a></td>";
+        }else{
+          $addlink = "";
+        }
+        ?>
+
         <table id="table">
           <thead>
-            <td><a href="add_staff.php">New Staff</a></td>
+           <?php echo $addlink; ?>
             <tr>
               <th>Staff ID</th>
               <th>Name</th>
@@ -102,21 +111,28 @@ include 'session.php';
             $conn = new mysqli("localhost", "root", "", "comp1044_database");
             $sql = "SELECT staff_id,username,name,role FROM admin ORDER BY $sort;";
             $result = $conn->query($sql);
-            while ($validdata = $result->fetch_assoc()) {
-              $s_id = $validdata["staff_id"];
+            while ($row = $result->fetch_assoc()) {
+              $s_id = $row["staff_id"];
+              $name = $row["name"];
+              $roles = $row["role"];
 
-              $name = $validdata["name"];
-              $role = $validdata["role"];
+              if ($role == "HR" || $role == "Manager") {
+                $editlink = "window.location.href='edit_staff.php?s_id=$s_id'";
+                $deletelink = "window.location.href='delete_staff.php?s_id=$s_id'";
+              }else{
+                $editlink = "alert('Access Denied')";
+                $deletelink = "alert('Access Denied')";
+              }
             ?>
               <tr>
                 <td data-label="Staff ID"><?php echo $s_id; ?></td>
 
                 <td data-label="Name"><?php echo $name; ?></td>
-                <td data-label="Role"><?php echo $role; ?></td>
+                <td data-label="Role"><?php echo $roles; ?></td>
 
                 <td data-label="Action">
-                  <button onclick="window.location.href='edit_staff.php?s_id=<?php echo $s_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="window.location.href='delete_staff.php?s_id=<?php echo $s_id ?>'"><i class="fa-solid fa-trash"></i></button>
+                  <button onclick="<?php echo $editlink; ?>"><i class="fa-solid fa-pen-to-square"></i></button>
+                  <button onclick="<?php echo $deletelink; ?>"><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
             <?php }
