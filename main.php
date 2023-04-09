@@ -260,7 +260,7 @@ include 'session.php';
                 <button onclick="<?php echo $rlink ?>"><i class="fa-solid fa-rotate-left"></i></button>
               </td>
               <td data-label="Print">
-                <button onclick="<?php echo $rlink ?>"><i class="fa-sharp fa-solid fa-print"></i></button>
+              <button onclick="window.location.href='summary.php?r_id=<?php echo $r_id ?>'"><i class="fa-sharp fa-solid fa-print"></i></button>
               </td>
             </tr>
           <?php  } ?>
