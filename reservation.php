@@ -10,8 +10,8 @@ include 'session.php';
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="mainpage.css">
-    <link rel="stylesheet" href="reservation.css">
     <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="reservation.css">
 
     <script src="sidebar.js"></script>
 </head>
@@ -69,12 +69,12 @@ include 'session.php';
                         $current_time = date('Y-m-d H:i:s');
 
                         //select all the data from reservation table with $sort order 
-                        $sql = "SELECT * from reservation WHERE ('$current_time' <= return_datetime AND '$current_time' >= booking_datetime) OR booking_datetime > '$current_time' ORDER BY booking_datetime ASC";
+                        $sql = "SELECT * from reservation WHERE ('$current_time' <= return_datetime AND '$current_time' >= pickup_datetime) OR pickup_datetime > '$current_time' ORDER BY pickup_datetime ASC";
                         $result = $conn->query($sql);
 
                         while ($DataRows = $result->fetch_assoc()) {
                             $v_id = $DataRows["vehicle_id"];
-                            $booking_datetime = $DataRows["booking_datetime"];
+                            $booking_datetime = $DataRows["pickup_datetime"];
                             $return_datetime = $DataRows["return_datetime"];
                             $duration = $DataRows["duration"];
 
@@ -97,7 +97,7 @@ include 'session.php';
                         ?>
                             <tr>
                                 <td data-label="Vehicle ID"><?php echo $v_id; ?></td>
-                                <td data-label="Booking Datetime"><?php echo $booking_datetime; ?></td>
+                                <td data-label="Pickup Datetime"><?php echo $booking_datetime; ?></td>
                                 <td data-label="Return Datetime"><?php echo $return_datetime; ?></td>
                                 <td data-label="Duration"><?php echo $duration; ?></td>
                                 <td data-label="Status"><?php echo $status; ?></td>
@@ -143,8 +143,9 @@ include 'session.php';
 
                     <label for="duration">Duration (in days):</label>
                     <input type="number" min="1" id="duration" name="duration" required>
-
-                    <button type="submit" name="submit" id="submit">Check availability</button>
+                    <div style="margin-bottom: 70px;">
+                        <button type="submit" name="submit" id="submit">Check availability</button>
+                    </div>
 
                     <label for="return">Return Time:</label>
                     <input type="text" id="return" name="return" readonly>
@@ -259,13 +260,9 @@ include 'session.php';
             $vehicleid = $_POST["vehicle"];
             $customerid = $_POST["c_id"];
             $staffid = $_SESSION['staffid'];
-            $bookingdatetime = $_POST["pickup"];
+            $pickupdatetime = $_POST["pickup"];
             $duration = $_POST["duration"];
             $returndatetime = $_POST["return"];
-
-            // insert reservation information into table 
-            $sql = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
-    VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
 
             //Customer information
             $First_name = $_POST["first-name"];
@@ -277,14 +274,23 @@ include 'session.php';
             $Email = $_POST["email"];
             $Address = $_POST["address"];
 
-            // insert customer information into table 
-            $sql1  = "INSERT INTO customer(customer_id, First_name, Last_name, IC_NO, Gender, Birthdate, Phone_Number, Email, Address)
-    VALUES('$customerid', '$First_name', '$Last_name', '$IC_No', '$Gender', '$Birthdate', '$Phone_Number', '$Email', '$Address')";
 
-            if ($conn->query($sql) == TRUE && $conn->query($sql1) == TRUE) {
+
+            // insert reservation information into table 
+            $sql = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,pickup_datetime,duration,return_datetime) 
+    VALUES('$reservationid','$vehicleid','$customerid','$staffid','$pickupdatetime','$duration','$returndatetime')";
+
+            // insert customer information into table 
+            $sql1 = "INSERT INTO customer(customer_id,First_name,Last_name,IC_NO,Gender,Birthdate,Phone_Number,Email,Address)
+        VALUES('$customerid','$First_name','$Last_name','$IC_No','$Gender','$Birthdate','$Phone_Number','$Email','$Address')";
+            
+            $execute1 = $conn->query($sql1);
+            $execute = $conn->query($sql);
+
+            if ($execute1 && $execute1) {
                 echo "alert('Successful Add reservation and customer');";
             } else {
-                echo "alert('Error');";
+                echo "alert('Error in adding reservation');";
             }
 
             //close connection
@@ -302,12 +308,12 @@ include 'session.php';
             $vehicleid = $_POST["vehicle"];
             $customerid = $_POST["customerid"];
             $staffid = $_SESSION['staffid'];
-            $bookingdatetime = $_POST["pickup"];
+            $pickupdatetime = $_POST["pickup"];
             $duration = $_POST["duration"];
             $returndatetime = $_POST["return"];
 
-            $sql = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,booking_datetime,duration,return_datetime) 
-                VALUES('$reservationid','$vehicleid','$customerid','$staffid','$bookingdatetime','$duration','$returndatetime')";
+            $sql = "INSERT INTO reservation(reservation_id,vehicle_id,customer_id,staff_id,pickup_datetime,duration,return_datetime) 
+                VALUES('$reservationid','$vehicleid','$customerid','$staffid','$pickupdatetime','$duration','$returndatetime')";
             if ($conn->query($sql) == TRUE) {
                 echo "alert('Successful Add reservation for existing customer');";
             } else {

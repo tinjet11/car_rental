@@ -27,19 +27,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //Checks if the request method is PO
 $available = true;
 $conn = new mysqli("localhost", "root", "", "comp1044_database"); //creating mysqli object to connect to database
 
-$sql = "SELECT booking_datetime,return_datetime FROM reservation where vehicle_id = '$vid' AND reservation_id NOT IN ('$rid'); "; //SQL query to retrieve the booking and return datetime for all reservations which doesn't match the current reservation ID.
+$sql = "SELECT pickup_datetime,return_datetime FROM reservation where vehicle_id = '$vid' AND reservation_id NOT IN ('$rid'); "; //SQL query to retrieve the booking and return datetime for all reservations which doesn't match the current reservation ID.
 $result = $conn->query($sql); //Result store in variable
 while ($DataRows =$result->fetch_assoc()) { //While loop that iterates over each row in the SQL query result. "fetch_assoc()" method retrieves the next row and stores it in the relavant variables.
-    $b_dt = $DataRows["booking_datetime"]; 
+    $b_dt = $DataRows["pickup_datetime"]; 
     $r_dt = $DataRows["return_datetime"];
 
-    if ($pickupTime <= $b_dt) { //Checks if the pickup time is before or equal to the booking datetime
-        if ($returnTime >= $b_dt) { //Checks if the return time is after or equal ot he booking datetime
+    if ($pickupTime <= $b_dt) { //Checks if the pickup time is before or equal to the pickup datetime
+        if ($returnTime >= $b_dt) { //Checks if the return time is after or equal to the pickup datetime
             $available = false; 
         }
     }
 
-    if ($pickupTime >= $b_dt && $pickupTime <= $r_dt) { //Checks if the requested pickup time is after or equal to the booking datetime of the reservation and before or equal to the reservation
+    if ($pickupTime >= $b_dt && $pickupTime <= $r_dt) { //Checks if the requested pickup time is after or equal to the pickup datetime of the reservation and before or equal to the reservation
         $available = false;
     }
 }

@@ -67,12 +67,12 @@ include 'session.php';
         $current_month = date('m'); // Gets current month
         $current_year = date('Y'); // Gets current year
 
-        $stmt = $conn->prepare("SELECT * FROM reservation WHERE booking_datetime > '$current_time'"); // Prepares SQL statement to select all rows from vehicle table
+        $stmt = $conn->prepare("SELECT * FROM reservation WHERE pickup_datetime > '$current_time'"); // Prepares SQL statement to select all rows from vehicle table
         $stmt->execute(); // Execute the SQL statement
         $result = $stmt->get_result(); // Retrieves result from executed statement
         $upcomingReservation_num = $result->num_rows; // Counts the rows in result
 
-        $stmt = $conn->prepare("SELECT vehicle_id,duration FROM reservation WHERE month(booking_datetime) = '$current_month' AND year(booking_datetime) = '$current_year'"); // SQL statement to retrieve vehicleid and duration from reservation table but only for the rows that match the month and year and booking datetime.
+        $stmt = $conn->prepare("SELECT vehicle_id,duration FROM reservation WHERE month(pickup_datetime) = '$current_month' AND year(pickup_datetime) = '$current_year'"); // SQL statement to retrieve vehicleid and duration from reservation table but only for the rows that match the month and year and booking datetime.
         $stmt->execute(); // Query is executed
         $result = $stmt->get_result(); // Retrieves result from executed statement
         $reservation_num_of_currentmonth = $result->num_rows; // Number of rows in result is stored 
@@ -163,7 +163,7 @@ include 'session.php';
           $conn = new mysqli("localhost", "root", "", "comp1044_database");
           $current_time = date('Y-m-d H:i:s');
 
-          $sql = "SELECT * FROM reservation WHERE booking_datetime > '$current_time' ORDER BY booking_datetime ASC LIMIT 5;"; // SQL Query to select all reservations from database that have a booking_datime greater than current time. Ordered by booking_datetime in ascending order and limited to 5 results.
+          $sql = "SELECT * FROM reservation WHERE pickup_datetime > '$current_time' ORDER BY pickup_datetime ASC LIMIT 5;"; // SQL Query to select all reservations from database that have a booking_datime greater than current time. Ordered by pickup_datetime in ascending order and limited to 5 results.
 
           $result = $conn->query($sql);
 
@@ -171,7 +171,7 @@ include 'session.php';
             $r_id = $DataRows["reservation_id"];
             $c_id = $DataRows["customer_id"];
             $v_id = $DataRows["vehicle_id"];
-            $booking_datetime = $DataRows["booking_datetime"];
+            $booking_datetime = $DataRows["pickup_datetime"];
             $return_datetime = $DataRows["return_datetime"];
             $duration = $DataRows["duration"];
             $exact_pt = $DataRows["exact_pickup_datetime"];
@@ -245,7 +245,7 @@ include 'session.php';
               <td data-label="Customer Name"><?php echo $customername; ?></td>
               <td data-label="Vehicle ID"><?php echo $v_id; ?></td>
               <td data-label="Vehicle Type"><?php echo $vehicle_description; ?></td>
-              <td data-label="Booking Datetime"><?php echo $booking_datetime; ?></td>
+              <td data-label="Pickup Datetime"><?php echo $booking_datetime; ?></td>
               <td data-label="Return Datetime"><?php echo $return_datetime; ?></td>
               <td data-label="Duration"><?php echo $duration; ?></td>
               <td data-label="Amount to pay"><?php echo 'RM ' . $amount; ?></td>

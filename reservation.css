@@ -1,6 +1,6 @@
 label {
   display: block;
-  margin-bottom: 10px;
+  margin-top: 10px;
   font-weight: bold;
 }
 
@@ -21,9 +21,12 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  align-self: flex-end;
   width: 100px;
 }
+
+
+
+
 
 button:hover {
   background-color: burlywood;
@@ -207,16 +210,6 @@ table td.warning {
 
 }
 
-
-button {
-  background-color: #1C4E80;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-}
 
 button:hover {
   background-color: #133A94;

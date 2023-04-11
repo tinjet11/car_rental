@@ -75,12 +75,12 @@
                         $current_time = date('Y-m-d H:i:s');
 
                         //select all the data from reservation table with $sort order 
-                        $sql = "SELECT * from reservation WHERE ('$current_time' <= return_datetime AND '$current_time' >= booking_datetime) OR booking_datetime > '$current_time' ORDER BY booking_datetime ASC";
+                        $sql = "SELECT * from reservation WHERE ('$current_time' <= return_datetime AND '$current_time' >= pickup_datetime) OR pickup_datetime > '$current_time' ORDER BY pickup_datetime ASC";
                         $result = $conn->query($sql);
 
                         while ($DataRows = $result->fetch_assoc()) {
                             $v_id = $DataRows["vehicle_id"];
-                            $booking_datetime = $DataRows["booking_datetime"];
+                            $booking_datetime = $DataRows["pickup_datetime"];
                             $return_datetime = $DataRows["return_datetime"];
                             $duration = $DataRows["duration"];
 
@@ -221,7 +221,7 @@
         $vehicleid =  $DataRows["vehicle_id"];
         $customerid = $DataRows["customer_id"];
         $staffid = "S0001";
-        $bookingdatetime =  $DataRows["booking_datetime"];
+        $bookingdatetime =  $DataRows["pickup_datetime"];
         $duration = $DataRows["duration"];
         $returndatetime = $DataRows["return_datetime"];
 
@@ -258,7 +258,7 @@
 
             //update the database with new reservation information
             $sql  = "UPDATE reservation SET vehicle_id='$vehicleid' ,customer_id='$customerid',
-                    staff_id='$staffid',booking_datetime='$bookingdatetime',duration='$duration',
+                    staff_id='$staffid',pickup_datetime='$pickupdatetime',duration='$duration',
                     return_datetime='$returndatetime' where reservation_id = '$reservationid'";
 
             if ($conn->query($sql) === TRUE) {

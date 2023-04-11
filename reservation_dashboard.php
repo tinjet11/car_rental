@@ -16,21 +16,21 @@ include 'session.php';
 <body>
   <?php
   //default
-  $sort = "booking_datetime ASC";
+  $sort = "pickup_datetime ASC";
   $display_sort = "Booking DateTime with Ascending Order";
 
 
   // when sorting apply,update the sql statement with $sort, update & display the sorting condition with $display_sort
   if (isset($_POST["apply"])) {
     if ($_POST["sort"] == 1) {
-      $sort = "booking_datetime DESC";
+      $sort = "pickup_datetime DESC";
       $display_sort = "Booking DateTime with Descending Order";
     } elseif ($_POST["sort"] == 2) {
       $sort = "reservation_id ASC";
       $display_sort = "Reservation ID with Ascending Order";
     } else {
-      $sort = "booking_datetime ASC";
-      $display_sort = "Booking DateTime with Ascending Order";
+      $sort = "pickup_datetime ASC";
+      $display_sort = "Pickup DateTime with Ascending Order";
     }
   }
   ?>
@@ -140,7 +140,7 @@ include 'session.php';
               $r_id = $DataRows["reservation_id"];
               $c_id = $DataRows["customer_id"];
               $v_id = $DataRows["vehicle_id"];
-              $booking_datetime = $DataRows["booking_datetime"];
+              $booking_datetime = $DataRows["pickup_datetime"];
               $return_datetime = $DataRows["return_datetime"];
               $duration = $DataRows["duration"];
               $exact_pt = $DataRows["exact_pickup_datetime"];
@@ -209,13 +209,13 @@ include 'session.php';
               }
 
             ?>
-              <tr class="<?php echo $class;?>">
+              <tr class="<?php echo $class; ?>">
                 <td data-label="Reservation ID"><?php echo $r_id; ?></td>
                 <td data-label="Customer ID"><?php echo $c_id; ?></td>
                 <td data-label="Customer Name"><?php echo $customername; ?></td>
                 <td data-label="Vehicle ID"><?php echo $v_id; ?></td>
                 <td data-label="Vehicle Type"><?php echo $vehicle_description; ?></td>
-                <td data-label="Booking Datetime"><?php echo $booking_datetime; ?></td>
+                <td data-label="Pickup Datetime"><?php echo $booking_datetime; ?></td>
                 <td data-label="Return Datetime"><?php echo $return_datetime; ?></td>
                 <td data-label="Duration"><?php echo $duration; ?></td>
                 <td data-label="Amount to pay"><?php echo 'RM ' . $amount; ?></td>
@@ -288,20 +288,17 @@ include 'session.php';
         }
       }
     }
-   
+
     function showHideCompleted() {
-  const c = document.getElementsByClassName("completed");
-  for (let i = 0; i < c.length; i++) {
-    if (c[i].style.display === "table-row") {
-      c[i].style.display = "none";
-    } else {
-      c[i].style.display = "table-row";
+      const c = document.getElementsByClassName("completed");
+      for (let i = 0; i < c.length; i++) {
+        if (c[i].style.display === "table-row") {
+          c[i].style.display = "none";
+        } else {
+          c[i].style.display = "table-row";
+        }
+      }
     }
-  }
-}
-
-
-
   </script>
 </body>
 
