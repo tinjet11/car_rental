@@ -145,7 +145,6 @@ include 'session.php';
   </div><!-- end of container-->
 
   <script>
-    window.print();
     //prevent form resubmission
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);

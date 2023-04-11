@@ -123,6 +123,15 @@ include 'session.php';
               $type = $validdata["type"];
               $color = $validdata["color"];
               $price = $validdata["price"];
+
+              $sql = "SELECT * FROM reservation WHERE vehicle_id = '$v_id'";
+              $result1 = $conn->query($sql);
+
+              if ($result1->num_rows > 0) {
+                $dlink = "alert('Vehicle cannot be delete as it has reservation')";
+              } else {
+                $dlink = "window.location.href='delete_vehicle.php?v_id=$v_id'";
+              }
             ?>
               <tr>
                 <td data-label="Vehicle ID"><?php echo $v_id; ?></td>
@@ -132,7 +141,7 @@ include 'session.php';
                 <td data-label="Vehicle Price ">RM <?php echo $price; ?></td>
                 <td data-label="Action">
                   <button onclick="window.location.href='edit_vehicle.php?v_id=<?php echo $v_id ?>'"><i class="fa-solid fa-pen-to-square"></i></button>
-                  <button onclick="window.location.href='delete_vehicle.php?v_id=<?php echo $v_id ?>'"><i class="fa-solid fa-trash"></i></button>
+                  <button onclick="<?php echo $dlink; ?>"><i class="fa-solid fa-trash"></i></button>
                 </td>
               </tr>
             <?php }

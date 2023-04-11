@@ -71,9 +71,6 @@ include 'session.php';
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
 
-                    <label for="role">Role:</label>
-                    <input type="text" id="role" name="role" required>
-
                     <button type="submit" id="change" name="change">Submit</button>
                     <a href="main.php">Back</a>
 
@@ -104,14 +101,14 @@ include 'session.php';
             $user = $values["username"];
             $pass = $values["password"];
             $name = $values["name"];
-            $role = $values["role"];
+
 
             //display the data to the form
             echo "document.getElementById('staff_id').value = '$staffid';";
             echo "document.getElementById('username').value = '$user';";
             echo "document.getElementById('password').value = '$pass';";
             echo "document.getElementById('name').value ='$name';";
-            echo "document.getElementById('role').value = '$role' ;";
+
 
             //close connection
             $conn->close();
