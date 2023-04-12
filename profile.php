@@ -124,8 +124,8 @@ include 'session.php';
                 $role = isset($_POST["role"]) ? $_POST["role"] : ""; //Retrieves data of role
 
                 // check if all required fields are filled
-                if ($sid != "" && $user != "" && $pass != "" && $name != "" && $role != "") {
-                    $sql = " UPDATE admin SET username = '$user',password= '$pass', name = '$name',role = '$role' WHERE staff_id = '$sid';"; //SQL statement to update the admin table
+                if ($sid != "" && $user != "" && $pass != "" && $name != "") {
+                    $sql = " UPDATE admin SET username = '$user',password= '$pass', name = '$name' WHERE staff_id = '$sid';"; //SQL statement to update the admin table
                     if ($conn->query($sql) == true) {
                         echo 'alert("Update Successful");'; //Alert to inform that the update is successful
                         echo 'redirect();';

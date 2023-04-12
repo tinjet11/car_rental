@@ -69,7 +69,7 @@ include 'session.php';
                         $current_time = date('Y-m-d H:i:s');
 
                         //select all the data from reservation table with $sort order 
-                        $sql = "SELECT * from reservation WHERE ('$current_time' <= return_datetime AND '$current_time' >= pickup_datetime) OR pickup_datetime > '$current_time' ORDER BY pickup_datetime ASC";
+                        $sql = "SELECT * from reservation ORDER BY pickup_datetime ASC";
                         $result = $conn->query($sql);
 
                         while ($DataRows = $result->fetch_assoc()) {
@@ -228,6 +228,10 @@ include 'session.php';
             window.history.replaceState(null, null, window.location.href);
         }
 
+        function redirect() {
+            window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
+        }
+
         <?php
         //function to obtain birthdate given an ic number
         function getBirthdate($icNumber)
@@ -289,6 +293,7 @@ include 'session.php';
 
             if ($execute1 && $execute1) {
                 echo "alert('Successful Add reservation and customer');";
+                echo "redirect();";
             } else {
                 echo "alert('Error in adding reservation');";
             }
@@ -316,6 +321,7 @@ include 'session.php';
                 VALUES('$reservationid','$vehicleid','$customerid','$staffid','$pickupdatetime','$duration','$returndatetime')";
             if ($conn->query($sql) == TRUE) {
                 echo "alert('Successful Add reservation for existing customer');";
+                echo "redirect();";
             } else {
                 echo "alert('Error');";
             }
@@ -542,6 +548,7 @@ include 'session.php';
                 }
                 document.getElementById("new-c").style.display = "block";
                 document.getElementById("exist-c").style.display = "none";
+                document.getElementById("exist-ic").style.display = "none";
 
                 // Get the div element
                 const div1 = document.getElementById("new-c");

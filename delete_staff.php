@@ -100,10 +100,10 @@
               echo 'alert("Delete Sucessful");';
               echo 'redirect();';
             } else {
-              echo "alert('Error')";
+              echo "alert('Error');";
             }
           } else {
-            echo "alert('Error')";
+            echo "alert('Error');";
           }
           //close connection
           $conn->close();

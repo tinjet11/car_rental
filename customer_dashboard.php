@@ -19,7 +19,7 @@ include 'session.php';
 
   if (isset($_POST["apply"])) {
     if ($_POST["sort"] == 1) {
-      $sort = "customer_id DSC";
+      $sort = "customer_id DESC";
       $display_sort = "Customer ID with Descending Order";
     } else {
       $sort = "customer_id ASC";

@@ -100,6 +100,8 @@ h1 {
   display: inline-block;
   margin-top: 30px;
   flex-basis: 60%;
+  max-height: 100%;
+  align-self: flex-start;
 }
 
 
@@ -114,6 +116,7 @@ table {
   border-radius: 10px;
   border: 1px solid black;
   overflow: hidden;
+  align-self: flex-start;
 }
 
 table thead tr th {

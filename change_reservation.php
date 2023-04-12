@@ -252,7 +252,7 @@
             $vehicleid = $_POST["vehicle"];
             $customerid = $_POST["c_id"];
             $staffid = $_SESSION['staffid'];
-            $bookingdatetime = $_POST["pickup"];
+            $pickupdatetime = $_POST["pickup"];
             $duration = $_POST["duration"];
             $returndatetime = $_POST["return"];
 

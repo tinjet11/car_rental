@@ -144,7 +144,7 @@ include 'session.php';
                 <?php
                 $conn = new mysqli("localhost", "root", "", "comp1044_database");
                 $rid = $_GET["r_id"];
-                $sql = "SELECT reservation.booking_datetime,reservation.return_datetime,reservation.staff_id,reservation.vehicle_id,  
+                $sql = "SELECT reservation.pickup_datetime,reservation.return_datetime,reservation.staff_id,reservation.vehicle_id,  
                  reservation.customer_id,customer.First_name,customer.Last_name,customer.IC_NO,customer.Phone_Number,reservation.duration,
                  vehicle.price,vehicle.model,vehicle.color FROM ((reservation INNER JOIN vehicle ON reservation.vehicle_id = vehicle.vehicle_id)
                  INNER JOIN customer ON reservation.customer_id = customer.customer_id) WHERE reservation.reservation_id = '$rid';";
@@ -182,7 +182,7 @@ include 'session.php';
                         </div>
                         <div class="row">
                             <div class="column-title">Pickup DateTime: </div>
-                            <div class="column"><?php echo $row["booking_datetime"]; ?></div>
+                            <div class="column"><?php echo $row["pickup_datetime"]; ?></div>
                         </div>
                         <div class="row">
                             <div class="column-title">Return DateTime: </div>

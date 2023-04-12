@@ -36,9 +36,9 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  
     width: 100px;
     float: right;
+    align-self: flex-end;
 }
 
 button:hover {

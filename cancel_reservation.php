@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="form.css">
     <link rel="stylesheet" href="mainpage.css">
+
+     
     <script src="sidebar.js"></script>
 </head>
 
@@ -54,7 +56,7 @@
                 <label for="reservation-id">Reservation ID:</label>
                 <input type="text" id="reservation-id" name="reservation-id" readonly>
 
-                <button name="cancel">Cancel</button>
+                <button name="cancel" style="float:right">Cancel</button>
                 <a href="reservation_dashboard.php">Back</a>
             </form>
         </div><!-- end of main content-->
