@@ -119,9 +119,15 @@ include 'session.php';
               if ($role == "HR" || $role == "Manager") {
                 $editlink = "window.location.href='edit_staff.php?s_id=$s_id'";
                 $deletelink = "window.location.href='delete_staff.php?s_id=$s_id'";
+
+                $sql1 = "SELECT * FROM reservation WHERE staff_id='$s_id';";
+                $result1 = $conn->query($sql1);
+                if ($result1->num_rows > 0) {
+                $deletelink = "alert('Staff cannot be delete');";
+                }
               }else{
-                $editlink = "alert('Access Denied')";
-                $deletelink = "alert('Access Denied')";
+                $editlink = "alert('Access Denied');";
+                $deletelink = "alert('Access Denied');";
               }
             ?>
               <tr>

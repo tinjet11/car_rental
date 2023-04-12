@@ -147,20 +147,17 @@ include 'session.php';
               $exact_rt = $DataRows["exact_return_datetime"];
 
               //if the car has already been pickup, disable the link
-              if (is_null($exact_pt)) {
+              if (is_null($exact_pt) && is_null($exact_rt)) {
                 $plink =  "window.location.href='pickup.php?r_id=$r_id'";
                 $rlink =  "alert('Return only can be made after pickup')";
-              } else {
+              } else if (!is_null($exact_pt) && is_null($exact_rt)) {
                 $plink = "alert('The car has already been pickup')";
-              }
-
-              //if the car havent been pickup, disabled the return link
-              //if the car has already been returned, disable the link
-              if (is_null($exact_rt)) {
                 $rlink =  "window.location.href='return.php?r_id=$r_id'";
               } else {
+                $plink = "alert('The car has already been pickup')";
                 $rlink = "alert('The car has already been return')";
               }
+
 
 
               //query to select firstname and lastname from customer table
