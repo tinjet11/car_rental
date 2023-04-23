@@ -199,7 +199,7 @@
         }
 
         function redirect() {
-            window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
+            window.location.replace("reservation_dashboard.php");
         }
 
         <?php

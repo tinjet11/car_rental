@@ -69,7 +69,7 @@ include 'session.php';
                         $current_time = date('Y-m-d H:i:s');
 
                         //select all the data from reservation table with $sort order 
-                        $sql = "SELECT * from reservation ORDER BY pickup_datetime ASC";
+                        $sql = "SELECT * from reservation WHERE ('$current_time' <= return_datetime AND '$current_time' >= pickup_datetime) OR pickup_datetime > '$current_time' ORDER BY pickup_datetime ASC";
                         $result = $conn->query($sql);
 
                         while ($DataRows = $result->fetch_assoc()) {
@@ -229,7 +229,7 @@ include 'session.php';
         }
 
         function redirect() {
-            window.location.replace("http://localhost/car_rental/reservation_dashboard.php");
+            window.location.replace("reservation_dashboard.php");
         }
 
         <?php
@@ -287,7 +287,7 @@ include 'session.php';
             // insert customer information into table 
             $sql1 = "INSERT INTO customer(customer_id,First_name,Last_name,IC_NO,Gender,Birthdate,Phone_Number,Email,Address)
         VALUES('$customerid','$First_name','$Last_name','$IC_No','$Gender','$Birthdate','$Phone_Number','$Email','$Address')";
-            
+
             $execute1 = $conn->query($sql1);
             $execute = $conn->query($sql);
 

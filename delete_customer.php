@@ -72,7 +72,7 @@
 
         //redirect to specific page after action
         function redirect() {
-            window.location.replace("http://localhost/car_rental/customer_dashboard.php");
+            window.location.replace("customer_dashboard.php");
         }
 
         <?php

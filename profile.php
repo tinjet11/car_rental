@@ -87,7 +87,7 @@ include 'session.php';
             }
 
             function redirect() {
-                window.location.replace("http://localhost/car_rental/main.php");
+                window.location.replace("main.php");
             }
 
             <?php

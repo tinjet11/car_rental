@@ -85,7 +85,7 @@
 
         //redirect to specific page after action
         function redirect() {
-          window.location.replace("http://localhost/car_rental/vehicle_dashboard.php");
+          window.location.replace("vehicle_dashboard.php");
         }
 
         <?php
